@@ -1,0 +1,95 @@
+% for beamer
+% by wanze
+% LPPL LaTeX Public Project License
+%2013/12/11
+%
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{beamer}
+\PassOptionsToPackage{table}{xcolor}
+\PassOptionsToPackage{colorlinks=true,linkcolor=blue,citecolor=blue}{hyperref}
+
+
+
+
+
+%------------chemistry---------%
+\RequirePackage{chemfig}
+\linespread{1.2}%加大点行距
+
+%================字體================%
+%设置数学字体
+\RequirePackage{amssymb,amsmath}
+\RequirePackage{mathspec}
+%Digits Latin this is option i am not sure what is use for , just want enlarge the math font and make it more beautiful.
+\setmathsfont(Digits,Latin,Greek)[Scale=1.2,ItalicFont=Latin Modern Mono Slanted]{Latin Modern Math}%maybe enlarge the CJK font is not a good idea. but
+%i really think the CJK font  is bigger than the normal english font is more comfort
+%so now here is a rule , if the number or  the symbol is more important then please use it in the math mode
+%Latin Modern Math not have the italic shape
+
+ %設置英文字體
+\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\setsansfont[Mapping=tex-text]{DejaVu Sans}
+\setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
+
+%中文環境
+\RequirePackage[CJKnumber=true]{xeCJK}
+\xeCJKsetup{PunctStyle=plain}
+\defaultCJKfontfeatures{Scale=1.2}   %放大全局CJK字體。中文字應該稍微高於英文字
+\setCJKmainfont[BoldFont=Adobe 黑体 Std,ItalicFont=Adobe 楷体 Std]
+    {Adobe 宋体 Std}%影響rmfamily字體
+\setCJKsansfont{Adobe 黑体 Std}%影響sffamily字體
+\setCJKmonofont{Adobe 楷体 Std}%影響ttfamily字體
+
+\RequirePackage{xltxtra} %put here to avoid some package option error. maybe this package is useless ?
+
+%=============新的字符===========%
+\newfontfamily{\libertine}[Scale=1.5]{Linux Libertine O}
+\newfontfamily{\ubuntu}[Scale=3]{Ubuntu}
+\RequirePackage{newunicodechar}
+\newunicodechar{Ⓐ}{{\libertine{Ⓐ}}}
+\newunicodechar{Ⓑ}{{\libertine{Ⓑ}}}
+\newunicodechar{Ⓒ}{{\libertine{Ⓒ}}}
+\newunicodechar{Ⓓ}{{\libertine{Ⓓ}}}
+\newunicodechar{①}{{\libertine{①}}}
+\newunicodechar{②}{{\libertine{②}}}
+\newunicodechar{③}{{\libertine{③}}}
+\newunicodechar{④}{{\libertine{④}}}
+\newunicodechar{⑤}{{\libertine{⑤}}}
+\newunicodechar{}{{\ubuntu{}}}
+
+%%===============中文化=========%
+\renewcommand\contentsname{目~录}
+\renewcommand\listfigurename{插图目录}
+\renewcommand\listtablename{表格目录}
+\renewcommand\bibname{参~考~文~献}
+\renewcommand\indexname{索~引}
+\renewcommand\figurename{图}
+\renewcommand\tablename{表}
+\renewcommand\partname{部分}
+\renewcommand\appendixname{附录}
+
+
+%=================文字強調=========%
+\RequirePackage{ulem} %下劃線,加點
+\normalem
+
+\newcommand\reduline{\bgroup\markoverwith
+    {\textcolor{red}{\rule[-0.8ex]{1em}{0.4pt}}}\ULon}
+\renewcommand\emshape{\color{red}}
+
+%==================插入圖片=======%
+\RequirePackage{graphicx}
+\graphicspath{{images/}}
+
+%==============插入表格========%
+\RequirePackage{booktabs}
+\renewcommand{\arraystretch}{1.3}
+
+
+
+
+
+\endinput
+
+

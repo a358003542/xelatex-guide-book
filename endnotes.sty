@@ -1,0 +1,92 @@
+%基于 John Lavagnino's  endnotes.sty and on web finded the  hyperendnotes.sty, 由wanze于2013年12月15日编写而成。
+%base on John Lavagnino's  endnotes.sty and on web finded the  hyperendnotes.sty
+%modified by wanze   2013/12/15
+%
+
+\NeedsTeXFormat{LaTeX2e}[1994/12/01]
+\ProvidesPackage{endnotes}[2014/05/09 v0.2  fancy endnotes  print]
+
+\RequirePackage{etoolbox}%expandonce
+\DeclareRobustCommand*{\flabel}[2]% #1 true label #2 show label
+{\phantomsection \def\@currentlabel{#2}
+\label{#1}}%label styel customization
+
+\gdef\theenmark{\arabic{@EndnoteCounter}}%
+\gdef\endnotemark{\textsuperscript{(\theenmark)}}%
+\gdef\endnotemarkback{(\theenmark)}%
+
+%
+\newlength{\enoteindent}
+\setlength{\enoteindent}{2.5\textpt}
+%=============main body==============%
+\newwrite\@entout
+
+\newcounter{@EndnoteCounter}%[chapter]%with the chapter reset to 0
+%now use the showendnotes command control it .
+\newcounter{@AllEndnoteCounter}%global hyperlink number
+\newcounter{@ShowEndnoteCounter}%control the ent001 ent002
+
+\setcounter{@EndnoteCounter}{0}
+\setcounter{@AllEndnoteCounter}{0}
+\setcounter{@ShowEndnoteCounter}{1}
+
+\newif\if@entopen \global\@entopenfalse
+
+
+% open the file
+\def\@openent{%
+%modified the code file name%
+\def\@entname{\jobname
+\ifnum\value{@ShowEndnoteCounter}<10 0\fi
+\ifnum\value{@ShowEndnoteCounter}<100 0\fi
+\arabic{@ShowEndnoteCounter}}%
+%set the name is 001 002 003 .099.100. 999 for cat order is correct . if there is over 1000 endnote
+%then it going to cat a wrong order , like that,001 ...100 1000..101
+%for simple reason , it is only support the 1000 endnote .i think it is enough
+%but Avril Lavigne said it is not enough ^_^
+
+\immediate\openout\@entout=\@entname.ent%
+\global\@entopentrue
+}%
+
+\begingroup \catcode `|=0 \catcode `[=1
+\catcode`]=2 \catcode `\{=12 \catcode `\}=12
+\catcode`\\=12
+|gdef|@writeent[|immediate|write|@entout[
+{\footnotesize\noindent
+\hspace{-\enoteindent}\makebox[\enoteindent-3pt][l]
+{\flabel{|@linknameb}{|@showlinknameb}  \ref{|@linkname}}
+\leftskip=\enoteindent   |expandonce|@include \par } ] ]%use the expandonce control and the gdef @include
+|endgroup
+
+\DeclareRobustCommand*\endnote[1]{%well add so many % to eat space
+\stepcounter{@EndnoteCounter}%
+\stepcounter{@AllEndnoteCounter}%
+\edef\@linkname{enote:\arabic{@AllEndnoteCounter}}%
+\edef\@linknameb{enote:\arabic{@AllEndnoteCounter}b}%
+\edef\@showlinknameb{\endnotemark}%
+\edef\@showlinkname{\endnotemarkback}%
+\flabel{\@linkname}{\@showlinkname}%
+\hspace{-0.5ex}\ref{\@linkname b}%
+\if@entopen \else \@openent \fi%
+\begingroup%
+\let\protect\string%change to string but the environment seem not act correct
+\gdef\@include{#1}%
+\endgroup%
+\@writeent%
+\ignorespaces%
+}%
+
+\DeclareRobustCommand*\showendnotes{% close the file
+\immediate\closeout\@entout%
+\global\@entopenfalse
+
+\input{\@entname.ent}
+%\immediate\write18{rm \@entname.ent}
+
+\setcounter{@EndnoteCounter}{0}
+\stepcounter{@ShowEndnoteCounter}%
+
+}
+
+\endinput

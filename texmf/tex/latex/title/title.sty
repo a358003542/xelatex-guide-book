@@ -1,0 +1,174 @@
+%based on the titlepages.pdf
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{title}
+
+
+\def\titlea#1{\gdef\@titlea{#1}}
+\def\@titlea{\@latex@warning@no@line{No \noexpand\titlea given}}
+\def\titleb#1{\gdef\@titleb{#1}}
+\def\@titleb{\@latex@warning@no@line{No \noexpand\titleb given}}
+\def\titlec#1{\gdef\@titlec{#1}}
+\def\@titlec{\@latex@warning@no@line{No \noexpand\titlec given}}
+
+\def\authorinfo#1{\gdef\@authorinfo{#1}}
+\def\@authorinfo{\@latex@warning@no@line{No \noexpand\authorinfo given}}
+\def\email#1{\gdef\@email{#1}}
+\def\@email{\@latex@warning@no@line{No \noexpand\email given}}
+\def\editorinfo#1{\gdef\@editorinfo{#1编者邮箱：\href{mailto: \@email}{\@email}。}}
+\def\@editorinfo{\@latex@warning@no@line{No \noexpand\editorinfo given}}
+
+\def\editor#1{\gdef\@editor{#1}}
+\def\@editor{\@latex@warning@no@line{No \noexpand\editor given}}
+\def\version#1{\gdef\@version{#1}}
+\def\@version{\@latex@warning@no@line{No \noexpand\version given}}
+
+%name rule
+%1.L  leftflush  C center   R rightflsh
+%2.A one titlename  B two titlename  C three titlename
+%3.O ornament 装饰装饰线条等  后面小写字母表示编号a b c d 表示不同的装饰
+%4.P picture 其他图片
+%titleLC 左对齐3个标题 titleLB 左对齐2个标题 titleLA 左对齐1个标题
+%titleCB 居中2个标题 titleCA 居中1个标题
+%titleRA titleRB titleRC
+%titleCAO 居中1个标题额外的装饰
+%
+
+%
+
+%==========base title==============%
+\newcommand{\titleLC}{
+\begin{titlepage}
+\begin{flushleft}
+\vspace*{\stretch{2}}
+    {\LARGE\bfseries \@titlea}\\[\stretch{1}]
+    {\LARGE\bfseries \@titleb}\\[\stretch{1}]
+    {\LARGE\itshape \@titlec}\\[\stretch{2}]
+    {\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+    {\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+    {\ttfamily 版本: \@version}
+\end{flushleft}
+\end{titlepage}
+}
+
+\newcommand{\titleRC}{
+\begin{titlepage}
+\begin{flushright}
+\vspace*{\stretch{2}}
+    {\LARGE\bfseries \@titlea}\\[\stretch{1}]
+    {\LARGE\bfseries \@titleb}\\[\stretch{1}]
+    {\LARGE\itshape \@titlec}\\[\stretch{2}]
+    {\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+    {\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+    {\ttfamily 版本: \@version}
+\end{flushright}
+\end{titlepage}
+}
+
+\newcommand{\titleCC}{
+\begin{titlepage}
+\begin{center}
+\vspace*{\stretch{2}}
+    {\LARGE\bfseries \@titlea}\\[\stretch{1}]
+    {\LARGE\bfseries \@titleb}\\[\stretch{1}]
+    {\LARGE\itshape \@titlec}\\[\stretch{2}]
+    {\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+    {\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+    {\ttfamily 版本: \@version}
+\end{center}
+\end{titlepage}
+}
+
+\newcommand{\titleLB}{
+        \begin{titlepage}
+        \begin{flushleft}
+         \vspace*{\stretch{2}}
+{\LARGE\bfseries \@titlea}\\[\stretch{1}]
+{\LARGE\itshape \@titleb}\\[\stretch{2}]
+{\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+{\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+{\ttfamily 版本: \@version}
+\end{flushleft}
+\end{titlepage}
+}
+
+
+\newcommand{\titleCB}{
+        \begin{titlepage}
+        \begin{center}
+         \vspace*{\stretch{2}}
+{\LARGE\bfseries \@titlea}\\[\stretch{1}]
+{\LARGE\itshape \@titleb}\\[\stretch{2}]
+{\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+{\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+{\ttfamily 版本: \@version}
+\end{center}
+\end{titlepage}
+}
+
+\newcommand{\titleRB}{
+        \begin{titlepage}
+        \begin{flushright}
+         \vspace*{\stretch{2}}
+{\LARGE\bfseries \@titlea}\\[\stretch{1}]
+{\LARGE\itshape \@titleb}\\[\stretch{2}]
+{\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+{\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+{\ttfamily 版本: \@version}
+\end{flushright}
+\end{titlepage}
+}
+
+
+\newcommand{\titleLA}{
+\begin{titlepage}
+\begin{flushleft}
+\vspace*{\stretch{2}}
+{\LARGE\bfseries \@titlea}\\[\stretch{2}]
+{\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+{\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+{\ttfamily 版本: \@version}
+\end{flushleft}
+\end{titlepage}
+}
+
+\newcommand{\titleCA}{
+\begin{titlepage}
+\begin{center}
+\vspace*{\stretch{2}}
+{\LARGE\bfseries \@titlea}\\[\stretch{2}]
+{\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+{\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+{\ttfamily 版本: \@version}
+\end{center}
+\end{titlepage}
+}
+
+
+\newcommand{\titleRA}{
+\begin{titlepage}
+\begin{flushright}
+\vspace*{\stretch{2}}
+{\LARGE\bfseries \@titlea}\\[\stretch{2}]
+{\Large \@author\footnote{\@authorinfo}}\quad\rule{0.8pt}{3ex}\quad
+{\large \@editor\footnote{\@editorinfo}}\\[\stretch{2}]
+\vfill
+{\ttfamily 版本: \@version}
+\end{flushright}
+\end{titlepage}
+}
+
+
+
+
+%=========== fancy title===========%
+
+
+\endinput

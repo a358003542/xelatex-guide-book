@@ -1,0 +1,229 @@
+% based on James Brotchie 's  python-sty
+%
+%modified by wanze   2013-11-21
+
+\NeedsTeXFormat{LaTeX2e}[1994/12/01]
+\ProvidesPackage{xverbatim}[2013/11/21 v0.02  extended code support mode in LaTeX]
+\RequirePackage{etoolbox}
+\RequirePackage{fancyvrb}
+\RequirePackage{verbatim}
+\RequirePackage{color}
+
+
+%%%%%%%%%%%%%%%%%%%%%for pygmentize
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newwrite\@codeout
+\newread\@retcode
+
+
+
+% Put the  code in separate files.
+\@ifclassloaded{article}%support article class
+  {\newcounter{@xverbatimCounter}[section]
+  \let\thechapter\thesection}
+  {\newcounter{@xverbatimCounter}[chapter]}%
+\setcounter{@xverbatimCounter}{0}
+%reset the xverbatimCounter when it encounter the chapter
+
+%here is hard to understand
+\begingroup \catcode `|=0 \catcode `[=1
+\catcode`]=2 \catcode `\{=12 \catcode `\}=12
+\catcode`\\=12
+|gdef|@xverbatim#1\end{xverbatim}[
+|immediate|write|@codeout[#1]
+|end[xverbatim]]
+|endgroup
+
+
+\DeclareRobustCommand*{\@showcode}{%
+%use the pygmentize
+\ifdefstring{\@xverbatimmode}{tex}
+{
+ \immediate\write18{pygmentize   -o \@outname.output.tex \@outname.\@xverbatimmode}%
+ \noindent code\thechapter-\arabic{@xverbatimCounter}
+ \vspace{-5ex}
+ \immediate\input{\@outname.output.tex}
+}
+{
+\immediate\write18{pygmentize   -o \@outname.tex \@outname.\@xverbatimmode}
+%a little diy
+\noindent code\thechapter-\arabic{@xverbatimCounter}
+\vspace{-5ex}
+\immediate\input{\@outname.tex}
+}
+}
+
+%error and rc
+\DeclareRobustCommand*{\@writefeedback}{%
+% Read the return code
+\immediate\openin\@retcode=\@outname.rc
+\immediate\read\@retcode to \rc
+\immediate\closein\@retcode
+
+% If the return code isn't zero then include
+% the traceback.
+\ifnumequal{\rc}{0}{}{%
+    \begingroup
+        \color{red}
+        \verbatiminput{\@outname.\@xverbatimmode.err}
+    \endgroup
+}}
+
+
+\DeclareRobustCommand*{\@executecode}{%
+\ifdefstring{\@xverbatimmode}{py}
+{ \immediate\write18{  python3 \@outname.py > \@outname.py.out 2> \@outname.py.err; echo -n $? > \@outname.rc}}
+{
+\ifdefstring{\@xverbatimmode}{lisp}
+{ \immediate\write18{sbcl --script \@outname.lisp    > \@outname.lisp.out 2> \@outname.lisp.err; echo -n $? > \@outname.rc}}
+{
+\ifdefstring{\@xverbatimmode}{scm}
+{ \immediate\write18{ guile  \@outname.scm  > \@outname.scm.out 2> \@outname.scm.err; echo -n $? > \@outname.rc}}
+{\errmessage{only support the py lisp and scm}
+}}}}
+
+
+\DeclareRobustCommand*{\@showresult}{%
+\begingroup
+\catcode`\ =\active
+\catcode`\^^M=\active
+\parindent=0pt
+\vspace{-2ex}
+\rule{\linewidth}{0.4pt}
+\footnotesize
+\immediate\input{\@outname.\@xverbatimmode.out}
+\noindent\rule[2em]{\linewidth}{0.4pt}%
+\endgroup
+\vspace{-2ex}
+}
+
+
+
+%environment start
+\newenvironment{xverbatim}[2][1]%#1 optional 0 1 129 ... #2 程序语言模式 py lisp scm
+{
+\immediate\stepcounter{@xverbatimCounter}
+\def\@codemode{#1}
+\def\@codefilename{code\thechapter-\arabic{@xverbatimCounter}}
+\def\@xverbatimmode{#2}
+
+%if the filefolder doesnot exist  then creat it
+\immediate\write18{if [  !  -d  codeexport/code\thechapter-\arabic{@xverbatimCounter}  ];  then mkdir -p codeexport/code\thechapter-\arabic{@xverbatimCounter}  ; fi}
+%modified the code file name
+\newcommand{\@outname}{codeexport/code\thechapter-\arabic{@xverbatimCounter}/\@codefilename }
+\immediate\openout\@codeout=\@outname.\@xverbatimmode
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newlinechar=`\^^M%和写入文件新行符号有关
+\begingroup  %
+\let\do\@makeother\dospecials\catcode`\^^M\active%
+%将@转义为12和目前文档一致
+\@xverbatim
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
+{
+\endgroup
+\immediate\closeout\@codeout
+
+\ifnum \@codemode = 0
+\else   \ifnum \@codemode = 1    \@showcode
+\else   \ifnum \@codemode = 12   \@showcode \@executecode \@writefeedback
+\else   \ifnum \@codemode = 129    \@showcode \@executecode \@showresult \@writefeedback
+\else   \ifnum \@codemode = 19   \@showcode  \@showresult
+\else          \errmessage{you typed wrong optional parameter,the choice is  0 1   12 129 19  .}
+\fi\fi\fi \fi \fi
+
+}
+
+
+
+\endinput
