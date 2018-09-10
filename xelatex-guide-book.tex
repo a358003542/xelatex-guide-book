@@ -2480,7 +2480,7 @@ $$
 
 列举法写出某个集合，这里关键是 \{ 花括号在 \LaTeX 中是特殊符号，所以前面要加个左斜杠符号。 \verb+$\{1,2,3\}$+ $\{1,2,3\}$ 。
 
-我们看到人教版高中教材并没有严格遵守这种数学排版约定，而是采用实心粗体，而通常这种实心粗体是推荐用来表示物理学中的矢量的：
+我们看到人教版高中教材并没有严格遵守这种数学排版约定（这里说的是这些特殊含义的集合），而是采用实心粗体，而通常这种实心粗体是推荐用来表示物理学中的矢量的。
 
 
 
@@ -2518,13 +2518,169 @@ $$\sqrt[n]{x^2+y^2}$$
 
 
 \subsection{集合间的关系}
+如果集合A中的任何一个元素都是集合B中的元素，我们说A是B的子集，记作 
+
+\begin{Verbatim}
+$$
+A \subseteq B
+$$
+\end{Verbatim}
+
+$$
+A \subseteq B
+$$
+
+或者说 B 包含 A，记作：
+
+\begin{Verbatim}
+$$
+B \supseteq A
+$$
+\end{Verbatim}
+
+$$
+B \supseteq A
+$$
+
+两个集合相等就直接用 = 即可。
+
+如果集合A包含于B，但存在元素属于B而不属于A，我们称A是B的真子集，记作：
 
 
+\begin{Verbatim}
+$$
+A \subsetneqq B
+$$
+\end{Verbatim}
+
+$$
+A \subsetneqq B
+$$
+
+或者：
+
+\begin{Verbatim}
+$$
+B \supsetneqq A
+$$
+\end{Verbatim}
+
+$$
+B \supsetneqq A
+$$
+
+我记得真子集我读书的时候是用下面这两个符号来表示的，不是下面加上一个不等于号，就是没有等于号表示不相等。
+
+
+\begin{Verbatim}
+$$
+A \subset B
+$$
+\end{Verbatim}
+
+$$
+A \subset B
+$$
+
+或者：
+
+\begin{Verbatim}
+$$
+B \supset A
+$$
+\end{Verbatim}
+
+$$
+B \supset A
+$$
+
+按照简单性原则，和参看 \href{https://www.rapidtables.com/math/symbols/Basic_Math_Symbols.html#lnkset}{这个网页} ，真子集我是推荐后面的方案。
+
+空集：
+
+\begin{Verbatim}
+$$
+\emptyset
+$$
+\end{Verbatim}
+
+$$
+\emptyset
+$$
+
+上面的空集按照命令的字面意思是推荐使用 emptyset 这个命令的，但可能有时你会觉得 varnothing命令显示效果会更好一点吧。
+
+\begin{Verbatim}
+$$
+\varnothing
+$$
+\end{Verbatim}
+
+$$
+\varnothing
+$$
+
+
+\subsection{集合的基本运算}
+A和B之间的并集记作：
+
+\begin{Verbatim}
+$$
+A \cup B
+$$
+\end{Verbatim}
+
+$$
+A \cup B
+$$
+
+也许并集符号像个杯子所以记作cup吧。
+
+A和B之间的交集记作：
+
+\begin{Verbatim}
+$$
+A \cap B
+$$
+\end{Verbatim}
+
+$$
+A \cap B
+$$
+
+而cap是帽子的意思。
+
+全集 universe set ，按照上面的描述，那种中间有点空的字体表示某种特殊的集合，所以全集的表示为：
+
+\begin{Verbatim}
+$$
+\mathbb{U}
+$$
+\end{Verbatim}
+
+$$
+\mathbb{U}
+$$
+
+补集 complement set 有的说是要在上面带个C字母， $A^{C}$ 或者 如教材上这种写法： $C_{\mathbb{U}}A$ ，都可以把。
+
+
+\subsection{函数及其表示}
+下面的写法是基本功了，就不多说了，值得一提的具体显示尤其是小写字母的斜斜的那种处理，很美观，也和我们平时看的教材书籍上的显示效果是差不多的。
+
+\begin{Verbatim}
+$$
+h = 130t - 5 t^2.
+$$
+\end{Verbatim}
+
+$$
+h = 130t - 5 t^2.
+$$
 
 \section{常用数学符号}
 \begin{itemize}
 \item  大于等于 $\geqslant$  \verb+\geqslant+
-\item  并集 $\cup$  \verb+\cup+
 \item  $x'$  \verb+x'+
 \item  约等于  $\approx$ \verb+\approx+
 \item 中间一个小点 表示字母相乘 $\cdot$  \verb+\cdot+
