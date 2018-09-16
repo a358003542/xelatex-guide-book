@@ -2397,6 +2397,21 @@ text-micro = μ
 使用text命令可以在数学环境中正常输入一些文本（包括中文，如果你已经处理好中文显示问题了。）
 
 
+\subsection{空白距离}
+数学环境里面的所有空白距离和换行都被忽略了。需要用命令手动生成。如下所示，这几个命令生成的间隔逐渐加大。
+
+\begin{Verbatim}
+\,  \:  \;  \quad  \qquad
+\end{Verbatim}
+
+
+\subsection{分数}
+分数的表示是很重要的一项基本功，很多数学公式都有它的身影。
+\verb+\frac{1}{2}+，或者1/2。
+
+$\frac{1}{2} \qquad 1/2$
+
+
 \section{高中数学}
 要熟练利用 \LaTeX 排版数学公式，最好是阅读大量的例子和结合之前我们已经学过的数学知识来，下面本文简要地跟着现在的人教版高中数学教材过一遍基本的数学公式排版问题。
 
@@ -2678,13 +2693,140 @@ $$
 h = 130t - 5 t^2.
 $$
 
-\section{常用数学符号}
+当 $a<0$时，$B=\{ y|y\geqslant \frac{4ac - b^2}{4a} \}$ ，这一行代码如下：
+
+\begin{Verbatim}
+$B=\{ y|y\geqslant \frac{4ac - b^2}{4a} \}$
+\end{Verbatim}
+
+大于和小于直接键盘输入就是了，大于等于之类的符号如下命令输入之。
+\subsubsection{大于等于之类的符号}
+大于等于之类的符号如下所示：
+
 \begin{itemize}
 \item  大于等于 $\geqslant$  \verb+\geqslant+
-\item  $x'$  \verb+x'+
+
 \item  约等于  $\approx$ \verb+\approx+
-\item 中间一个小点 表示字母相乘 $\cdot$  \verb+\cdot+
-\item  趋近于  $\to$ \verb+\to+
+
+\item  小于等于 $\leqslant$  \verb+\leqslant+
+
+\item 不等于 $\neq$  \verb+\neq+
+
+\item 相似于 $\sim$ \verb+\sim+
+\end{itemize}
+
+似乎国外的教材大于等于或者小于等于常用的符号是：
+
+\begin{itemize}
+\item  大于等于 $\geq$  \verb+\geq+
+\item  小于等于 $\leq$  \verb+\leq+
+\end{itemize}
+
+
+上面的例子，感觉花括号不够大，那么可以通过如下命令系列来调整花括号的大小：
+
+\subsubsection{调整括号大小}
+如下在花括号前面加上 \verb+\big+ 来增大花括号符号，
+
+当 $a<0$时，$B=\big\{ y|y\geqslant \frac{4ac - b^2}{4a} \big\}$ 
+
+\begin{Verbatim}
+$B=\big\{ y|y\geqslant \frac{4ac - b^2}{4a} \big\}$
+\end{Verbatim}
+
+感觉没增加多少，下面是使用 \verb+\Big+ 命令的效果。
+当 $a<0$时，$B=\Big\{ y|y\geqslant \frac{4ac - b^2}{4a} \Big\}$ 
+
+下面是使用 \verb+\bigg+ 命令的效果：
+当 $a<0$时，$B=\bigg\{ y|y\geqslant \frac{4ac - b^2}{4a} \bigg\}$ 
+ 
+
+\subsubsection{特殊的函数}
+如下这些特殊的函数，用命令会有更好的显示效果。
+
+\begin{Verbatim}
+\begin{gather*}
+\sin \cos \sec \tan \tanh \arccos  \arctan  %三角函数相关，很多类似的就不一一列举了
+\exp  %指数函数
+\min \max % 最小最大
+\lim %极限
+\log \ln  \lg % 对数函数相关
+\gcd % 最大公约数
+\end{gather*}
+\end{Verbatim}
+
+\begin{gather*}
+\sin \cos \sec \tan \tanh \arccos  \arctan \\ %三角函数相关，很多类似的就不一一列举了
+\exp  \\%指数函数
+\min \max \\% 最小最大
+\lim \\%极限
+\log \ln  \lg \\% 对数函数相关
+\gcd \\% 最大公约数
+\end{gather*}
+
+所以写对应的函数更加规范的应该使用上面这些对应的名字，然后上标下标的就不用多说了。比如：
+
+$$
+\lim_{x\to\infty}
+$$
+
+\begin{Verbatim}
+$$
+\lim_{x\to\infty}
+$$
+\end{Verbatim}
+
+
+$$
+\log_2 10
+$$
+
+\begin{Verbatim}
+$$
+\log_2 10
+$$
+\end{Verbatim}
+
+\subsubsection{分段函数}
+$
+y = |x| = 
+\begin{cases}
+x, & x \geqslant 0,\\
+-x, & x<0.
+\end{cases}
+$ ，cases环境是amsmath包提供的。
+
+\subsubsection{常用箭头符号}
+函数定义为从集合A到集合B的一个映射： $f: A \rightarrow B$ ，这几个箭头应该很常用：
+
+\begin{itemize}
+\item  向右箭头 $\rightarrow$  \verb+\rightarrow+
+\item  向左箭头 $\leftarrow$  \verb+\leftarrow+
+\item  宽向右箭头 $\Rightarrow$  \verb+\Rightarrow+
+\item  宽向左箭头 $\Leftarrow$  \verb+\Leftarrow+
+
+
+\item  向上箭头 $\uparrow$  \verb+\uparrow+
+\item  向下箭头 $\downarrow$  \verb+\downarrow+
+\item  宽向上箭头 $\Uparrow$  \verb+\Uparrow+
+\item  宽向下箭头 $\Downarrow$  \verb+\Downarrow+
+\end{itemize}
+
+向右箭头在极限中可以写为 \verb+\to+ $\to$ ，但实际上就是向右箭头。 
+
+
+\subsection{常用数学符号}
+除了上面谈及的，下面是额外的一些还比较常用的数学符号的表示，这些确实非常常用，汇总在这里了。
+\begin{itemize}
+\item 乘 $\times$ \verb+\times+
+\item 除 $\div$ \verb+\div+
+\item 正负 $\pm$ \verb+\pm+
+
+\item 圆周率 $\pi$  \verb+\pi+
+\item 那个无理数 $e$  是的，直接在数学模式下输入e即可，在费曼物理学讲义网站确认了，可见这个常数是如此的重要和特殊，竟然自己直接独占一个常用的小写字母。然后常说的 $\exp$函数实际上就是 $e^x$ ，也就是以 $e$ 为底的指数函数。
+
+\item  $x'$  \verb+x'+
+\item 中间一个小点 两个矢量的点积 $\cdot$  \verb+\cdot+ 【参考了 \href{http://www.feynmanlectures.caltech.edu/I_13.html}{费曼物理学讲义网站}，其描述功就是使用的力矢量和位移矢量的点积】高中教材更加粗的那个点应该是使用的 \verb+\bullet+ $\bullet$ 。
 \item 无穷大 $\infty$  \verb+\infty+
 \item 角度 $\angle$ \verb+\angle+
 \item  正比  $\propto$ \verb+\propto+
@@ -2694,12 +2836,9 @@ $$
 \end{itemize}
 
 
+\section{表达式上下加上额外的符号}
 
-
-
-
-
-\section{表达式上划线或者下划线}
+\subsection{表达式上划线或者下划线}
 就是\textbf{overline}命令和\textbf{underline}命令。此外还有一个bar命令，但bar命令只适合一个小写字母情况的上划线情况，如这样 $\bar{a}$ \verb+$\bar{a}$+ ，其他情况即使是大写字母也不行。
 
 $\overline{x+y}$  $\underline{\frac{2}{3}}$
@@ -2707,7 +2846,7 @@ $\overline{x+y}$  $\underline{\frac{2}{3}}$
 对于统计学上的样本均值就是使用的这里的overline命令：$\overline{X}$  \verb+$\overline{X}$+ 。
 
 
-\section{表达式上或下有个大括号}
+\subsection{表达式上或下有个大括号}
 使用\textbf{overbrace}和\textbf{underbrace}命令。
 
 $\underbrace{ a+b+\cdots+z }_{26}$
@@ -2719,46 +2858,14 @@ vec命令只适用一个字母的小箭头。
 
 $\vec {A} \quad \overrightarrow{BC}$
 
-\section{空白距离}
-数学环境里面的所有空白距离和换行都被忽略了。需要用命令手动生成。如下所示，这几个命令生成的间隔逐渐加大。
-
-\begin{Verbatim}
-\,  \:  \;  \quad  \qquad
-\end{Verbatim}
 
 
-\section{特殊的函数}
-\begin{Verbatim}
-\begin{gather*}
-\arccos \cos \\
-\csc \exp \\
-\ker \\
-\limsup \min \\ 
-\arcsin \cosh \deg \gcd \lg \ln \Pr \\ 
-\arctan \cot \det \hom \lim \log \sec \\
-\arg \coth \dim \inf \liminf \max \sin \\
-\sinh \sup \tan \tanh
-\end{gather*}
-\end{Verbatim}
 
-\begin{gather*}
-\arccos \cos \\
-\csc \exp \\
-\ker \\
-\limsup \min \\ 
-\arcsin \cosh \deg \gcd \lg \ln \Pr \\ 
-\arctan \cot \det \hom \lim \log \sec \\
-\arg \coth \dim \inf \liminf \max \sin \\
-\sinh \sup \tan \tanh
-\end{gather*}
 
 \section{多行数学环境}
-\textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，不确定这两个环境命令是不是都是amsmath宏包提供的，不管怎么说加上amsmath宏包喽。
+\textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，这两个环境都是amsmath包提供的。如下演示，对于编写多行数学环境很是方便：
 
-\section{分数}
-\verb+\frac{1}{2}+，或者1/2。
 
-$\frac{1}{2} \qquad 1/2$
 
 
 

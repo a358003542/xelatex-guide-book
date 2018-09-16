@@ -1,0 +1,93 @@
+\@definecounter{endnote}
+\def\theendnote{\@arabic\c@endnote}
+
+\def\@makeenmark{\hbox{\@textsuperscript{\normalfont\@theenmark}}}
+\def\makeenmark{\@makeenmark}
+
+\def\theenmark{\@theenmark}
+
+\newdimen\endnotesep
+
+\def\endnote{
+\stepcounter{endnote}%
+     \protected@xdef\@theenmark{\theendnote}%
+     \@endnotemark\@endnotetext}
+
+
+\let\@doanenote=0
+\let\@endanenote=0
+
+\newwrite\@enotes
+\newif\if@enotesopen \global\@enotesopenfalse
+
+\def\@openenotes{\immediate\openout\@enotes=\jobname.ent\relax
+      \global\@enotesopentrue}
+
+\long\def\@endnotetext#1{%
+     \if@enotesopen \else \@openenotes \fi
+     \immediate\write\@enotes{\@doanenote{\@theenmark}}%
+     \begingroup
+        \def\next{#1}%
+        \newlinechar='40
+        \immediate\write\@enotes{\meaning\next}%
+     \endgroup
+     \immediate\write\@enotes{\@endanenote}}
+
+\long\def\addtoendnotes#1{%
+     \if@enotesopen \else \@openenotes \fi
+     \begingroup
+        \newlinechar='40
+        \let\protect\string
+        \immediate\write\@enotes{#1}%
+     \endgroup}
+
+%  End of unique endnote code
+
+\def\endnotemark{%
+\stepcounter{endnote}%
+      \protected@xdef\@theenmark{\theendnote}%
+      \@endnotemark}
+
+\def\@endnotemark{%
+  \leavevmode
+  \ifhmode\edef\@x@sf{\the\spacefactor}\nobreak\fi
+  \makeenmark
+  \ifhmode\spacefactor\@x@sf\fi
+  \relax}
+
+\def\endnotetext{%
+\protected@xdef\@theenmark{\theendnote}%
+    \@endnotetext}
+
+\def\notesname{Notes}%
+\def\enoteheading{\section*{\notesname
+  \@mkboth{\MakeUppercase{\notesname}}{\MakeUppercase{\notesname}}}%
+  \mbox{}\par\vskip-\baselineskip}
+
+\def\enoteformat{\rightskip\z@ \leftskip\z@ \parindent=1.8em
+  \leavevmode\llap{\makeenmark}}
+
+\def\enotesize{\footnotesize}
+
+\def\theendnotes{\immediate\closeout\@enotes \global\@enotesopenfalse
+  \begingroup
+    \makeatletter
+    \edef\@tempa{`\string >}%
+    \ifnum\catcode\@tempa=12%
+      \let\@ResetGT\relax
+    \else
+      \edef\@ResetGT{\noexpand\catcode\@tempa=\the\catcode\@tempa}%
+      \@makeother\>%
+    \fi
+    \def\@doanenote##1##2>{\def\@theenmark{##1}\par\begingroup
+        \@ResetGT
+        \edef\@currentlabel{\csname p@endnote\endcsname\@theenmark}%
+        \enoteformat}
+    \def\@endanenote{\par\endgroup}%
+    \enoteheading
+    \enotesize
+    \input{\jobname.ent}%
+  \endgroup}
+
+
+
