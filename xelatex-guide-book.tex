@@ -2815,6 +2815,21 @@ $ ，cases环境是amsmath包提供的。
 向右箭头在极限中可以写为 \verb+\to+ $\to$ ，但实际上就是向右箭头。 
 
 
+
+\subsection{几何相关}
+
+\begin{itemize}
+\item 两条直线平行 平行符号似乎应该推荐时 $AB \parallel CD$ \verb+$AB \parallel CD$+ 。高中教材采用的那个斜平行符号比较冷门，翻了符号表才找到：$AB \sslash CD$ \verb+$AB \sslash CD$+ 。 \textbf{NOTICE:} sslash命令要额外加载 \textbf{stmaryrd} 包，还有个 varparallel 命令，也是不能直接使用的，感觉挺麻烦的，若没有特别需要，就用 parallel 命令来描述平行关系吧。
+
+\item 两条直线垂直 $AB \perp CD$ \verb+$AB \perp CD$+  (perpendicular)
+\item 且使 $\angle x' O' y' = 45^{\circ}$ 这里角度 $\angle$ \verb+\angle+ ，度°是用的 \verb+$\circ$+ ，你需要用上标写法把这个符号送上去
+
+\item 我们说三角形ABC $\Delta ABC$ ，那个表示三角形的符号实际上就是希腊大写字母Delta: \verb+\Delta+ 
+
+
+\end{itemize}
+
+
 \subsection{常用数学符号}
 除了上面谈及的，下面是额外的一些还比较常用的数学符号的表示，这些确实非常常用，汇总在这里了。
 \begin{itemize}
@@ -2828,11 +2843,13 @@ $ ，cases环境是amsmath包提供的。
 \item  $x'$  \verb+x'+
 \item 中间一个小点 两个矢量的点积 $\cdot$  \verb+\cdot+ 【参考了 \href{http://www.feynmanlectures.caltech.edu/I_13.html}{费曼物理学讲义网站}，其描述功就是使用的力矢量和位移矢量的点积】高中教材更加粗的那个点应该是使用的 \verb+\bullet+ $\bullet$ 。
 \item 无穷大 $\infty$  \verb+\infty+
-\item 角度 $\angle$ \verb+\angle+
+
 \item  正比  $\propto$ \verb+\propto+
 \item 积分 $\int_{0}^{1}\sin x$ \verb+\int_{0}^{1}\sin x+
 \item 求和 $\sum_{i=1}^{n}$ \verb+\sum_{i=1}^{n}+
 \item 乘积 $\prod$ \verb+\prod+
+
+
 \end{itemize}
 
 
@@ -2866,14 +2883,11 @@ $\vec {A} \quad \overrightarrow{BC}$
 \textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，这两个环境都是amsmath包提供的。如下演示，对于编写多行数学环境很是方便：
 
 
-
-
-
-\section{二项系数}
+本章节后面有时间，除了增加特殊符号之外，觉得还有必要额外的说明的知识，会继续补充在下面。主要是关于我接触到的数学领域的特定符号的确定，精确意义上的；某些特殊的数学公式排版等等。
 
 
 \chapter{注释}
-文章\showendnotes
+\showendnotes
 
 
 
