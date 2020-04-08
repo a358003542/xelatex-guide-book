@@ -3,61 +3,356 @@
 \documentclass[11pt,oneside]{book}
 
 
-% for phone
-%\usepackage{book-phone}
+\newlength{\textpt}
+\setlength{\textpt}{11pt}
 
-\usepackage{book}
-%
+%额外的一些命令
+\newcommand\utriangle{\bgroup\markoverwith
+    {\raisebox{-0.4em}{\makebox[1em][c]{\tikz[blue]{\draw(0,0) -- (0.1,0) -- (0.05,0.05) --cycle;}}}}
+    \ULon}
+
+\newcommand\ucircle{\bgroup\markoverwith
+    {\raisebox{-0.6em}{\makebox[1em][c]{\tikz[red]{\draw(0,0) circle  (0.05) ;}}}}
+    \ULon}%
+
+    
+\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}#1\vspace*{\stretch{1}}\end{center}\end{titlepage}}
+    
+%========基本必备的宏包========%
+\RequirePackage{calc,float,multicol,moresize}
+%\RequirePackage[onehalfspacing]{setspace}
+\linespread{1.5}
+%1.3 onehalfspacing
+%试卷或需要文字紧凑的
+%1.6 doublespacing
+
+%===========加入目录 某章或某节=====%
+\makeatletter
+
+\newcommand{\addchtoc}[1]{
+        \cleardoublepage
+        \phantomsection
+        \addcontentsline{toc}{chapter}{#1}}
+
+\newcommand{\addsectoc}[1]{
+        \phantomsection
+        \addcontentsline{toc}{section}{#1}}
+
+%===========全文基本格式==========%
+\setlength{\parskip}{1.6ex plus 0.2ex minus 0.2ex}   %段落間距
+\setlength{\parindent}{\textpt * \real{2}}
+
+%=========页面设置=========%
+\RequirePackage[a4paper, %a4paper size 297:210 mm
+  bindingoffset=10mm,%裝訂線
+  top=35mm,  %上邊距 包括頁眉
+  bottom=30mm,%下邊距 包括頁腳
+  inner=10mm,  %左邊距or inner
+  outer=10mm,  %右邊距or  outer
+  headheight=10mm,%頁眉
+  headsep=15mm,%
+  footskip=15mm,%
+  marginparsep=10pt, %旁註與正文間距
+  marginparwidth=6em,includemp=true% 旁註寬度計入width%旁註寬度
+  ]{geometry}
+
+%color
+\RequirePackage[table,svgnames]{xcolor}
+\definecolor{bgcolor-0}{HTML}{CCFFCC}
+
+
+%================字體================%
+%设置数学字体
+\RequirePackage{amssymb,amsmath}
+\RequirePackage{stmaryrd}
+\RequirePackage{fontspec}
+%si unit
+\RequirePackage{siunitx}
+\sisetup{
+math-micro = \text{μ},
+text-micro = μ
+}
+%num命令两边加上空格 numb
+\providecommand{\numb}[1]{{~\num{#1}~}}
+
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\everymath{\displaystyle}
+
+ %設置英文字體
+\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\setsansfont[Mapping=tex-text]{DejaVu Sans}
+\setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
+
+%中文環境
+\RequirePackage[]{xeCJK}
+\xeCJKsetup{PunctStyle=plain}
+\setCJKmainfont[ItalicFont=方正楷体简体]{思源宋体 CN}
+\setCJKsansfont{思源黑体 CN}
+\setCJKmonofont{方正楷体简体}
+
+\RequirePackage{xltxtra} %put here to avoid some package option error. maybe this package is useless ?
+
+
+%%===============中文化=========%
+\renewcommand\contentsname{目~录}
+\renewcommand\listfigurename{插图目录}
+\renewcommand\listtablename{表格目录}
+\renewcommand\bibname{参~考~文~献}
+\renewcommand\indexname{索~引}
+\renewcommand\figurename{图}
+\renewcommand\tablename{表}
+\renewcommand\partname{部分}
+\renewcommand\appendixname{附录}
+\renewcommand{\today}{\number\year 年\number\month 月\number\day 日}
+
+
+%=======页眉页脚格式=========%
+\RequirePackage{fancyhdr}   %頁眉頁腳
+\RequirePackage{zhnumber}  %计数器中文化
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]
+{\markright{第\zhnumber{\arabic{section}}节~~#1}{}}
+
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    \fancyhf[HR]{\ttfamily \footnotesize \rightmark }
+    \fancyhf[FR]{\thepage}}
+\pagestyle{plain}
+
+
+%=========章節標題設計=========%
+\RequirePackage{titlesec}
+%修改part
+\titleformat{\part}{\huge\sffamily}{}{0em}{}
+%修改chapter
+\titleformat{\chapter}{\LARGE\sffamily}{}{0em}{}
+%修改section
+\titleformat{\section}{\Large\sffamily}{}{0em}{}
+%修改subsection
+\titleformat{\subsection}{\large\sffamily}{}{0em}{}
+%修改subsubsection
+\titleformat{\subsubsection}{\normalsize\sffamily}{}{0em}{}
+
+
+%================目录===============%
+%toc label to contents space   dynamic adjust
+\RequirePackage{tocloft}%
+\renewcommand{\numberline}[1]{%
+  \@cftbsnum #1\@cftasnum~\@cftasnumb%
+}
+
+%==============超鏈接===============%
+\RequirePackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref} %設置書簽和目錄鏈接等
+\newcommand{\hlabel}[1]{\phantomsection \label{#1}}%某一小段的引用
+
+
+%=================文字強調=========%
+\RequirePackage{ulem} %下劃線,加點
+\normalem%normal em , not instead of the uline
+
+\DeclareRobustCommand*{\uwave}%波浪线稍微下移点。
+{\bgroup \markoverwith{\lower5\p@\hbox{\sixly \char58}}\ULon}
+
+
+\newcommand\reduline{\bgroup\markoverwith
+    {\textcolor{red}{\rule[-0.5ex]{1em}{0.4pt}}}\ULon}
+
+%modified udot command from the dotuline
+\def\udot{\bgroup
+  \UL@setULdepth
+  \markoverwith{\begingroup
+     \advance\ULdepth0.1ex
+     \lower\ULdepth\hbox{\kern.25em . \kern.045em}%
+     \endgroup}%
+  \ULon}
+\renewcommand\emshape{\color{red}}
+
+%==================插入圖片=======%
+\RequirePackage{wrapfig}
+\RequirePackage{graphicx}
+\graphicspath{{figures/}}
+%change the caption style a little like 1-1
+\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
+
+
+
+%==============插入表格========%
+\RequirePackage{booktabs}
+\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}
+\RequirePackage{caption}
+%\renewcommand{\arraystretch}{1.3}
+%如果用setspace宏包而不是linespread调整行间距，那么才需要额外的表格行距拉大。
+
+%插入代码
+\RequirePackage{fancyvrb} 
+\fvset{frame=lines,tabsize=4 ,baselinestretch=1.8, fontsize=\footnotesize}
+
+
+%minted
+\RequirePackage{minted}%
+\RequirePackage[minted]{tcolorbox}%
+\tcbuselibrary{breakable}
+\definecolor{codeback}{RGB}{240,240,240}
+\definecolor{bashback}{RGB}{48,10,36}
+
+\newtcblisting{tcbcode}[1][text]{listing engine=minted,minted language=#1,minted options={fontsize=\footnotesize,frame=none},listing only,breakable=true,colback=codeback,boxrule=0.4pt,boxsep=0pt}
+
+\newtcblisting{tcbpython}{listing engine=minted,minted language=python,minted options={fontsize=\footnotesize,frame=none},listing only,breakable=true,colback=codeback,boxrule=0.4pt,boxsep=0pt}
+
+\newtcblisting{tcbbash}{listing engine=minted,minted style=native,minted language=bash,minted options={fontsize=\footnotesize,frame=none},listing only,breakable=true,boxrule=0.4pt,colback=bashback,coltext=white}
+
+
+
+%=============插入尾注=========%
+\RequirePackage{endnotes}
+
+%==========其他宏包===========%
+\RequirePackage{tikz} 
+\usetikzlibrary{calc}
+
+%========脚注=========%
+\newcommand*\circled[1]{%
+  \tikz[baseline=(char.base)]\node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
+\newcommand*\circledarabic[1]{\circled{\arabic{#1}}}
+
+\RequirePackage{perpage} %the perpage package
+\MakePerPage{footnote} %the perpage package command
+
+\renewcommand*{\thefootnote}{\protect\circledarabic{footnote}}
+
+
+\renewcommand\@makefntext[1]
+{\vspace{5pt}
+\noindent
+\makebox[20pt][c]{\@makefnmark}
+\fontsize{10pt}{12pt}\selectfont #1}
+
+\setlength{\skip\footins}{20pt plus 10pt}
+%main body 与脚注之间的距离
+
+%===========旁注===========%
+\newcommand{\notefont}{\itshape\fontsize{10pt}{10pt}\selectfont }
+\newcommand{\sidenote}[1]{\marginpar{\notefont #1}}
+
+
+%=====特殊的环境特殊的文字======%
+%=========重新定义 quote=====%
+\renewenvironment{quote}[1][anonymous]{
+\newcommand{\quoteauthor}[1][anonymous]{#1}
+\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent   2em
+}\item\relax
+\ttfamily}
+{\\
+\makebox[\linewidth][r]{\sffamily —\quoteauthor}
+\endlist}
+
+%重新定义quotation
+\renewenvironment{quotation}
+{\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent 2em%item的缩进也就是第一段的缩进
+\listparindent \itemindent %第二段的缩进
+}%
+\item\relax
+\ttfamily}
+{\endlist}
+
+
+%framed环境
+\RequirePackage{framed}
+
+
+\newenvironment{fig}[2][1]
+        {\begin{figure}[H]
+        \centering
+        \includegraphics[scale=#1 , keepaspectratio]{#2}}
+        {\end{figure}}
+\newenvironment{linefig}[2][1]
+        {\begin{figure}[H]
+        \centering
+        \includegraphics[width=#1\linewidth ,totalheight=0.95\textheight , keepaspectratio]{#2}}
+        {\end{figure}}
+
+%======notecard环境 一种卡片式记忆环境====%
+%推荐的颜色有：black olive blue orange brown pink cyan purple darkgray red gray teal green violet lightgray white lime magenta yellow 建议都调淡30。!30
+%不过推荐一个文档内部一种类型使用一种，其他颜色也是可以的。
+\newsavebox{\tempbox}
+\newenvironment{notecard}[2][white]
+ {\noindent\ignorespaces%
+ \setlength{\fboxsep}{10pt}
+  \newcommand{\tempcolor}{#1}
+  \begin{lrbox}{\tempbox}%
+  \begin{minipage}{#2}
+        \setlength{\parindent}{0pt}
+        \setlength{\parskip}{1.618ex}   %段落間距
+}
+ {
+ \ignorespacesafterend%
+  \end{minipage}%
+  \end{lrbox}%
+  \colorbox{\tempcolor}{\usebox{\tempbox}}}
+
+
+\newenvironment{shici}{
+\begin{verse}
+\centering\large\hspace{12pt}}
+{\end{verse}}
+
+\makeatother
 
 \usepackage{indentfirst} 
  
 
-
+\title{XeLaTeX 指南}
+\author{万泽}
+\date{第四次修订版}
  
  
 \begin{document}
 \frontmatter 
 
 
-\title{\XeLaTeX 指南}
-\author{万泽}
-\date{第三次修订版}
 \maketitle
 
+\flypage{感谢上天}
 
-\flypage{感谢上帝}
 
+\addchtoc{第四次修订版前言}
+\chapter*{第四次修订版前言}
+第四次修订版除了再次全面审视本书籍的内容之外，最重大的一个改动就是将会引入pandoc从tex文件生成epub电子书籍的支持，这就意味着某些LaTex特有的功能将会慢慢抽离出来，这些内容是不可能被epub或者其他标记语言支持的，比如Tikz制图，比如某些奇怪的Tex宏命令，所以本书xelatex基础部分将更加关注于那些latex作为标记语言很容易被其他标记语言转换识别的部分，其他不是那么容易转换甚至不可能转换的部分将会移动到进阶部分而且不会再从tex源码那里进行输出尝试了，只是用文字或者图片进行说明。
 
+关于这部分工作的详细内容整理将会在附录中说明之。目前初步的基调就是将会进一步减少一些花里胡哨的东西，tex定制宏部分将会和文档整合在一起，自定义命令可以用，但是最好基于原Latex原生命令，自定义环境少用，支持性不是很好。而基于原有命令的一些调整修改则基本上是支持的，只是最多在epub那边都是没有区别的——比如你可以定制多种风格的enumerate开头的标签样式，但在epub那边都是\verb+1.+ 这样的样子，如果你希望epub花哨点则需要通过css来调整，就写作和转换来说是没有问题的了。
+
+关于本项目epub的css部分，有些是显示需求然后稍作调整，有些是从bootstrap那里或者不知道是那里抄来的，读者权做参考。
 
 
 \addchtoc{前言}
 \chapter*{前言}
-
 我试图收集整理各方面来的xelatex相关的信息，包括自己的实践经验总结，作为后学者的指南手册。
 
 一切在尊重版权的基础上出于爱好兴趣和相信自由分享的价值原则上进行。
 
 第三次修订版删去了一些繁琐晦涩的内容，让文章变得更简洁明了。然后让文章主体部分的编译和生成是平台无关的，主要就是做了一些针对windows平台下的调整工作。这些平台相关的调整知识都加入附录部分了。
 
-
-全书主要分为四大块：
+\addchtoc{本书基本结构}
+\chapter*{本书基本结构}
+全书主要分为五大块：
 \begin{description}
-\item[1. xelatex基础] \hfill \\
-这部分内容会就xelatex或者latex的基础知识内容做全面的整理归类排版，争取做到言简意赅并面面俱到和实用性很强的手册性质。
+\item[1. xelatex基础] 这部分内容会就xelatex或者latex的基础知识内容做全面的整理归类排版，争取做到言简意赅并面面俱到和实用性很强的手册性质。
 
-\item[2. xelatex进阶] \hfill \\
-更深入地讨论xelatex的排版问题。
+\item[2. xelatex进阶] 更深入地讨论xelatex的特有的排版问题。
 
-\item[4. xelatex高级篇] \hfill \\
-这部分讨论了xelatex在不同领域（比如化学，tikz制图，幻灯片，试卷等等）的应用。
+\item[3. xelatex高级篇] 这部分讨论了xelatex更底层的一些知识。
 
-\item[5. 附录] \hfill \\
-里面有些内容你可能会很感兴趣。
+\item[4. xelatex应用篇] 这部分讨论了xelatex在不同领域（比如化学，tikz制图，幻灯片，试卷等等）的应用。
+
+\item[5. 附录] 里面有些内容你可能会很感兴趣。
 \end{description}
 
 
-本文的github地址是：\\
-\href{https://github.com/a358003542/xelatex-guide-book}{https://github.com/a358003542/xelatex-guide-book}
+本文的github地址是：\href{https://github.com/a358003542/xelatex-guide-book}{github.com/a358003542/xelatex-guide-book}
 
 
 
@@ -73,7 +368,7 @@
 \section{TeX}
 以下完全按照wikibook中的latex翻译的。\href{http://en.wikibooks.org/wiki/LaTeX/Introduction}{wikibook-latex}
 
-第三次 Tex是一个底层的标记式的编程语言，Donald Knuth发明的排版系统，可以用来排版出很漂亮的文章。当初Knuth看到自己的文章和书籍被排版的丑陋不堪，于是在1977年开发了这个排版引擎，这个引擎深深地改变了出版业，大力扩展了数字打印设备的潜能。1989年Tex支持了8位字符，然后Tex的开发就被冻结了，只限bug的修复。Tex作为一种编程语言，是支持if-else结构的：你能够在里面执行数学运算（他们在编译文件的时候被执行），等等。。不过你会发现要做其他的还是很困难的除了排版文字。Tex对于文章的结构和格式提供了良好的解决方案，使得它成为一个强大的神器。Tex是出了名的稳定，可以运行在各种计算机上，几乎没有bug。Tex的版本是按照$\pi$的序列扩展的，目前到了3.1415926。
+Tex是一个底层的标记式的编程语言，Donald Knuth发明的排版系统，可以用来排版出很漂亮的文章。当初Knuth看到自己的文章和书籍被排版的丑陋不堪，于是在1977年开发了这个排版引擎，这个引擎深深地改变了出版业，大力扩展了数字打印设备的潜能。1989年Tex支持了8位字符，然后Tex的开发就被冻结了，只限bug的修复。Tex作为一种编程语言，是支持if-else结构的：你能够在里面执行数学运算（他们在编译文件的时候被执行），等等。。不过你会发现要做其他的还是很困难的除了排版文字。Tex对于文章的结构和格式提供了良好的解决方案，使得它成为一个强大的神器。Tex是出了名的稳定，可以运行在各种计算机上，几乎没有bug。Tex的版本是按照$\pi$的序列扩展的，目前到了3.1415926。
 
 \section{关于Knuth教授}
 Knuth教授是\TeX 排版系统的发明人，出于内容精简的目的，关于Knuth教授的生平信息删去了，有兴趣的请参看\href{http://zh.wikipedia.org/wiki/%E9%AB%98%E5%BE%B7%E7%BA%B3}{wiki-高德纳}。
@@ -89,37 +384,43 @@ LaTeX是一个宏包,其目的是使作者能够利用一个预先定义好的�
 在\LaTeX 的代码中最重要的是理解各种各样的命令的功能，正是这些各种各样的命令让你输入的文字显得与众不同。比如说我现在在打很长的一段文字，\LaTeX 会自动换行的，而我在这里按下Enter键
 ，实际上并没有换行的效果。理解这一点很重要，\LaTeX 不同于微软的word软件或者其他openoffice之类，不是采用的所见即所得模式，我在这里打的是奇奇怪怪的东西，但是最后显示出来的却可能是很美观的东西。\LaTeX 的一个设计理念就是所想即所得，它甚至有点偏执地要求你组织好你自己的文章的结构，而这正是\LaTeX 的爱好者所推崇的。
 
-同样在代码中你空 一个格或者空      很多个格都是没有区别的，都是一个空格\footnote{现在中文之间的空格不会显示了，不清楚是xelatex还是xecjk宏包处理，这样挺好的。}。
+同样在代码中你空 一个格或者空      很多个格都是没有区别的，都是一个空格\footnote{现在中文之间的空格不会显示了，不清楚是xelatex还是xecjk宏包处理的，这样挺好的。然后在epub那里还是会保留一个空格。}。
+
+
 
 在\LaTeX 中空一行和空很多行的效果是一样的，都是空一行，表示另起一段。
 
-\LaTeX 的命令用到了一些特殊的符号，所以你就不能按照常规用到它们了，这些符号如下：\\
-\#~~\$~~\%~~\^~~\_~~\&~~\{~~\}~~\~~~\textbackslash \\
-更详细的说明请参见后面的特殊符号\ref{sec:symbols}
+\LaTeX 的命令用到了一些特殊的符号，所以你就不能按照常规用到它们了，这些符号如下：
+\begin{Verbatim}
+#  $  %  ^  _   &  {  }  ~ \
+\end{Verbatim}
+%$
+
+更详细的说明请参见后面的特殊符号一章\ref{sec:symbols} 。
 
 \LaTeX 的命令是case~sensitive的。也就是命令是区分大小写的。
 
-现在我把最基本的代码说明一下，\LaTeX 的代码的通用格式是这样的，\textbackslash{}开头，然后跟上命令符号，然后跟上[]，方括号中放的是该命令的可选参数，然后跟上\{\},花括号里面跟的是该命令的必填参数。具体如下：\\
-\textbackslash command [optional parameters]\{parameters\}
+现在我把最基本的代码说明一下，\LaTeX 的代码的通用格式是这样的，\textbackslash{}开头，然后跟上命令符号，然后跟上[]，方括号中放的是该命令的可选参数，然后跟上\{\},花括号里面跟的是该命令的必填参数。具体如下：
+\begin{Verbatim}
+\command[optional parameters]{parameters}
+\end{Verbatim}
 
-前面第一行代码是：\\
-\textbackslash documentclass [11pt,oneside]\{book\},意思是描述文章模板的类型为book\\，也就是一本书，除此之外还有article，report，slides类型等，更详细的讨论参见documentclass说明\ref{sec:documentclass}
 
-然后我们看到第二行代码：
+比如说本文档的第一行：\verb+\documentclass[11pt,oneside]{book}+ ，意思是描述文章模板的类型为book，也就是一本书，除此之外还有article，report，slides类型等，更详细的讨论参见documentclass说明一章\ref{sec:documentclass} 。
 
-\textbackslash usepackage\{什么宏包\}
+然后我们看到第二行代码：\verb+\usepackage{什么宏包}+ ，这个usepackage命令后面跟上你想加载的库文件，等你使用\LaTeX 久了，就会接触到更多的宏包的。
 
-这个usepackage命令后面跟上你想加载的库文件，等你使用\LaTeX 久了，就会接触到更多的宏包的。
-
-后面的代码：
-
-\textbackslash begin\{document\}
+然后后面重要的代码有：
+\begin{Verbatim}
+\begin{document}
 
 文章内容
 
-\textbackslash end\{document\}
+\end{document}
+\end{Verbatim}
 
-描述文档开始，文档结束。在文档结束命令之后，你写的任何东西都会被\LaTeX 忽略掉。文档环境里面就写着你的文章的内容。
+
+其描述了文档的开始和文档的结束。在文档结束命令之后，你写的任何东西都会被\LaTeX 忽略掉。文档环境里面就写着你的文章的内容。
 
 \section{查看宏包帮助文档}
 这个我先讲了，实际上沉下心来阅读文档是最好的学习\LaTeX 的方法了。
@@ -204,10 +505,15 @@ backmatter命令放在参考文献或者索引的前面。章节编号关掉，�
 \section{geometry宏包详细讨论}
 页面布局尺寸由geometry宏包指定，页面布局包含很多参量也就是geometry的可选项，请看下图\ref{fig:geometry-option-one}：
 
-\begin{linefig}{geometry-option-one}   %简单的插入图片环境，后面的必填项既是图片标签的名字，也是图片caption。
-\caption{geometry选项1}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth ,totalheight=0.95\textheight , keepaspectratio]{geometry-option-one.png}
 \label{fig:geometry-option-one}
-\end{linefig}
+\end{figure}
+
+ %简单的插入图片环境，后面的必填项既是图片标签的名字，也是图片caption。
+
+
 
 geometry提供的纸张类型很多，从a0paper一直到a6paper都有，还有b1paper到b6paper系列等等。纸张类型指定了后面的paperwidth和paperheight就都确定了。
 
@@ -216,7 +522,7 @@ geometry提供的纸张类型很多，从a0paper一直到a6paper都有，还有b
 
 再来看竖向参量，paperheight为纸张高度，textheight是正文高度，top为上面的空白高度，bottom为下面的高度，默认top包含页眉高度headheight和页眉于正文间的一段小空白headsep，bottom包含页脚高度\endnote{这里的概念理清一下，headheight是页眉高度，保证页眉内容能够装的下即可，而headsep是页眉（一般页眉靠下）和正文间的空白距离，也就是你看到的页眉上面的那段空白有top减去headsep再减去headheight剩下的距离，然后这段空白从视觉上来说还有你的页眉文本上面没有填充的部分。而footnote命令插入的文本和页码之间的空白间距是由footskip控制的，然后bottom减去footskip还会得到一个值，这个值是页码下面的空白距离。}footskip和下面的一段空白。所以你的top至少要大于headheight高度。然后中间的区域高度为height。默认情况下height=textheight，请看下图\ref{fig:geometry-option-two}
 
-\begin{linefig}{geometry-option-two}  
+\begin{linefig}{geometry-option-two.png}  
 \caption{geometry选项2}
 \label{fig:geometry-option-two}
 \end{linefig}
@@ -1612,6 +1918,26 @@ enumerate环境中各个item标签自动生成是依赖各个对应的计数器�
 \end{Verbatim}
 估计计数器使用的时候都会先加一，所以为了初值为0，只好先设置为-1了。
 
+
+再举个例子，假设你已经加载了 \textbf{zhnumber} 包了，那么我们可以实现中文中常见的那种罗列环境：
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{\zhnumber{\arabic{enumi}}.}
+\item 这是一个列表
+\item 这又是一个列表
+\end{enumerate}
+
+上面的实现实际tex代码如下所示：
+
+\begin{Verbatim}
+\begin{enumerate}
+\renewcommand{\labelenumi}{\zhnumber{\arabic{enumi}}.}
+\item 这是一个列表
+\item 这又是一个列表
+\end{enumerate}
+\end{Verbatim}
+
+
 \section{itemize环境标签的修改}
 itemize环境里面当然没有计数器，不过它类似的也有：\\ labelitemi，labelitemii等命令，通过重定义这些命令就可以影响第一级第二级等标签样式。
 
@@ -2078,26 +2404,26 @@ for i in range(6):
 print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
 \end{tcbminted}
 \end{Verbatim}
-
-\begin{tcbpython}[]
-class Hero():
-    def addlevel(self):
-        self.level=self.level+1
-        self.hp=self.hp+self.addhp
-
-class Garen(Hero):
-    def __init__(self):
-        self.level=1
-        self.hp=455
-        self.addhp=96
-        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
-
-garen001=Garen()
-for i in range(6):
-    print('级别:',garen001.level,'生命值：' ,garen001.hp)
-    garen001.addlevel()
-print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
-\end{tcbpython}
+%
+%\begin{tcbpython}[]
+%class Hero():
+%    def addlevel(self):
+%        self.level=self.level+1
+%        self.hp=self.hp+self.addhp
+%
+%class Garen(Hero):
+%    def __init__(self):
+%        self.level=1
+%        self.hp=455
+%        self.addhp=96
+%        self.skill=['不屈','致命打击','勇气','审判','德玛西亚正义']
+%
+%garen001=Garen()
+%for i in range(6):
+%    print('级别:',garen001.level,'生命值：' ,garen001.hp)
+%    garen001.addlevel()
+%print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
+%\end{tcbpython}
 
 
 
@@ -2187,6 +2513,15 @@ Robert Metcalf[以太网络的发明者]曾说过：如果将来有什么技术�
 
 \section{诗词歌赋环境}
 诗歌环境我还懒得DIY，默认的效果还可以。值得一提的是在诗歌环境里面不会自动换行，需要手动输入\verb+\\+。
+
+\begin{shici}
+孤鸿海上来，池潢不敢顾。\\
+侧见双翠鸟，巢在三珠树。\\
+矫矫珍木巅，得无金丸惧。\\
+美服患人指，高明逼神恶。\\
+今我游冥冥，弋者何所慕。
+\end{shici}
+
 
 \begin{verse}
 \centering\noindent
@@ -2756,13 +3091,15 @@ $B=\big\{ y|y\geqslant \frac{4ac - b^2}{4a} \big\}$
 \end{Verbatim}
 
 \begin{gather*}
-\sin \cos \sec \tan \tanh \arccos  \arctan \\ %三角函数相关，很多类似的就不一一列举了
-\exp  \\%指数函数
-\min \max \\% 最小最大
-\lim \\%极限
-\log \ln  \lg \\% 对数函数相关
-\gcd \\% 最大公约数
+\sin \cos \sec \tan \tanh \arccos  \arctan \\
+\exp  \\
+\min \max \\
+\lim \\
+\log \ln  \lg \\
+\gcd \\
 \end{gather*}
+
+%三角函数相关，很多类似的就不一一列举了%指数函数% 最小最大%极限% 对数函数相关% 最大公约数
 
 所以写对应的函数更加规范的应该使用上面这些对应的名字，然后上标下标的就不用多说了。比如：
 
@@ -2896,6 +3233,8 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 
 \part{xelatex进阶}
+
+\part{xelatex高级篇}
 \chapter{长度量}
 
 \section{单位}
@@ -3036,12 +3375,12 @@ em  & （相对长度）大约相当于当时字体的M宽度 & \\ \bottomrule
 \verb+\newcommand{name}[num][default]{definition}+\\
 多的那个default参数是可选参数的默认值，在definition那边对应的就是 \#{}1。这个可选参数如果不填那么默认值为 \verb+def+ ，然后后面利用这个新的命令可以如下填上那个可选参数。
 
-\begin{tcbcode}[tex]
-\newcommand\GoodBye[1][\bfseries]{{#1 Good Bye}}
-
-\GoodBye
-\GoodBye[\color{red}]
-\end{tcbcode}
+%\begin{tcbcode}[tex]
+%\newcommand\GoodBye[1][\bfseries]{{#1 Good Bye}}
+%
+%\GoodBye
+%\GoodBye[\color{red}]
+%\end{tcbcode}
 
 下面是具体运行效果：
 \newcommand\GoodBye[1][\bfseries]{{#1 Good Bye}}
@@ -3233,7 +3572,9 @@ fcolorbox和colorbox的区别就是外面加了一个边框，然后第一个参
 之前我也用过include命令来试着将文档分开，但是发现一是减弱了编辑器的各种小插件功能，二是有的时候include命令会出错（一些奇怪的错误，我也不太明白）。然后那个includeonly命令我觉得也挺累赘的，如果你使用input命令，不要引入了前面加个百分号注释掉即可。一个文档就是整体，觉得还是不要分开的好。
 
 
-\part{xelatex高级篇}
+
+
+\part{xelatex应用篇}
 \chapter{tikz制图}
 tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_gallery}{这个项目} 读者可以看下。
 
@@ -3512,21 +3853,21 @@ TeX中的计数器用arabic命令之后是1 2 3...这样的形式，如何产生
 \section{多张图片并列显示}
 \label{sec:多张图片并列显示}
 
-\begin{figure}[H]
-\label{fig:四栏图片}
-\begin{multicols}{4}
-\begin{linefig}{temp}
-\end{linefig}
-\begin{linefig}{temp}
-\end{linefig}
-\begin{linefig}{temp}
-\end{linefig}
-\begin{linefig}{temp}
-\end{linefig}
-\end{multicols}
-\caption{denosie fig}
-\label{fig:denosie fig}
-\end{figure}
+%\begin{figure}[H]
+%\label{fig:四栏图片}
+%\begin{multicols}{4}
+%\begin{linefig}{temp}
+%\end{linefig}
+%\begin{linefig}{temp}
+%\end{linefig}
+%\begin{linefig}{temp}
+%\end{linefig}
+%\begin{linefig}{temp}
+%\end{linefig}
+%\end{multicols}
+%\caption{denosie fig}
+%\label{fig:denosie fig}
+%\end{figure}
 
 具体代码如下：
 \begin{Verbatim}

@@ -32,4 +32,6 @@
 *.tdo
 *.ent
 
-_minted-xelatex-guide-book/
+
+*.epub
+*.pdf
