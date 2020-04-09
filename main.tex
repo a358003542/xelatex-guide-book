@@ -259,13 +259,9 @@ text-micro = μ
 %framed环境
 \RequirePackage{framed}
 
-
-\newenvironment{fig}[2][1]
-        {\begin{figure}[H]
-        \centering
-        \includegraphics[scale=#1 , keepaspectratio]{#2}}
-        {\end{figure}}
-
+\newfontfamily{\ubuntu}[Scale=2]{Ubuntu}
+\usepackage{newunicodechar}
+\newunicodechar{}{{\ubuntu{}}}
 
 %======notecard环境 一种卡片式记忆环境====%
 %推荐的颜色有：black olive blue orange brown pink cyan purple darkgray red gray teal green violet lightgray white lime magenta yellow 建议都调淡30。!30
@@ -541,7 +537,7 @@ geometry的机制是以上讨论的横向或者竖向参量指定足够的数量
 
 
 \subsection{字族}
-字族分为三大类，roman or serif（rm），sans serif（sf）和\\monospace（tt）。\footnote{下面参考了\href{http://wiki.ubuntu-tw.org/index.php?title=HowtoCustomFontswithFontconfig}{这个网站}}
+字族分为三大类，roman or serif（rm），sans serif（sf）和 monospace（tt）。\footnote{下面参考了\href{http://wiki.ubuntu-tw.org/index.php?title=HowtoCustomFontswithFontconfig}{这个网站}}
 
 
 \begin{description}
@@ -551,11 +547,11 @@ Serif字体著名的有：Times New Roman、DejaVu Serif、宋体、明体等。
 
 \item[sans-serif] Sans-Serif中文译为「无衬线字体」，专用于荧幕、简报、艺术字体、展示等，较美观，但不适于长时间阅读。多数英文语系的作业系统多以此为预设字体，而采用此种字体为预设的中文作业系统，以Mac系统最为著名。
 
-Sans-Serif 字体著名的有：DejaVu Sans、Helvetica、Verda-\\na、圆体、黑体等。
+Sans-Serif 字体著名的有：DejaVu Sans、Helvetica、Verdana、圆体、黑体等。
 
 \item[monospace] Mono意思是「单一的」，space 意思是「空间」，中文翻为「等宽字体」。等宽字是打字机时代下的遗产，每个英文字母皆设计为同一宽度，以便于排版；现代为节省不必要空间的浪费，依字母形状分配其宽度，如m与i其宽度便不相同，不相信可以拿尺来量看看。Monospace 现多用于终端机显示、程序码表示等。
 
-Monospace字体著名的有：Andale Mono、DejaVu Sans \\ Mono 、 Courier、AR PL New Sung Mono。
+Monospace字体著名的有：Andale Mono、DejaVu Sans Mono 、 Courier、AR PL New Sung Mono。
 \end{description}
 
 
@@ -574,14 +570,14 @@ Monospace字体著名的有：Andale Mono、DejaVu Sans \\ Mono 、 Courier、AR
 
 \section{调整五种属性}
 \subsection{调整字型编码}
-\XeLaTeX 只处理UTF-8编码，那个调整字体编码的inputenc和fontenc宏包都不要用了。
+XeLaTeX 只处理UTF-8编码，那个调整字体编码的inputenc和fontenc宏包都不要用了。
 
 
 \subsection{调整字族}
 有两种方法设置，一种是命令式的，一种是环境式的。roman font family是默认的字族，一般不需要明确设置。
+
 \begin{table}[H]
 \centering
-\label{tab:调整字族}
 \begin{tabular}{|c|c|c|}
 \hline
 命令式 & 环境式 & 描述 \\
@@ -592,13 +588,14 @@ Monospace字体著名的有：Andale Mono、DejaVu Sans \\ Mono 、 Courier、AR
 \hline
 \end{tabular}
 \caption{调整字族}
+\label{tab:调整字族}
 \end{table}
 
 \subsection{调整字型系列}
 默认的medium，一般不需要设置，然后还有一个bold，即字体加粗。
+
 \begin{table}[H]
 \centering
-\label{tab:调整字型系列}
 \begin{tabular}{|c|c|c|}
 \hline
 命令式 & 环境式 & 描述 \\
@@ -608,14 +605,15 @@ Monospace字体著名的有：Andale Mono、DejaVu Sans \\ Mono 、 Courier、AR
 \hline
 \end{tabular}
 \caption{调整字型系列}
+\label{tab:调整字型系列}
 \end{table}
 
 
 \subsection{调整字形}
 默认是upright shape，常用的字形如下：
+
 \begin{table}[H]
 \centering
-\label{tab:调整字形}
 \begin{tabular}{|c|c|c|}
 \hline
 命令式 & 环境式 & 描述 \\
@@ -627,16 +625,15 @@ Monospace字体著名的有：Andale Mono、DejaVu Sans \\ Mono 、 Courier、AR
 \hline
 \end{tabular}
 \caption{调整字形}
+\label{tab:调整字形}
 \end{table}
 
 
 \subsection{调整字号}
-
 \subsubsection{相对字号调整}
 \LaTeX 里面自带的调整相对字号命令如下：
 \begin{table}[H]
 \centering
-\label{tab:调整字体大小命令}
 \begin{tabular}{|l|l|}
 \hline
 命令 & 输出\\
@@ -654,6 +651,7 @@ Monospace字体著名的有：Andale Mono、DejaVu Sans \\ Mono 、 Courier、AR
 \hline
 \end{tabular}
 \caption{调整字体大小命令}
+\label{tab:调整字体大小命令}
 \end{table}
 
 然后我们看下图，不同字号下这些命令确切的大小\footnote{不知道你注意到没有，本文用的是12pt，上面表格上的huge和Huge字号还是有差异，这里因为我加载了moresize宏包的缘故。}：
@@ -674,38 +672,49 @@ size          & 10pt (default) & 11pt option & 12pt option \\ \midrule
 \textbackslash huge         & 20pt           & 20pt        & 25pt        \\
 \textbackslash Huge         & 25pt           & 25pt        & 25pt        \\ \bottomrule
 \end{tabular}
-\label{tab:字体具体大小}
 \caption{字体具体大小}
+\label{tab:字体具体大小}
 \end{table}
 
 
 \subsubsection{绝对字号调整}
 上面的命令基本上够用了，并不鼓励使用绝对字号。不过有的时候还是有用的，比如旁注环境需要同时调整字体大小和行距，使用这个命令注意不要对文本中某一小段文字使用，否则会造成行距的不一致。
 比如这个旁注使用的命令是：
+
 \begin{Verbatim}
 \newcommand{\sidenote}[1]{\marginpar{  
  	\fontsize{10pt}{20pt}\selectfont #1}}
 \end{Verbatim}
+
 其中fontsize就是调整字号的命令，第一个参量是字体的大小，第二个参量是行距。然后后面\textbackslash selectfont 必须写上，就理解为表示对后面的字体进行操作吧。类似的还有fontencoding，fontfamily，fontseries，fontshape命令，这些本文略过。
 
 
 \chapter{字体配置}
-xelatex字体配置有名的三件套就是：xltxtra，fontspec和xunicode这三个宏包。其中xltxtra宏包是专门处理\XeLaTeX 的一些问题的，它会自动加载后面的fontspec和xunicode宏包。xunicode是处理某些特殊字符的。注意xltxtra宏包在加载时我放到所以字体配置宏包的后面，否则会出现错误。下面就字体配置相关宏包详细说明之。
+xelatex字体配置有名的三件套就是：xltxtra，fontspec和xunicode这三个宏包。其中xltxtra宏包是专门处理XeLaTeX 的一些问题的，它会自动加载后面的fontspec和xunicode宏包。xunicode是处理某些特殊字符的。注意xltxtra宏包在加载时我放到所以字体配置宏包的后面，否则会出现错误。下面就字体配置相关宏包详细说明之。
 
 
 \section{fontspec宏包详解}
-当然来自fontspec宏包的帮助文档。后面关于宏包的相关信息来源于自身帮助文档我就不说明了。fontspec宏包主要用于英文字体的设置，中文字体的设置建议用xeCJK宏包来管理。\emph{\XeLaTeX 只能使用opentype和truetype字体。}
+当然来自fontspec宏包的帮助文档。后面关于宏包的相关信息来源于自身帮助文档我就不说明了。fontspec宏包主要用于英文字体的设置，中文字体的设置建议用xeCJK宏包来管理。\emph{XeLaTeX 只能使用opentype和truetype字体。}
 
 \subsection{基本的命令}
-fontspec宏包最基本的应用就是用setmainfont来设置文档的默认roman字族字体的，setmainfont原来的名字叫setromanfont。\footnote{\href{http://tex.stackexchange.com/questions/70413/problem-with-xetex-latex-and-system-fonts}{参考了这个网站}}setsansfonts是设置文档默认sans-serif字族字体的，setmonofont是设置monospace字族字体的。然后我们看到前面都有一个可选项Mapping=tex-text，这个说是什么让\XeTeX 文字分布更好的，可能和正确断行有关系，不大确切。
+fontspec宏包最基本的应用就是用setmainfont来设置文档的默认roman字族字体的，setmainfont原来的名字叫setromanfont。\footnote{\href{http://tex.stackexchange.com/questions/70413/problem-with-xetex-latex-and-system-fonts}{参考了这个网站}}setsansfonts是设置文档默认sans-serif字族字体的，setmonofont是设置monospace字族字体的。然后我们看到前面都有一个可选项Mapping=tex-text，这个说是什么让XeTeX 文字分布更好的，可能和正确断行有关系，不大确切。
 
 fontspec宏包有一个和这个宏包名字一样的命令，这个命令非常的基本，大约相当于引擎的入门口，我估计前面三个命令实际上是建构在fontspec命令之上的。fontspec命令的作用不光临时改变字体。还可以加上很多可选项，比如字体尺寸，颜色等等。总之fontspec命令的优先级要高于前面的三大默认字体设置命令。请看下面的例子：
+
 \begin{Verbatim}
 {\fontspec[Scale=4,Color=magenta]{Ubuntu} this is a test.} 
 \end{Verbatim}
-%{\fontspec[Scale=4,Color=magenta]{Ubuntu} this is a test.} 
+
+下面显示的是图片，你需要系统安装了ubuntu字体才能运行上面的代码\footnote{ubuntu字体可以在\href{https://design.ubuntu.com/font/}{这里}下载。}。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\linewidth ,totalheight=0.95\textheight , keepaspectratio]{ubuntu_font_show.png}
+\end{figure}
+
 
 另外还有一个有用的命令就是newfontfamily，这个命令相当于把fontspec命令包起来再新建一个命令。新建的那些字体命令就像\verb+\sffamily+之类的命令一样使用。比如加上这一行命令之后：
+
 \begin{Verbatim}
 \newfontfamily{\ubuntu}[Scale=3]{Ubuntu}
 \end{Verbatim}
@@ -725,24 +734,25 @@ fontspec宏包有一个和这个宏包名字一样的命令，这个命令非常
 
 \subsection{font features的讨论}
 一个字体的字族之下还分为不同的字形，默认的字形设置可能并不能满足你的要求。有一些字体甚至没有粗体或者意大利体这样的字形。一般的玩家就选用默认字形设置足有了，最多在mainfont哪里设置下boldfont和italicfont。比如类似下面这样配置：
+
 \begin{Verbatim}
-\setCJKmainfont[BoldFont=Adobe 黑体 Std,
-    ItalicFont=Adobe 楷体 Std]
-    {Adobe 宋体 Std}%影響rmfamily字體
+\setCJKmainfont[BoldFont=Adobe 黑体 Std, ItalicFont=Adobe 楷体 Std]{Adobe 宋体 Std}
 \end{Verbatim}
 
-具体字形有：\\
-BoldFont = font name\\
-ItalicFont = font name\\
-BoldItalicFont = font name\\
-SlantedFont = font name\\
-BoldSlantedFont = font name\\
-SmallCapsFont = font name
+具体字形有：
 
+\begin{Verbatim}
+BoldFont = font name
+ItalicFont = font name
+BoldItalicFont = font name
+SlantedFont = font name
+BoldSlantedFont = font name
+SmallCapsFont = font name
+\end{Verbatim}
 
 
 \subsection{Color}
-前面的例子我们看到了Color属性的定制，在这里推荐适用xcolor宏包。\XeLaTeX 默认使用的是xdvipdfm，不支持透明颜色。然后xcolor宏包对于颜色的讨论请参看颜色一节\ref{sec:颜色}
+前面的例子我们看到了Color属性的定制，在这里推荐适用xcolor宏包。XeLaTeX 默认使用的是xdvipdfm，不支持透明颜色。然后xcolor宏包对于颜色的讨论请参看颜色一节\ref{sec:颜色}
 
 \subsection{字体大小}
 在前面的那个例子也用到了Scale选项，选个数字来整体调整这个字体的尺寸大小。还有两个常量值，一个是MatchLowercase，一个是MatchUppercase。就是变成小写字母一样的或者大写字母一样的大小。
@@ -757,7 +767,7 @@ SmallCapsFont = font name
 就是要换行了选择从哪里断字的符号，比如设置HyphenChar＝{+}，那么标明+，就从哪里断字。默认的是\textbackslash{}- 。
 
 \subsection{字母之间的距离——LetterSpace}
-从零开始加点距离，而且只适用于小写字母，感觉很累赘。而且这个feature\emph{只适用于\XeTeX} 。
+从零开始加点距离，而且只适用于小写字母，感觉很累赘。而且这个feature\emph{只适用于XeTeX} 。
 
 
 \subsection{最后两个命令}
@@ -812,9 +822,12 @@ xeCJK宏包只处理CJK字符在这里指中文字，也就是英文字还是用
 
 
 \section{UTF-8编码}
-texmaker软件并没有这个问题，不管怎么样，加上这样一行代码没什么害处喽。确保文档以utf-8编码打开和保存。
-在文档开头加上如下代码：\\
-\% !Mode:: "TeX:UTF-8" \\
+texmaker软件并没有这个问题，不管怎么样，加上这样一行代码没什么害处喽。确保文档以utf-8编码打开和保存。具体就是在文档开头加上如下代码：
+
+\begin{Verbatim}
+% !Mode:: "TeX:UTF-8" 
+\end{Verbatim}
+
 本文只关注于UTF-8编码。
 
 
@@ -843,14 +856,13 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 \# ,这个符号没怎么接触，latex123说是定义巨集的，前面加上\textbackslash 即可。
 
 \subsection{\^{}和\_{}}
-\^和\_{}，这两个符号表示进入数学模式之后进入上标和进入下标。这两个符号在文本中后面还要跟一对花括号，否则显示会出问题。
+\^{}和\_{}，这两个符号表示进入数学模式之后进入上标和进入下标。这两个符号在文本中后面还要跟一对花括号，否则显示会出问题。
 
 \subsection{\&}
 \& ,这个符号表示表格中的分隔符。要显示前面加上\textbackslash 即可。
 
 \subsection{单引号和双引号}
-你可以用\textbackslash textquotedblleft来表示左双引号， 用：\\
-\textbackslash textquotedblright 来表示右双引号。用\textbackslash textquoteleft来表示左单引号，用\textbackslash textquoteright来表示右单引号。
+你可以用\textbackslash textquotedblleft来表示左双引号，用：\textbackslash textquotedblright 来表示右双引号。用\textbackslash textquoteleft来表示左单引号，用\textbackslash textquoteright来表示右单引号。
 
 然后还有敲键盘的方法，要左边和右边区别对待，比如说左单引号就是点击ESC下面那个键，右单引号是点击分号右边那个键；而左双引号是点两次ESC下面那个键，右双引号是按住shift，然后点击分号右边那个键。
 
@@ -874,10 +886,12 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 在texmaker左边的关系负号哪里我们可以看到一个小圆圈，输入命令是\textbackslash circ，当然需要在数学模式下。现在就需要让这个小圆圈位于上标即可。前面的符号介绍我们提及\^{},就是进入上标显示，上标的内容在\^{}后面的那个花括号内，于是我们就知道三十度怎么画了。$ 30^{\circ} $ ，注意texmaker左边有快捷键。点起来很方便的。具体代码是：\$ 30\^{}\{\textbackslash circ\} \$。当然你可以直接用rime输入法打出这个温度的度：°，℃。在输出\%候选项哪里。
 
 \subsubsection{更加专业的做法：}
-输入温度的度的更加专业的做法利用siunitx宏包的degreeCelsius命令输出：\\
-\verb+30\si{\degreeCelsius} and 45\si{\degree}+\\
-30\si{\degreeCelsius} and 45\si{\degree}
+输入温度的度的更加专业的做法利用siunitx宏包的degreeCelsius命令输出：\verb+30\si{\degreeCelsius} and 45\si{\degree}+
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1 , keepaspectratio]{wendu.png}
+\end{figure}
 
 \subsection{省略号}
 this...   that\ldots   \\
@@ -886,25 +900,6 @@ this...   that\ldots   \\
 
 
 
-\section{更多特殊符号}
-现在让我们将思路先理清一下。首先是Unicode码，这个只是一个理论上的编码规则，具体的实现是字体。但是每一个字体都只专注于某一个领域，并没有把Unicode所有的码都画出字形来，那么系统是如何显示字体的呢？系统是安装了很多字体，如果一个字体并不包含它要显示的Unicode，它就搜索打开下一个字体文件，找相关的Unicode的字形。只有从字体文件中具体找了这个Unicode的字形，才有办法将其显示出来。
-\footnote{主要参考了\href{http://tex.stackexchange.com/questions/41130/getting-xelatex-to-display-accents-and-characters-not-included-with-the-font}{这个网站}}
-
-我的加入新符号的配置代码如下：
-\begin{Verbatim}
-\newfontfamily{\libertine}[Scale=1.5]{Linux Libertine O}
-\newfontfamily{\ubuntu}[Scale=3]{Ubuntu}
-\usepackage{newunicodechar}
-\newunicodechar{Ⓐ}{{\libertine{Ⓐ}}}
-\newunicodechar{Ⓑ}{{\libertine{Ⓑ}}}
-\newunicodechar{Ⓒ}{{\libertine{Ⓒ}}} 
-\newunicodechar{Ⓓ}{{\libertine{Ⓓ}}}
-\end{Verbatim}
-
-首先第1，2行前面以及谈及了，主要是看这个新引入的宏包newunicodechar。好吧，这个宏包就只有一个命令，这个命令就是这个宏包的名字。其实我们能够猜到，这个命令的作用就是将这个字符变成类似\TeX 命令的东西，然后替换为后面的那一串，而后面的那一串单独提出来也是能够正常显示的。
-
-
-这里有一段代码生成该字体所有已有的字形\ref{sec:字体已有字形}。当然你可以直接在字符映射表里面选择只显示已有字形查看，不过有时并不方便。生成那个pdf查看之后可以复制粘贴，到那个字符映射表里面搜索，还是很方便的。
 
 
 \chapter{初步中文化}
@@ -921,114 +916,10 @@ this...   that\ldots   \\
 \renewcommand\partname{部分}
 \renewcommand\appendixname{附录}
 \renewcommand{\abstractname}{摘~要}
-\renewcommand\today{\number\year 年\number\month 月\number\day 日}
+\renewcommand{\today}{\number\year{}年\number\month{}月\number\day{}日}
 \end{Verbatim}
 
 值得一提的是不同的文档类包含不同的命令，比如有的文档类可能没有定义today这个命令，比如article类不包含参考文献命令等。
-
-
-
-\chapter{颜色}
-\label{sec:颜色}
-\section{颜色的心理学}
-颜色心理学是一门学问，这里不会深究，只是在文档里面字体或者背景使用什么颜色是一门大学问。这里主要参照\href{http://www.jb51.net/article/8216.htm}{这个网站}简单说下。本文定义的几个颜色也是参考的这个网站。
-
-\begin{description}
-\item[红色] 一种激奋的色彩。刺激效果，能使人产生冲动，愤怒，热情，活力的感觉。
-\item[绿色] 介于冷暖两中色彩的中间，显得和睦，宁静，健康，安全的感觉。 它和金黄，淡白搭配，可以产生优雅，舒适的气氛。
-\item[橙色] 也是一种激奋的色彩，具有轻快，欢欣，热烈，温馨，时尚的效果。
-\item[黄色] 具有快乐，希望，智慧和轻快的个性，它的明度最高。 
-\item[蓝色] 是最具凉爽，清新，专业的色彩。它和白色混合，能体现柔顺，淡雅，浪漫的气氛(像天空的色彩:) 
-\item[白色] 具有洁白，明快，纯真，清洁的感受。 
-\item[黑色] 具有深沉，神秘，寂静，悲哀，压抑的感受。 
-\item[灰色] 具有中庸，平凡，温和，谦让，中立和高雅的感觉。 　　
-\end{description}
-关于具体选择什么颜色，我也纠结了很久，但最后无果而终，可选择的颜色太多了，我说不上什么意见。
-
-
-\section{颜色配置}
-首先推荐使用xcolor宏包。在\href{http://tex.stackexchange.com/questions/89763/when-to-use-the-xcolor-package-instead-of-the-color-package}{这个网页}里，谈到原color宏包的所有特性基本上xcolor都支持，同时又加了很多新特性，相当于扩充集吧。
-
-这里放着我之前的一些颜色配置的代码。
-\begin{Verbatim}
-\usepackage{xcolor}  
-%=====在网上找的配黑色文字比较好的背景色======%
-\definecolor{bgcolor-co}{RGB}{255,255,255}  
-\definecolor{bgcolor-dd}{RGB}{255,255,200}  
-\definecolor{bgcolor-tp}{RGB}{215,255,240}  
-\definecolor{bgcolor-bf}{RGB}{240,218,210}  
-\definecolor{defaultbgcolor-0}{RGB}{199,237,204}  %for eye
-
-%\pagecolor{defaultbgcolor-0}
-\end{Verbatim}
-
-
-\subsection{定义新的颜色}
-上面颜色配置代码里有很多definecolor命令就是定义新的颜色的，然后在后面要用到颜色的地方使用你这里定义的新的颜色名字就可以了。第一个花括号就填着你定义的新颜色的名字。第二个花括号填着你要定义的颜色的模式，比如RGB，rgb，HTML，cmyk等。最后就是填着对应的模式的对应的数值。其中HTML模式不要\#号。
-
-\subsection{用软件查看颜色}
-你可以用手机照相，或者某个在某个网页某个文档上截图。然后用Gcolor2软件来捕捉某个点的颜色。
-
-\subsection{改变文章的背景颜色}
-上面代码最后的pagecolor命令就是设置整个文档背景颜色的。我试着在minipage模式下使用也会改变整个文章的背景颜色。
-
-
-\subsection{改变字体的颜色}
-有两个命令，textcolor和color命令。\\
-\verb+\textcolor{colorname}{some text}+\\
-\verb+{\color{colorname}  some text...}+\\
-我更喜欢color命令。
-
-
-\section{xcolor宏包简介}   
-xcolor宏包虽然是color宏包的扩展集，但对于我这个颜色知识盲来说多少有点不知所云，可能专业弄颜色的对那些颜色模式的增加还有颜色混合的表达扩展觉得很感动吧。如果你对颜色有更高级的需求，请详细阅读xcolor宏包文档，这里不赘述了。
-
-就一般用户还是用definecolor命令吧，支持的模式有gray，rgb，RGB，HTML，cmyk。其中只要加载xcolor宏包就能使用的颜色名字如下：
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lp{50pt}lp{50pt}@{}}
-\toprule
-颜色        & 效果  & 颜色       & 效果\\ \midrule
-black     &  \cellcolor{black}  & olive     &    \cellcolor{olive} \\
-blue      &   \cellcolor{blue} & orange    &   \cellcolor{orange}\\
-brown     &  \cellcolor{brown}  & pink      &   \cellcolor{pink}\\
-cyan      &   \cellcolor{cyan} & purple    &   \cellcolor{purple}\\
-darkgray  &  \cellcolor{darkgray} &red       &   \cellcolor{red}  \\
-gray      &   \cellcolor{gray} & teal      &    \cellcolor{teal}\\
-green     &   \cellcolor{green} & violet    &   \cellcolor{violet}\\
-lightgray &  \cellcolor{lightgray} &white     &   \cellcolor{white} \\
-lime      &    \cellcolor{lime} & magenta   &   \cellcolor{magenta} \\
-yellow    &    \cellcolor{yellow}\\ \bottomrule
-\end{tabular}
-\label{tab:直接可以使用的颜色名字}
-\caption{直接可以使用的颜色名字}
-\end{table}
-这个表格里面的小格子涂上颜色是使用的xcolor宏包里面的cellcolor命令，就是在表格相应的格子位置使用这个命令就可以了。上面表格类似的一行我写出来吧：\\
-\verb+yellow & \cellcolor{yellow}\\ \bottomrule+
-
-如果你加载xcolor宏包时填上其他选项，比如svgnames等，就会有更多其他颜色的名字可以直接使用了。具体请参看\href{http://mirrors.ctan.org/macros/latex/contrib/xcolor/xcolor.pdf}{xcolor官方文档}。
-
-
-\subsection{单个颜色调百分比}
-虽然颜色混合我弄不大明白，不过单个颜色调百分比\footnote{不清楚和谁调？白色？}还是很有用的。比如gray灰色后面跟个!20，就表示20\%的灰。请看下面不同百分比的红色。
-\begin{table}[H]
-\centering
-\begin{tabular}{@{}lp{50pt}lp{50pt}@{}}
-\toprule
-颜色        & 效果  & 颜色       & 效果\\ \midrule
-red     &  \cellcolor{red}  & red!90     &    \cellcolor{red!90} \\
-red!80      &   \cellcolor{red!80} & red!70    &   \cellcolor{red!70}\\
-red!60     &  \cellcolor{red!60}  & red!50      &   \cellcolor{red!50}\\
-red!40      &   \cellcolor{red!40} & red!30    &   \cellcolor{red!30}\\
-red!20  &  \cellcolor{red!20} &red!10       &   \cellcolor{red!10}  \\
-red!0    &    \cellcolor{red!0}\\ \bottomrule
-\end{tabular}
-\label{tab:不同百分比的灰色}
-\caption{不同百分比的灰色}
-\end{table}
-
-
-值得一提的是xcolor宏包还支持一种表格颜色交替模式，看上去不错。请看带颜色的表格这一小节\ref{sec:带颜色的表格}。
 
 
 
@@ -1036,9 +927,7 @@ red!0    &    \cellcolor{red!0}\\ \bottomrule
 \section{换行和分段}
 一个意思写一个段落，意思没说完就不要分段，在文章中一个段落的书写就是直接写就是了，\LaTeX 会自动处理好一切的。简单的分段的做法就是空一行。这样分段首行缩进仍然存在，表示不同的段落。
 
-如果你只是想换行而不分段，那么用命令：\\
-\textbackslash \textbackslash \\
-可以满足你的要求。
+如果你只是想换行而不分段，那么用命令 \verb+\\+ 可以满足你的要求。
 
 \textbackslash \textbackslash 命令还有一个用法，比如后面跟上[10pt],表示在原有行距的基础上再加上额外的空白距离，参数也可以是负数。
 
@@ -1053,7 +942,13 @@ red!0    &    \cellcolor{red!0}\\ \bottomrule
 
 
 \section[段落中的行距]{段落中的行距\footnote{参考了\href{http://www.complang.tuwien.ac.at/anton/latex/baselineskip.html}{这个网站}}}
-\verb+\setlength{\baselineskip}{22pt}+\\
+\label{sec:段落中的行距}
+
+\begin{Verbatim}
+\setlength{\baselineskip}{22pt}
+\end{Verbatim}
+
+
 上面的代码就是设置行间距的。一行一行之间的间距也是一个glue，我们知道glue有基本的space和伸缩量。行距的基本space由命令baselineskip控制，伸缩量有baselinestretch命令。\footnote{实际上这个多少有点揣测的意思。}
 
 一般行间距的调整用宏包setspace，似乎这个宏包对文档其他内容比如脚注旁注等都有所调整，但是如果你自己定义的脚注格式就不太依赖这个宏包了。不过用法也简单，如下所示：\\
@@ -1061,18 +956,18 @@ red!0    &    \cellcolor{red!0}\\ \bottomrule
 
 此外还有选项onehalfspacing，如果你试了onehalfspacing和doublespacing（当然还有默认的不拉伸间距的情况），你都感觉不太满意。这个时候推荐你使用linespread命令，在刚开始的配置内容里写上即可，不需要额外的宏包加载。其中\verb+\linespread{1.3}+的效果相当于前面的onehalfspacing，如果是1.6则相当于doublespacing，然后当然，1.4，1.5等等都随你设置了。
 
-\label{sec:段落中的行距}
-值得注意的是linespread命令还会对表格有拉伸效果，而setspa-\\ce宏包没有这个效果。所以如果用setspace宏包而不是linespread调整行间距，那么才需要对arraystretch量进行一些修改，提供额外的表格行间距。
+
+值得注意的是linespread命令还会对表格有拉伸效果，而setspace宏包没有这个效果。所以如果用setspace宏包而不是linespread调整行间距，那么才需要对arraystretch量进行一些修改，提供额外的表格行间距。
 
 
 \subsection{baselineskip} 
-段落中行之间上下间距\footnote{一行一行就是横向的盒子，行间距就是横向的盒子之间的上下间距。}由三个命令控制：baselineskip，linesk-\\ip和lineskiplimit。简单的说明就是首先间距是baselineskip，但是如果上面的盒子伸的太下或者下面的盒子伸的太高，那么他们就可能会碰到一起。lineskiplimit控制的就是盒子之间最小间距，比如0pt。当baselineskip减去上面的盒子的深度depth再减去下面盒子的高度height然后得到的值比lineskiplimit小，那么跳转方案就会选择lineskip模式。也就是上面盒子最低的点和下面盒子最高的点之间的距离是lineskip那么多。\footnote{参看了a beginner's book of \TeX 的spacing between boxes一节。在google book哪里可以看到这一段，不过似乎这本书网上并不能自由下载。}
+段落中行之间上下间距\footnote{一行一行就是横向的盒子，行间距就是横向的盒子之间的上下间距。}由三个命令控制：baselineskip，lineskip和lineskiplimit。简单的说明就是首先间距是baselineskip，但是如果上面的盒子伸的太下或者下面的盒子伸的太高，那么他们就可能会碰到一起。lineskiplimit控制的就是盒子之间最小间距，比如0pt。当baselineskip减去上面的盒子的深度depth再减去下面盒子的高度height然后得到的值比lineskiplimit小，那么跳转方案就会选择lineskip模式。也就是上面盒子最低的点和下面盒子最高的点之间的距离是lineskip那么多。\footnote{参看了a beginner's book of \TeX 的spacing between boxes一节。在google book哪里可以看到这一段，不过似乎这本书网上并不能自由下载。}
 
 我感觉自己设置一个baselineskip已经很满足要求了，尤其个别字用Huge命令的时候效果也还行。
 
 
-\subsection{baselinestretch}\footnote{参看的\href{http://tex.stackexchange.com/questions/49596/no-effect-of-baselinestretch}{这个网站}}
-baselinestretch量相当于行间距glue的伸缩量，也就是对前面的baselineskip做一定的伸缩。这个命令要使用的话格式如下：\\
+\subsection{baselinestretch}
+baselinestretch量相当于行间距glue的伸缩量，也就是对前面的baselineskip做一定的伸缩\footnote{参看的\href{http://tex.stackexchange.com/questions/49596/no-effect-of-baselinestretch}{这个网站}}。这个命令要使用的话格式如下：\\
 \verb+\renewcommand{\baselinestretch}{伸缩量}+\\
 这个命令等价于：\\
 \verb+\linespread{伸缩量}+\\
@@ -1110,11 +1005,12 @@ flushleft环境为左对齐环境，flashright环境为右对齐环境，center�
 
 \begin{Verbatim}
 \begin{flushright}
-\fbox{右边才是王道。}
+右边才是王道。
 \end{flushright}
 \end{Verbatim}
+
 \begin{flushright}
-\fbox{右边才是王道。}
+右边才是王道。
 \end{flushright}
 
 
@@ -1188,8 +1084,8 @@ R  & 右边(right)  \\
 E  & 偶数页(even) \\
 O  & 奇数页(odd) \\ \bottomrule
 \end{tabular}
-\label{tab:fancyhf可选项字母意义}
 \caption{fancyhf可选项字母意义}
+\label{tab:fancyhf可选项字母意义}
 \end{table}
 
 
@@ -1217,7 +1113,7 @@ O  & 奇数页(odd) \\ \bottomrule
 下面就是重新定制plain样式，首先是：
 \begin{Verbatim}
 %    \renewcommand{\chaptermark}[1]
-%{\markboth{第\zhnumber{\arabic{chapter}}章~~#1}{}}
+%    {\markboth{第\zhnumber{\arabic{chapter}}章~~#1}{}}
 %    \fancyhf[HL]{\ttfamily \footnotesize \leftmark }
 \end{Verbatim}
 为了文档简洁这些代码我都注释掉了，不过你可能用的着。这里leftmark就是目前的章名，fancyhf带上选项HL就是定义文档页眉左边的内容。然后通过修改chaptermark（如果你章节标题不自己DIY的话，这里修改chaptermark你会看到变化的。）会影响leftmark的内容。这里的markboth也是配套的。
@@ -1394,8 +1290,6 @@ def命令是\TeX 的原始定义命令，比如说：\\
 
 
 
-
-
 \chapter{引用}
 \section{文章内部引用}
 某一个特别的章节图片或者表格等需要被引用时，你就在它哪里加上label命令。然后就可以用ref命令在文章内部建立链接引用他们了。值得一提的是texmaker的提示功能非常好。建立label的时候方便你管理，section部分前面就加一个sec:前缀，图片加一个fig:前缀，表格加个tab:前缀等。然后labe中文英文都是可以的，方便自己管理最好写的很明晰。
@@ -1405,30 +1299,25 @@ def命令是\TeX 的原始定义命令，比如说：\\
 
 还有一个pageref命令和ref命令差不多，文档上写法都类似，不同的是在文章上显示的是页码。
 
-\section{hlabel命令}
-\begin{Verbatim}
-\newcommand{\hlabel}[1]{\phantomsection \label{#1}}
-\end{Verbatim}
-
-本文定义了一个hlabel命令，就是在前面加上了hyperref宏包提供的精确定位命令phantomsecton\footnote{对这个命令具体作用还不太清楚。}。一般ref图片或者section或者subsection等文档片段都不需要这么做。就是比如有时一大段section里面有十几个段落，占了几页的篇幅，那时你如果直接用label命令建立链接，这几个小段的链接都会挂在section开头那里。如果使用这个hlabel命令那么就会精确定位到你想要的位置。
-
-
-\section{flabel命令}
-我在写endnotes宏包的时候新建了一个命令，还不清楚在外面能不能用。一般为了省心不怎么使用吧。flabel命令有两个必填参数，第一个参数是真实建立的label标签，第二个参数影响你后面用ref命令引用这个标签显示的文字。
-\begin{Verbatim}
-\DeclareRobustCommand*{\flabel}[2]
-{\phantomsection \def\@currentlabel{#2}
-\label{#1}}%label styel customization
-\end{Verbatim}
 
 
 \section{hyperref宏包简介}
 \subsection{如何插入超链接}
-这里插入一个超链接到google，\href{https://www.google.com/}{google}\\
-首先要在前面加载hyperref库文件\\
-\textbackslash usepackage \{hyperref\}\\
-然后在你想要插入超链接的地方使用命令：\\
-\textbackslash href \{https://www.google.com/\} \{google\}
+比如这里插入一个超链接到google，\href{https://www.google.com/}{google} 。
+
+首先要在前面加载hyperref库文件：
+\begin{Verbatim}
+\usepackage{hyperref}
+\end{Verbatim}
+
+
+然后在你想要插入超链接的地方使用命令：
+
+\begin{Verbatim}
+\href{https://www.google.com/}{google}
+\end{Verbatim}
+
+
 
 \subsection{链接字体颜色控制}
 \begin{Verbatim}
@@ -1443,8 +1332,12 @@ hyperref宏包目前我的DIY只限于一些颜色设置，有兴趣的请自己
 
 
 \chapter{脚注}
-加入脚注还是很有用的\footnote{这就是一个脚注}。具体方法就是：\\
-\textbackslash footnote\{这就是一个脚注\} 
+加入脚注还是很有用的\footnote{这就是一个脚注}。具体方法就是：
+
+\begin{Verbatim}
+\footnote{这就是一个脚注} 
+\end{Verbatim}
+
 
 \section{脚注标签修改}
 重定义thefootnote命令会影响每一条脚注前面的label样式，比如默认的1.。
@@ -1513,212 +1406,6 @@ hyperref宏包目前我的DIY只限于一些颜色设置，有兴趣的请自己
 
 
 
-\chapter{旁注}
-\LaTeX 自带的有marginpar命令就是插入旁注的（你需要把页面布局的旁注部分设置好。）我也接触过另外一个宏包的marginnote命令，虽然多了一个可选项可以调整旁注竖向位移，但是带来的麻烦更多，有时候页尾的旁注会向下越界，如果我想写了一个旁注，又在下面继续写一个旁注命令也会出现重叠出错。而marginpar就没有这样的问题。写了一个marginpar，后面可以继续再开一条marginpar命令。至于竖向位移的问题，使用vspace命令调整即可。
-
-下面是我新建的一个rightnote命令，以供参考。
-\begin{Verbatim}
-\newcommand{\rightnote}[1]{\marginpar{  
- 	\fontsize{10pt}{12pt}\selectfont #1}}
-\end{Verbatim}
-
-在maginpar命令里面进行各种\LaTeX 命令都是可以的，比如改变字体大小，字体颜色，插入图片等等。
-
-
-
-\chapter{尾注}
-尾注也就是每一章后面的注释部分，这种排版形式显得更加专业。而且如果尾注写的好参考文献一章或者其他附录部分都可以不用写了。
-
-本来已经有一个endnotes宏包了，但是这个宏包不支持超链接，然后后来我按照\href{http://tex.stackexchange.com/questions/8452/making-endnotes-clickable-links-with-hyperref}{这个网站}的说明操作加入另外一个sty文件之后是能够正常双向链接的，但是为了解决一个问题引入两个宏包，而且这两个宏包还存在交互问题只是让问题更加复杂了。
-
-我试着慢慢将这两个宏包融合起来，遇到了很多困难，因为我对tex原初命令并不是十分熟悉，最终似乎解决了这一问题。其中有些细节我也不大清楚，下面就这个新的endnotes宏包详细说明。
-
-
-\section{endnotes宏包说明}
-整个宏包还是很简洁的，满打满算八九十行。宏包的文件在github源码的texmf文件夹里面。
-
-
-\begin{Verbatim}
-\NeedsTeXFormat{LaTeX2e}[1994/12/01]
-\ProvidesPackage{endnotes}[2013/11/29 v0.12  endnotes]
-\end{Verbatim}
-首先是一些文档的注释说明信息，这里就不写了。
-
-然后是标准的宏包sty文件的开头样式，这里填上endnotes宏包即可。
-
-\begin{Verbatim}
-\RequirePackage{etoolbox}
-\DeclareRobustCommand*{\flabel}[2]%
-{\phantomsection \def\@currentlabel{#2}
-\label{#1}}%
-\end{Verbatim}
-
-这里使用RequirePackage命令引入了etoolbox宏包，主要是为了引入了expandonce命令，这个命令是确保后面的一个命令只运行一次。
-
-然后接下来新建了一个命令flabel，这个命令是为了文本中的尾注标记符号和尾注中的标记符号区分开来，比如文本中的尾注标记符号是上标的，而尾注中的标记符号则不是。flabel命令里面使用了hyperref宏包的精确定位命令phantomsection，因为hyperref宏包在myconfig宏包中已经加载了，这里就不加载了。
-
-flabel命令接受两个参数，第一个参数\#{}1表示真实的label，而第二个参数\#{}2表示显示的label。所谓真实的label指等下生成的pdf中的精确定位label标记。命令中重新定义了\verb+\@currentlabel+，也就是显示的label。这样将这两者区分开来，本来他们都是一样的。
-
-
-
-\begin{Verbatim}
-\gdef\theenmark{\arabic{@EndnoteCounter}}%
-\gdef\endnotemark{\textsuperscript{(\theenmark)}}%
-\gdef\endnotemarkback{(\theenmark)}%
-\end{Verbatim}
-然后上面三行定义了一些对外的接口命令，方便DIY。theenmark命令是尾注标记符号的计数器部分，这里使用了arabic命令转化了。endnotemark命令是文本中尾注标记符号的形式，这里简单加上了()然后使用textsuperscript命令将其转化成为上标形式，之所以使用这样的形式，是因为使用数字可以没有任何限制，而使用其他奇怪的符号标记要为可能超过界限操心。而endnotemarkback命令则是尾注中的标记符号形式，这里和前面的区别就是没有转化成为上标。
-
-\begin{Verbatim}
-\newlength{\enoteindent}
-\setlength{\enoteindent}{2.5\textpt}
-\end{Verbatim}
-这段代码的意思是设置了一个长度量enoteindent，然后将其设置为2.5倍textpt长，这个textpt之前说过的是为了让文档相对化将之前documentclass设置的12pt传递过来的，你也可以在这里设置成一个你喜欢的长度。这个长度影响等下尾注标签的缩进量。
-
-
-接下来下面的代码首先用newwrite命令新建了文件，tex中的文件操作命令如下：
-\begin{Verbatim}
-\newwrite\tempfile
-\immediate\openout\tempfile=lists.txt
-\immediate\write\tempfile{this is test}
-\immediate\closeout\tempfile
-\end{Verbatim}
-这里的newwrite是新建一个写文件，然后后面immediate命令表示立即执行，openout表示打开某个文件，这里打开了新建的这个写文件\textbackslash tempfile，后面的等号跟着你想要的这个新文件的文件名，等下电脑中新建出来的这个文件就是这个文件名。
-
-然后write命令是往这个文件里面写入某个文本信息。接下来是closeout命令把这个文件关闭，只有文件正常关闭了写的内容才能从缓冲区真正进入系统中的文本。
-
-
-\begin{Verbatim}
-\newwrite\@entout
-
-\newcounter{@EndnoteCounter}%
-\newcounter{@AllEndnoteCounter}%
-\newcounter{@ShowEndnoteCounter}%
-\setcounter{@EndnoteCounter}{0}
-\setcounter{@AllEndnoteCounter}{0}
-\setcounter{@ShowEndnoteCounter}{1}
-
-\newif\if@entopen \global\@entopenfalse
-\end{Verbatim}
-接下来是新建了三个计数器@EndnoteCounter等，其中@EndnoteCounter标记每一章尾注内部的计数，而AllEndnoteCounter标记了所有的尾注的计数，这个影响真实label。ShowEndnoteCounter标记了每一个分章的章数（这里主要指按照每一章，不过实际操作并不局限于此。）的计数。然后用setcounter命令给这些计数器一个初值。
-
-上一段代码最后还新建了一个条件控制变量，具体请参看tex条件控制语句一小节\ref{sec:条件控制语句}。这里的global命令是让接下来的定义或者声明是全局性的。
-
-\begin{Verbatim}
-\def\@openent{%
-\def\@entname{\jobname
-\ifnum\value{@ShowEndnoteCounter}<10 0\fi
-\ifnum\value{@ShowEndnoteCounter}<100 0\fi
-\arabic{@ShowEndnoteCounter}}%
-
-\immediate\openout\@entout=\@entname.ent%
-\global\@entopentrue
-}%
-\end{Verbatim}
-上一段代码新建了一个命令@openent，这个命令等下要完成打开新建的ent文件任务，然后正如前面谈及的文件操作，在openout命令打开文件的时候，这里对具体生成的ent文件的文件名进行了一些DIY。其实我可以将文件名简单设置成为jobname-1，-2之类的形式，之所以弄成以上这种形式多少是我在之前探索过程中弄出的一种jobname001，jobname002这种形式，然后方便使用linux系统的cat命令来将他们汇总，后来修改修改着这个功能发现不需要了，但这个技巧还是很有用的就没删除了。
-
-下一段的解释先跳过，看到下下一段定义的endnote命令。
-\begin{Verbatim}
-\begingroup \catcode `|=0 \catcode `[=1
-\catcode`]=2 \catcode `\{=12 \catcode `\}=12
-\catcode`\\=12
-|gdef|@writeent[|immediate|write|@entout[
-{\footnotesize
-\hspace{-2\parindent}\makebox[\parindent-3pt][l]
-{\flabel{|@linknameb}{|@showlinknameb}  \ref{|@linkname}}
-\leftskip=\parindent   |expandonce|@include \par } ] ]%
-|endgroup
-\end{Verbatim}
-上面这段代码就是定义了那个@writeent，但是以一种十分绕脑袋的形式，我也没完全弄明白。。首先看到catcode命令，这个是改变tex系统内部字符列表的命令。在tex中字符分为以下几类：
-\begin{enumerate}
-\setcounter{enumi}{-1}
-\item 跳脱符号，一般是\textbackslash
-\item group开始符号，一般是\{
-\item group结束符号，一般是\}
-\item 数学符号，一般是\$
-\item 表格分隔符，一般是\&
-\item 一行结束符号，一般是<return>
-\item 参数符号，一般是\#
-\item 上标符号，一般是\^{}
-\item 下标符号，一般是\_
-\item 忽略符号，一般是<null>
-\item space，一般是<space>和<tab>
-\item 字母，一般是a-z和A-Z
-\item 其他，不是其他分类就在此类
-\item 激活（Active）符号，比如\~{}
-\item 注释符号，一般是\%
-\item 无效（Invalid）符号，一般是<delete>
-\end{enumerate}
-也就是说tex引擎看到\textbackslash 符号就会认为接下来将是一个命令，然后catcode命令可以改变这个列表。比如上面这段代码中，\verb+\catcode `|=0+就将|符号归为0类，这样tex看到|也会跟看到\textbackslash 一样处理。后面的类似，于是我们有：\\
-\emph{|类似\textbackslash{  }   [类似\{  ]类似\}  \{\} \textbackslash 都是其他 }
-
-gdef命令是global和def命令的组合缩写，这里定义了下面要用到的@writeent命令。就是立即向打开的那个ent文件写入花括号内的信息。其中的符号变化法则上面谈及了，于是这里的\textbackslash footnote之类的都不会处理，而是直接写入ent文件之中。但是因为我们在这里要建立label（等下插入ent文件之后，在尾注那里要标记label和ref命令。）因此label和ref内的参数必须立即运算出来。在这里有一些尾注的格式美化命令，比如用makebox命令调整尾注标记符号格式等，这里介绍略过。
-
-现在主要看到从下一段代码中定义的@include命令接受的是endnote命令传递过来的文本，本来在下一段代码中新建一个group然后用let命令将endnote命令中所有的protect命令改成了string（字符串），应该是可以了。实际上操作中确实各个命令没有展开直接以文本进入ent文件了，但是环境命令还是展开了，于是这里加上了etoolbox宏包提供的expandonce命令，也就是控制只展开一次，这样环境命令也成功传递过去了。这里的具体实现细节我实际上也没弄太明白。
-
-\begin{Verbatim}
-\DeclareRobustCommand*\endnote[1]{%
-\stepcounter{@EndnoteCounter}%
-\stepcounter{@AllEndnoteCounter}%
-\edef\@linkname{enote:\arabic{@AllEndnoteCounter}}%
-\edef\@linknameb{enote:\arabic{@AllEndnoteCounter}b}%
-\edef\@showlinknameb{\endnotemark}%
-\edef\@showlinkname{\endnotemarkback}%
-\ignorespaces\flabel{\@linkname}{\@showlinkname}%
-\ignorespaces\hspace{-0.5ex}\ref{\@linkname b}%
-\if@entopen \else \@openent \fi%
-\begingroup%
-\let\protect\string%
-\gdef\@include{#1}%
-\endgroup%
-\@writeent%
-}
-\end{Verbatim}
-显然你看到这里定义的命令endnote就知道这是这个宏包的主体部分，程序一般遇到的就是两个命令，endnote引入尾注，showendnotes插入尾注。首先这个命令将两个主要计数器加1，其中@EndnoteCounter计数器是标记一章尾注内部的计数的，这里加1了就开始从1开始，然后后面这里的处理技巧是如果你需要插入尾注了，那么就将@EndnoteCounter这个计数器归为零。这样做和将@EndnoteCounter和chapter或者part绑定起来的好处就是更加的自由，你不需要考虑什么，甚至在某一个section部分内，插入showendnotes命令就插入了尾注，然后内部计数又重新开始。
-
-接下来定义了四个命令，我们看到这里有一个edef命令，edef命令和def命令类似，区别在于定义某个命令的时候立即展开，比如在这里我edef了一个@linkname命令，那么后面的@AllEndnoteCounter当时是什么立即赋值计算出来。因为这里要建立label的名字比如是独一无二的，然后看到后面@showlinkname和@showlinknameb，这是在决定文档中尾注标记符号和尾注中标记符号的样式，这里名字弄翻了，因为之前我在编写的时候也不大确切，然后后面就交换了一下。
-
-然后我们注意到这个endnote命令后面每一行都有一个\%，这是不得已而为之。endnote命令在它所在地地方我需要插入label和ref，然后每一行换行之后都会增加一个空格。只好用百分号消去。
-
-这里插入的ignorespaces命令为了消去空格可能是多余的，然后使用flabel命令植入label，前面谈及了第一个参数是真实的label，第二个参数是显示的label。还有我们需要把label命令和ref命令的关系弄清楚，label只是在文档中植入一个记号，而ref命令才会在文档中显示某些字符。我在测试的时候发现尾注标签上标记号有点偏后，然后用hspace命令稍作调整，注意我们调整距离尽可能使用ex或者em这样的相对距离。然后就是使用ref命令。
-
-接下来一行语句的意思就是ent那个文件打开了吗？打开了什么也不做，没打开打开这个文件，使用之前定义的openent命令打开。
-
-然后我们进入一个group，tex命令中\textbackslash begingroup \textbackslash endgroup之间夹著一个内环境。这个内环境的作用就是为了把endnote命令中的文本内容传递出去，为什么要这么做？我们的思路是将endnote中的文本写入到某个ent文件中去，然后继续写，直到要插入尾注了再引入这个ent文件即可。思路很简单，但是要实现起来并不简单。
-
-这里最大的问题是endnote命令里面的命令和环境都要不执行，当作文本一行写入进去。因为tex默认参数都要执行计算出来的，这就是问题的所在。这里面的细节甚是复杂，我也没完全弄明白。我们再看到上面那段代码定义的@writeent命令。
-
-
-\begin{Verbatim}
-\DeclareRobustCommand*\showendnotes{%
-\immediate\closeout\@entout%
-\global\@entopenfalse
-
-\input{\@entname.ent}
-
-\setcounter{@EndnoteCounter}{0}
-\stepcounter{@ShowEndnoteCounter}%
-
-}
-
-\endinput
-\end{Verbatim}
-这是宏包的最后一段了，非常容易理解了。定义了一个showendnotes命令，命令首先将那个打开的ent文件关闭，这样之前写入的内容都写进去了。然后改变那个条件变量表明文件关闭了。然后引入尾注。
-然后@EndnoteCounter计数器归零，这个前面谈到过。然后ShowEndnoteCounter计数器加一。然后结束宏包使用endinput命令。
-
-
-\section{endnotes宏包的使用}
-在加载好endnotes宏包之后，用法还是很简单的。
-
-\subsection{endnote命令}
-想要在那里插入尾注部分注释就用endnote命令即可：\\
-\verb+\endnote{这是一段尾注}+。比如这里\footnote{这是一段尾注}。
-
-\subsection{showendnotes命令}
-在你想要显示尾注时，使用showendnotes命令即可。那么到目前为止，所有尾注内容都会显示出来：\\
-\verb+\showendnotes+
-
-一般上面还加上一个标题，表示注释内容就在这里。如果整个文档都不使用showendnotes命令，那么也不会有什么错误。
-
 
 \chapter{文字强调}
 \section{emph命令}
@@ -1740,39 +1427,16 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 
 \subsection{ulem宏包源码}
 ulem宏包在ubuntu系统中源码的位置是：
-\begin{tcbcode}[tex]
-/usr/share/texlive/texmf-dist/tex/generic/ulem
-\end{tcbcode}
 
-ulem宏包提供如下命令：uline，uuline，uwave，sout，\\ xout，dashline，dotuline。主要用于文字的强调，其中uline是下划线，dotuline是加点强调，uwave是波浪线。其他命令请参看ulem宏包文档。
+\begin{Verbatim}
+/usr/share/texlive/texmf-dist/tex/generic/ulem
+\end{Verbatim}
+
+ulem宏包提供如下命令：uline，uuline，uwave，sout， xout，dashline，dotuline。主要用于文字的强调，其中uline是下划线，dotuline是加点强调，uwave是波浪线。其他命令请参看ulem宏包文档。
 
 \uline{这是一段很长的测试文字，主要用于说明中文情况下加入下划线并且能够正确的换行。用的是uline命令。}
 
-\dotuline{注意如果单纯加载ulem宏包，原有的emph命令也会成为类似uline命令的效果，也就是加下划线。可以后面跟上命令\textbackslash normalem，也就是emph命令还是原来的处理效果。}
-
-\section{reduline命令}
-\reduline{这个命令是ulem官方文档提供的。其中除了reduline命令名字可以自己diy之外，你能改动的就是第二行了。rule部分简单说明下，第一个可选项是竖向位移，第一个参量是线条横向宽度，我为了好理解就设置成了1em，似乎这个值设置成其他的值影响也不大。第二个参量是线条竖向高度。}
-
-\begin{Verbatim}
-\newcommand\reduline{\bgroup\markoverwith
-    {\textcolor{red}{\rule[-0.5ex]{1em}{0.4pt}}}
-    \ULon}
-\end{Verbatim}
-
-\utriangle{为了好玩类似的我还用tikz画了一个小三角形和一个小圆}，\ucircle{如果各位看官有更喜欢的标记用于文字强调，类似的用tikz画就是了，可见ulem这个扩展命令实在是棒极了。}
-
-\begin{Verbatim}
-\newcommand\utriangle{\bgroup\markoverwith
-    {\raisebox{-0.4em}{\makebox[1em][c]{\tikz[blue]
-    {\draw(0,0) -- (0.1,0) -- (0.05,0.05) --cycle;}}}}
-    \ULon}
-
-\newcommand\ucircle{\bgroup\markoverwith
-    {\raisebox{-0.6em}{\makebox[1em][c]{\tikz[red]
-    {\draw(0,0) circle  (0.05) ;}}}}
-    \ULon}
-\end{Verbatim}
-
+注意如果单纯加载ulem宏包，原有的emph命令也会成为类似uline命令的效果，也就是加下划线。可以后面跟上命令\textbackslash normalem，也就是emph命令还是原来的处理效果。
 
 
 
@@ -1822,32 +1486,39 @@ itemize和enumerate环境其实也支持item后面跟上可选项的形式，只
 
 \section{enumerate环境标签的修改}
 \label{sec:enumerate环境标签的修改}
+\textbf{NOTICE: } 这里的修改都只是在pdf那边的，epub这边都是默认的形式。
+
 enumerate环境中各个item标签自动生成是依赖各个对应的计数器，然后通过labelenumi，labelenumii，labelenumiii和labelenumiv这几个命令控制的，也就是重新定义这些命令，标签样式就被修改了。这几个中最常用的是第一级标签labelenumi，下面就这个命令给出例子。
 
 首先我希望这个enumerater环境的item计数从0开始，然后我希望它的格式是<0>。
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1 , keepaspectratio]{enumerate_1.png}
+\end{figure}
+
+
+
+上面的实现实际tex代码如下所示：
+\begin{Verbatim}
 \begin{enumerate}
 \setcounter{enumi}{-1}
 \renewcommand{\labelenumi}{<\arabic{enumi}>}
 \item 这是一个列表
 \item 这又是一个列表
 \end{enumerate}
-
-上面形式的实现就是在这个enumerate环境中加入了这样两行代码：
-\begin{Verbatim}
-\setcounter{enumi}{-1}
-\renewcommand{\labelenumi}{<\arabic{enumi}>}
 \end{Verbatim}
+
 估计计数器使用的时候都会先加一，所以为了初值为0，只好先设置为-1了。
 
 
 再举个例子，假设你已经加载了 \textbf{zhnumber} 包了，那么我们可以实现中文中常见的那种罗列环境：
 
-\begin{enumerate}
-\renewcommand{\labelenumi}{\zhnumber{\arabic{enumi}}.}
-\item 这是一个列表
-\item 这又是一个列表
-\end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1 , keepaspectratio]{enumerate_2.png}
+\end{figure}
+
 
 上面的实现实际tex代码如下所示：
 
@@ -1862,10 +1533,6 @@ enumerate环境中各个item标签自动生成是依赖各个对应的计数器�
 
 \section{itemize环境标签的修改}
 itemize环境里面当然没有计数器，不过它类似的也有：\\ labelitemi，labelitemii等命令，通过重定义这些命令就可以影响第一级第二级等标签样式。
-
-
-
-
 
 
 
@@ -3151,10 +2818,135 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 
 \part{xelatex进阶}
+\textbf{NOTICE:} 进阶篇这部分内容总的来说是笔者不推荐使用的一些特性，因为他们都太Tex了，前面基础篇的一些内容可能在epub那边一些定制效果会丢失，这还可以接受，最多再epub那边再做出一些css调整，而进阶篇这里的一些很可能会造成你的epub那边内容显示不全设置是整个内容变得混乱不堪。
 
 
 
-\section{多栏环境}
+\chapter{颜色}
+\label{sec:颜色}
+\section{颜色的心理学}
+颜色心理学是一门学问，这里不会深究，只是在文档里面字体或者背景使用什么颜色是一门大学问。这里主要参照\href{http://www.jb51.net/article/8216.htm}{这个网站}简单说下。本文定义的几个颜色也是参考的这个网站。
+
+\begin{description}
+\item[红色] 一种激奋的色彩。刺激效果，能使人产生冲动，愤怒，热情，活力的感觉。
+\item[绿色] 介于冷暖两中色彩的中间，显得和睦，宁静，健康，安全的感觉。 它和金黄，淡白搭配，可以产生优雅，舒适的气氛。
+\item[橙色] 也是一种激奋的色彩，具有轻快，欢欣，热烈，温馨，时尚的效果。
+\item[黄色] 具有快乐，希望，智慧和轻快的个性，它的明度最高。 
+\item[蓝色] 是最具凉爽，清新，专业的色彩。它和白色混合，能体现柔顺，淡雅，浪漫的气氛(像天空的色彩:) 
+\item[白色] 具有洁白，明快，纯真，清洁的感受。 
+\item[黑色] 具有深沉，神秘，寂静，悲哀，压抑的感受。 
+\item[灰色] 具有中庸，平凡，温和，谦让，中立和高雅的感觉。 　　
+\end{description}
+关于具体选择什么颜色，我也纠结了很久，但最后无果而终，可选择的颜色太多了，我说不上什么意见。
+
+
+\section{颜色配置}
+首先推荐使用xcolor宏包。在\href{http://tex.stackexchange.com/questions/89763/when-to-use-the-xcolor-package-instead-of-the-color-package}{这个网页}里，谈到原color宏包的所有特性基本上xcolor都支持，同时又加了很多新特性，相当于扩充集吧。
+
+这里放着我之前的一些颜色配置的代码。
+\begin{Verbatim}
+\usepackage{xcolor}  
+%=====在网上找的配黑色文字比较好的背景色======%
+\definecolor{bgcolor-co}{RGB}{255,255,255}  
+\definecolor{bgcolor-dd}{RGB}{255,255,200}  
+\definecolor{bgcolor-tp}{RGB}{215,255,240}  
+\definecolor{bgcolor-bf}{RGB}{240,218,210}  
+\definecolor{defaultbgcolor-0}{RGB}{199,237,204}  %for eye
+
+%\pagecolor{defaultbgcolor-0}
+\end{Verbatim}
+
+
+\subsection{定义新的颜色}
+上面颜色配置代码里有很多definecolor命令就是定义新的颜色的，然后在后面要用到颜色的地方使用你这里定义的新的颜色名字就可以了。第一个花括号就填着你定义的新颜色的名字。第二个花括号填着你要定义的颜色的模式，比如RGB，rgb，HTML，cmyk等。最后就是填着对应的模式的对应的数值。其中HTML模式不要\#号。
+
+\subsection{用软件查看颜色}
+你可以用手机照相，或者某个在某个网页某个文档上截图。然后用Gcolor2软件来捕捉某个点的颜色。
+
+\subsection{改变文章的背景颜色}
+上面代码最后的pagecolor命令就是设置整个文档背景颜色的。我试着在minipage模式下使用也会改变整个文章的背景颜色。
+
+
+\subsection{改变字体的颜色}
+有两个命令，textcolor和color命令。
+
+\begin{Verbatim}
+\textcolor{colorname}{some text}
+
+{\color{colorname}  some text...}
+\end{Verbatim}
+
+
+\section{xcolor宏包简介}   
+xcolor宏包虽然是color宏包的扩展集，但对于我这个颜色知识盲来说多少有点不知所云，可能专业弄颜色的对那些颜色模式的增加还有颜色混合的表达扩展觉得很感动吧。如果你对颜色有更高级的需求，请详细阅读xcolor宏包文档，这里不赘述了。
+
+就一般用户还是用definecolor命令吧，支持的模式有gray，rgb，RGB，HTML，cmyk。其中只要加载xcolor宏包就能使用的颜色名字如下：
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1 , keepaspectratio]{xcolor.png}
+\end{figure}
+
+上面的图片所用的表格Tex代码用到了 \verb+cellcolor+ 这个命令，这在epub那边不能正常显示。这段代码贴出来吧，权做参考。
+
+\begin{Verbatim}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lp{50pt}lp{50pt}@{}}
+\toprule
+颜色        & 效果  & 颜色       & 效果\\ \midrule
+black     &  \cellcolor{black}  & olive     &    \cellcolor{olive} \\
+blue      &   \cellcolor{blue} & orange    &   \cellcolor{orange}\\
+brown     &  \cellcolor{brown}  & pink      &   \cellcolor{pink}\\
+cyan      &   \cellcolor{cyan} & purple    &   \cellcolor{purple}\\
+darkgray  &  \cellcolor{darkgray} &red       &   \cellcolor{red}  \\
+gray      &   \cellcolor{gray} & teal      &    \cellcolor{teal}\\
+green     &   \cellcolor{green} & violet    &   \cellcolor{violet}\\
+lightgray &  \cellcolor{lightgray} &white     &   \cellcolor{white} \\
+lime      &    \cellcolor{lime} & magenta   &   \cellcolor{magenta} \\
+yellow    &    \cellcolor{yellow}\\ \bottomrule
+\end{tabular}
+\caption{直接可以使用的颜色名字}
+\label{tab:直接可以使用的颜色名字}
+\end{table}
+\end{Verbatim}
+
+
+如果你加载xcolor宏包时填上其他选项，比如svgnames等，就会有更多其他颜色的名字可以直接使用了。具体请参看\href{http://mirrors.ctan.org/macros/latex/contrib/xcolor/xcolor.pdf}{xcolor官方文档}。
+
+
+\subsection{单个颜色调百分比}
+虽然颜色混合我弄不大明白，不过单个颜色调百分比\footnote{不清楚和谁调？白色？}还是很有用的。比如gray灰色后面跟个!20，就表示20\%的灰。请看下面不同百分比的红色。
+
+\begin{Verbatim}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lp{50pt}lp{50pt}@{}}
+\toprule
+颜色        & 效果  & 颜色       & 效果\\ \midrule
+red     &  \cellcolor{red}  & red!90     &    \cellcolor{red!90} \\
+red!80      &   \cellcolor{red!80} & red!70    &   \cellcolor{red!70}\\
+red!60     &  \cellcolor{red!60}  & red!50      &   \cellcolor{red!50}\\
+red!40      &   \cellcolor{red!40} & red!30    &   \cellcolor{red!30}\\
+red!20  &  \cellcolor{red!20} &red!10       &   \cellcolor{red!10}  \\
+red!0    &    \cellcolor{red!0}\\ \bottomrule
+\end{tabular}
+\label{tab:不同百分比的灰色}
+\caption{不同百分比的灰色}
+\end{table}
+\end{Verbatim}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1 , keepaspectratio]{xcolor_mix.png}
+\end{figure}
+
+值得一提的是xcolor宏包还支持一种表格颜色交替模式，看上去不错。请看带颜色的表格这一小节\ref{sec:带颜色的表格}。
+
+
+
+\chapter{多栏环境}
 多栏环境推荐使用\emph{multicol}宏包。\footnote{在beamer类下有一种看上去不错的多栏环境，就是使用的columns环境，不过只适用于beamer类的frame框架下。}
 这个宏包很厉害，支持两栏到十栏的环境。就作为通用的一般形式如下：
 
@@ -3172,7 +2964,7 @@ $\vec {A} \quad \overrightarrow{BC}$
 \end{multicols}
 
 
-\subsection{分栏环境备用}
+\section{分栏环境备用}
 在实际应用过程中，常常遇到分两栏的情况，但是这两栏宽度是可以自由调整的。我找了一下似乎并没有类似beamer类columns环境那样方便的存在，只好通过minipage命令简单地实现了类似的效果。实际应用我是通过texmaker自定义快捷输入代码模块功能快速输入进文档的。
 \begin{Verbatim}
 \noindent
@@ -3227,6 +3019,281 @@ $t$（分） & $s$（英尺）  \\ \midrule
 \end{minipage} 
 
 解决方案不是很完美，但勉强够用了。
+
+
+
+\chapter{如何显示更多的特殊符号}
+本小节内容建议读者从理解Tex字体的原理来学习，但真的不推荐使用。
+
+现在让我们将思路先理清一下。首先是Unicode码，这个只是一个理论上的编码规则，具体的实现是字体。但是每一个字体都只专注于某一个领域，并没有把Unicode所有的码都画出字形来，那么系统是如何显示字体的呢？系统是安装了很多字体，如果一个字体并不包含它要显示的Unicode，它就搜索打开下一个字体文件，找相关的Unicode的字形。只有从字体文件中具体找了这个Unicode的字形，才有办法将其显示出来。
+\footnote{主要参考了\href{http://tex.stackexchange.com/questions/41130/getting-xelatex-to-display-accents-and-characters-not-included-with-the-font}{这个网站}}
+
+现在我希望显示Ubuntu的那个图标，那个图标实际上也是一个字体。具体配置代码如下：
+
+\begin{Verbatim}
+\newfontfamily{\ubuntu}[Scale=2]{Ubuntu}
+\usepackage{newunicodechar}
+\newunicodechar{}{{\ubuntu{}}}
+\end{Verbatim}
+
+主要是利用的newunicodechar宏包。这个宏包就只有一个命令，这个命令就是这个宏包的名字。其实我们能够猜到，这个命令的作用就是将这个字符变成类似\TeX 命令的东西，然后替换为后面的那一串，而后面的那一串单独提出来也是能够正常显示的。具体效果就是这个Ubuntu图标你直接在Tex文档上复制粘贴到哪里了，就能够显示。甚至你的操作系统都没办法显示出来只是一段空白。
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1 , keepaspectratio]{ubuntu_logo_font.png}
+\end{figure}
+
+这里有一段代码生成该字体所有已有的字形\ref{sec:字体已有字形}。当然你可以直接在字符映射表里面选择只显示已有字形查看，不过有时并不方便。生成那个pdf查看之后可以复制粘贴，到那个字符映射表里面搜索，还是很方便的。
+
+
+
+\section{hlabel命令}
+\begin{Verbatim}
+\newcommand{\hlabel}[1]{\phantomsection \label{#1}}
+\end{Verbatim}
+
+本文定义了一个hlabel命令，就是在前面加上了hyperref宏包提供的精确定位命令phantomsecton\footnote{对这个命令具体作用还不太清楚。}。一般ref图片或者section或者subsection等文档片段都不需要这么做。就是比如有时一大段section里面有十几个段落，占了几页的篇幅，那时你如果直接用label命令建立链接，这几个小段的链接都会挂在section开头那里。如果使用这个hlabel命令那么就会精确定位到你想要的位置。
+
+
+\section{flabel命令}
+我在写endnotes宏包的时候新建了一个命令，还不清楚在外面能不能用。一般为了省心不怎么使用吧。flabel命令有两个必填参数，第一个参数是真实建立的label标签，第二个参数影响你后面用ref命令引用这个标签显示的文字。
+\begin{Verbatim}
+\DeclareRobustCommand*{\flabel}[2]
+{\phantomsection \def\@currentlabel{#2}
+\label{#1}}%label styel customization
+\end{Verbatim}
+
+
+
+\chapter{旁注}
+\LaTeX 自带的有marginpar命令就是插入旁注的（你需要把页面布局的旁注部分设置好。）我也接触过另外一个宏包的marginnote命令，虽然多了一个可选项可以调整旁注竖向位移，但是带来的麻烦更多，有时候页尾的旁注会向下越界，如果我想写了一个旁注，又在下面继续写一个旁注命令也会出现重叠出错。而marginpar就没有这样的问题。写了一个marginpar，后面可以继续再开一条marginpar命令。至于竖向位移的问题，使用vspace命令调整即可。
+
+下面是我新建的一个rightnote命令，以供参考。
+\begin{Verbatim}
+\newcommand{\rightnote}[1]{\marginpar{  
+ 	\fontsize{10pt}{12pt}\selectfont #1}}
+\end{Verbatim}
+
+在maginpar命令里面进行各种\LaTeX 命令都是可以的，比如改变字体大小，字体颜色，插入图片等等。
+
+
+
+\chapter{尾注}
+尾注也就是每一章后面的注释部分，这种排版形式显得更加专业。而且如果尾注写的好参考文献一章或者其他附录部分都可以不用写了。
+
+本来已经有一个endnotes宏包了，但是这个宏包不支持超链接，然后后来我按照\href{http://tex.stackexchange.com/questions/8452/making-endnotes-clickable-links-with-hyperref}{这个网站}的说明操作加入另外一个sty文件之后是能够正常双向链接的，但是为了解决一个问题引入两个宏包，而且这两个宏包还存在交互问题只是让问题更加复杂了。
+
+我试着慢慢将这两个宏包融合起来，遇到了很多困难，因为我对tex原初命令并不是十分熟悉，最终似乎解决了这一问题。其中有些细节我也不大清楚，下面就这个新的endnotes宏包详细说明。
+
+
+\section{endnotes宏包说明}
+整个宏包还是很简洁的，满打满算八九十行。宏包的文件在github源码的texmf文件夹里面。
+
+
+\begin{Verbatim}
+\NeedsTeXFormat{LaTeX2e}[1994/12/01]
+\ProvidesPackage{endnotes}[2013/11/29 v0.12  endnotes]
+\end{Verbatim}
+首先是一些文档的注释说明信息，这里就不写了。
+
+然后是标准的宏包sty文件的开头样式，这里填上endnotes宏包即可。
+
+\begin{Verbatim}
+\RequirePackage{etoolbox}
+\DeclareRobustCommand*{\flabel}[2]%
+{\phantomsection \def\@currentlabel{#2}
+\label{#1}}%
+\end{Verbatim}
+
+这里使用RequirePackage命令引入了etoolbox宏包，主要是为了引入了expandonce命令，这个命令是确保后面的一个命令只运行一次。
+
+然后接下来新建了一个命令flabel，这个命令是为了文本中的尾注标记符号和尾注中的标记符号区分开来，比如文本中的尾注标记符号是上标的，而尾注中的标记符号则不是。flabel命令里面使用了hyperref宏包的精确定位命令phantomsection，因为hyperref宏包在myconfig宏包中已经加载了，这里就不加载了。
+
+flabel命令接受两个参数，第一个参数\#{}1表示真实的label，而第二个参数\#{}2表示显示的label。所谓真实的label指等下生成的pdf中的精确定位label标记。命令中重新定义了\verb+\@currentlabel+，也就是显示的label。这样将这两者区分开来，本来他们都是一样的。
+
+
+
+\begin{Verbatim}
+\gdef\theenmark{\arabic{@EndnoteCounter}}%
+\gdef\endnotemark{\textsuperscript{(\theenmark)}}%
+\gdef\endnotemarkback{(\theenmark)}%
+\end{Verbatim}
+然后上面三行定义了一些对外的接口命令，方便DIY。theenmark命令是尾注标记符号的计数器部分，这里使用了arabic命令转化了。endnotemark命令是文本中尾注标记符号的形式，这里简单加上了()然后使用textsuperscript命令将其转化成为上标形式，之所以使用这样的形式，是因为使用数字可以没有任何限制，而使用其他奇怪的符号标记要为可能超过界限操心。而endnotemarkback命令则是尾注中的标记符号形式，这里和前面的区别就是没有转化成为上标。
+
+\begin{Verbatim}
+\newlength{\enoteindent}
+\setlength{\enoteindent}{2.5\textpt}
+\end{Verbatim}
+这段代码的意思是设置了一个长度量enoteindent，然后将其设置为2.5倍textpt长，这个textpt之前说过的是为了让文档相对化将之前documentclass设置的12pt传递过来的，你也可以在这里设置成一个你喜欢的长度。这个长度影响等下尾注标签的缩进量。
+
+
+接下来下面的代码首先用newwrite命令新建了文件，tex中的文件操作命令如下：
+\begin{Verbatim}
+\newwrite\tempfile
+\immediate\openout\tempfile=lists.txt
+\immediate\write\tempfile{this is test}
+\immediate\closeout\tempfile
+\end{Verbatim}
+这里的newwrite是新建一个写文件，然后后面immediate命令表示立即执行，openout表示打开某个文件，这里打开了新建的这个写文件\textbackslash tempfile，后面的等号跟着你想要的这个新文件的文件名，等下电脑中新建出来的这个文件就是这个文件名。
+
+然后write命令是往这个文件里面写入某个文本信息。接下来是closeout命令把这个文件关闭，只有文件正常关闭了写的内容才能从缓冲区真正进入系统中的文本。
+
+
+\begin{Verbatim}
+\newwrite\@entout
+
+\newcounter{@EndnoteCounter}%
+\newcounter{@AllEndnoteCounter}%
+\newcounter{@ShowEndnoteCounter}%
+\setcounter{@EndnoteCounter}{0}
+\setcounter{@AllEndnoteCounter}{0}
+\setcounter{@ShowEndnoteCounter}{1}
+
+\newif\if@entopen \global\@entopenfalse
+\end{Verbatim}
+接下来是新建了三个计数器@EndnoteCounter等，其中@EndnoteCounter标记每一章尾注内部的计数，而AllEndnoteCounter标记了所有的尾注的计数，这个影响真实label。ShowEndnoteCounter标记了每一个分章的章数（这里主要指按照每一章，不过实际操作并不局限于此。）的计数。然后用setcounter命令给这些计数器一个初值。
+
+上一段代码最后还新建了一个条件控制变量，具体请参看tex条件控制语句一小节\ref{sec:条件控制语句}。这里的global命令是让接下来的定义或者声明是全局性的。
+
+\begin{Verbatim}
+\def\@openent{%
+\def\@entname{\jobname
+\ifnum\value{@ShowEndnoteCounter}<10 0\fi
+\ifnum\value{@ShowEndnoteCounter}<100 0\fi
+\arabic{@ShowEndnoteCounter}}%
+
+\immediate\openout\@entout=\@entname.ent%
+\global\@entopentrue
+}%
+\end{Verbatim}
+上一段代码新建了一个命令@openent，这个命令等下要完成打开新建的ent文件任务，然后正如前面谈及的文件操作，在openout命令打开文件的时候，这里对具体生成的ent文件的文件名进行了一些DIY。其实我可以将文件名简单设置成为jobname-1，-2之类的形式，之所以弄成以上这种形式多少是我在之前探索过程中弄出的一种jobname001，jobname002这种形式，然后方便使用linux系统的cat命令来将他们汇总，后来修改修改着这个功能发现不需要了，但这个技巧还是很有用的就没删除了。
+
+下一段的解释先跳过，看到下下一段定义的endnote命令。
+\begin{Verbatim}
+\begingroup \catcode `|=0 \catcode `[=1
+\catcode`]=2 \catcode `\{=12 \catcode `\}=12
+\catcode`\\=12
+|gdef|@writeent[|immediate|write|@entout[
+{\footnotesize
+\hspace{-2\parindent}\makebox[\parindent-3pt][l]
+{\flabel{|@linknameb}{|@showlinknameb}  \ref{|@linkname}}
+\leftskip=\parindent   |expandonce|@include \par } ] ]%
+|endgroup
+\end{Verbatim}
+上面这段代码就是定义了那个@writeent，但是以一种十分绕脑袋的形式，我也没完全弄明白。。首先看到catcode命令，这个是改变tex系统内部字符列表的命令。在tex中字符分为以下几类：
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item 跳脱符号，一般是\textbackslash
+\item group开始符号，一般是\{
+\item group结束符号，一般是\}
+\item 数学符号，一般是\$
+\item 表格分隔符，一般是\&
+\item 一行结束符号，一般是<return>
+\item 参数符号，一般是\#
+\item 上标符号，一般是\^{}
+\item 下标符号，一般是\_
+\item 忽略符号，一般是<null>
+\item space，一般是<space>和<tab>
+\item 字母，一般是a-z和A-Z
+\item 其他，不是其他分类就在此类
+\item 激活（Active）符号，比如\~{}
+\item 注释符号，一般是\%
+\item 无效（Invalid）符号，一般是<delete>
+\end{enumerate}
+也就是说tex引擎看到\textbackslash 符号就会认为接下来将是一个命令，然后catcode命令可以改变这个列表。比如上面这段代码中，\verb+\catcode `|=0+就将|符号归为0类，这样tex看到|也会跟看到\textbackslash 一样处理。后面的类似，于是我们有：\\
+\emph{|类似\textbackslash{  }   [类似\{  ]类似\}  \{\} \textbackslash 都是其他 }
+
+gdef命令是global和def命令的组合缩写，这里定义了下面要用到的@writeent命令。就是立即向打开的那个ent文件写入花括号内的信息。其中的符号变化法则上面谈及了，于是这里的\textbackslash footnote之类的都不会处理，而是直接写入ent文件之中。但是因为我们在这里要建立label（等下插入ent文件之后，在尾注那里要标记label和ref命令。）因此label和ref内的参数必须立即运算出来。在这里有一些尾注的格式美化命令，比如用makebox命令调整尾注标记符号格式等，这里介绍略过。
+
+现在主要看到从下一段代码中定义的@include命令接受的是endnote命令传递过来的文本，本来在下一段代码中新建一个group然后用let命令将endnote命令中所有的protect命令改成了string（字符串），应该是可以了。实际上操作中确实各个命令没有展开直接以文本进入ent文件了，但是环境命令还是展开了，于是这里加上了etoolbox宏包提供的expandonce命令，也就是控制只展开一次，这样环境命令也成功传递过去了。这里的具体实现细节我实际上也没弄太明白。
+
+\begin{Verbatim}
+\DeclareRobustCommand*\endnote[1]{%
+\stepcounter{@EndnoteCounter}%
+\stepcounter{@AllEndnoteCounter}%
+\edef\@linkname{enote:\arabic{@AllEndnoteCounter}}%
+\edef\@linknameb{enote:\arabic{@AllEndnoteCounter}b}%
+\edef\@showlinknameb{\endnotemark}%
+\edef\@showlinkname{\endnotemarkback}%
+\ignorespaces\flabel{\@linkname}{\@showlinkname}%
+\ignorespaces\hspace{-0.5ex}\ref{\@linkname b}%
+\if@entopen \else \@openent \fi%
+\begingroup%
+\let\protect\string%
+\gdef\@include{#1}%
+\endgroup%
+\@writeent%
+}
+\end{Verbatim}
+显然你看到这里定义的命令endnote就知道这是这个宏包的主体部分，程序一般遇到的就是两个命令，endnote引入尾注，showendnotes插入尾注。首先这个命令将两个主要计数器加1，其中@EndnoteCounter计数器是标记一章尾注内部的计数的，这里加1了就开始从1开始，然后后面这里的处理技巧是如果你需要插入尾注了，那么就将@EndnoteCounter这个计数器归为零。这样做和将@EndnoteCounter和chapter或者part绑定起来的好处就是更加的自由，你不需要考虑什么，甚至在某一个section部分内，插入showendnotes命令就插入了尾注，然后内部计数又重新开始。
+
+接下来定义了四个命令，我们看到这里有一个edef命令，edef命令和def命令类似，区别在于定义某个命令的时候立即展开，比如在这里我edef了一个@linkname命令，那么后面的@AllEndnoteCounter当时是什么立即赋值计算出来。因为这里要建立label的名字比如是独一无二的，然后看到后面@showlinkname和@showlinknameb，这是在决定文档中尾注标记符号和尾注中标记符号的样式，这里名字弄翻了，因为之前我在编写的时候也不大确切，然后后面就交换了一下。
+
+然后我们注意到这个endnote命令后面每一行都有一个\%，这是不得已而为之。endnote命令在它所在地地方我需要插入label和ref，然后每一行换行之后都会增加一个空格。只好用百分号消去。
+
+这里插入的ignorespaces命令为了消去空格可能是多余的，然后使用flabel命令植入label，前面谈及了第一个参数是真实的label，第二个参数是显示的label。还有我们需要把label命令和ref命令的关系弄清楚，label只是在文档中植入一个记号，而ref命令才会在文档中显示某些字符。我在测试的时候发现尾注标签上标记号有点偏后，然后用hspace命令稍作调整，注意我们调整距离尽可能使用ex或者em这样的相对距离。然后就是使用ref命令。
+
+接下来一行语句的意思就是ent那个文件打开了吗？打开了什么也不做，没打开打开这个文件，使用之前定义的openent命令打开。
+
+然后我们进入一个group，tex命令中\textbackslash begingroup \textbackslash endgroup之间夹著一个内环境。这个内环境的作用就是为了把endnote命令中的文本内容传递出去，为什么要这么做？我们的思路是将endnote中的文本写入到某个ent文件中去，然后继续写，直到要插入尾注了再引入这个ent文件即可。思路很简单，但是要实现起来并不简单。
+
+这里最大的问题是endnote命令里面的命令和环境都要不执行，当作文本一行写入进去。因为tex默认参数都要执行计算出来的，这就是问题的所在。这里面的细节甚是复杂，我也没完全弄明白。我们再看到上面那段代码定义的@writeent命令。
+
+
+\begin{Verbatim}
+\DeclareRobustCommand*\showendnotes{%
+\immediate\closeout\@entout%
+\global\@entopenfalse
+
+\input{\@entname.ent}
+
+\setcounter{@EndnoteCounter}{0}
+\stepcounter{@ShowEndnoteCounter}%
+
+}
+
+\endinput
+\end{Verbatim}
+这是宏包的最后一段了，非常容易理解了。定义了一个showendnotes命令，命令首先将那个打开的ent文件关闭，这样之前写入的内容都写进去了。然后改变那个条件变量表明文件关闭了。然后引入尾注。
+然后@EndnoteCounter计数器归零，这个前面谈到过。然后ShowEndnoteCounter计数器加一。然后结束宏包使用endinput命令。
+
+
+\section{endnotes宏包的使用}
+在加载好endnotes宏包之后，用法还是很简单的。
+
+\subsection{endnote命令}
+想要在那里插入尾注部分注释就用endnote命令即可：\\
+\verb+\endnote{这是一段尾注}+。比如这里\footnote{这是一段尾注}。
+
+\subsection{showendnotes命令}
+在你想要显示尾注时，使用showendnotes命令即可。那么到目前为止，所有尾注内容都会显示出来：\\
+\verb+\showendnotes+
+
+一般上面还加上一个标题，表示注释内容就在这里。如果整个文档都不使用showendnotes命令，那么也不会有什么错误。
+
+
+\section{reduline命令}
+\reduline{这个命令是ulem官方文档提供的。其中除了reduline命令名字可以自己diy之外，你能改动的就是第二行了。rule部分简单说明下，第一个可选项是竖向位移，第一个参量是线条横向宽度，我为了好理解就设置成了1em，似乎这个值设置成其他的值影响也不大。第二个参量是线条竖向高度。}
+
+\begin{Verbatim}
+\newcommand\reduline{\bgroup\markoverwith
+    {\textcolor{red}{\rule[-0.5ex]{1em}{0.4pt}}}
+    \ULon}
+\end{Verbatim}
+
+\utriangle{为了好玩类似的我还用tikz画了一个小三角形和一个小圆}，\ucircle{如果各位看官有更喜欢的标记用于文字强调，类似的用tikz画就是了，可见ulem这个扩展命令实在是棒极了。}
+
+\begin{Verbatim}
+\newcommand\utriangle{\bgroup\markoverwith
+    {\raisebox{-0.4em}{\makebox[1em][c]{\tikz[blue]
+    {\draw(0,0) -- (0.1,0) -- (0.05,0.05) --cycle;}}}}
+    \ULon}
+
+\newcommand\ucircle{\bgroup\markoverwith
+    {\raisebox{-0.6em}{\makebox[1em][c]{\tikz[red]
+    {\draw(0,0) circle  (0.05) ;}}}}
+    \ULon}
+\end{Verbatim}
 
 
 \part{xelatex高级篇}
@@ -3628,7 +3695,7 @@ xelatex -synctex=1 -interaction=nonstopmode --enable-write18 %.tex
 \item sudo apt-get install texlive   (下载安装有名的texlive）
 \item sudo apt-get install texlive-full   （下载安装texlive的各个包）
 \item 在ubuntu软件中心中下载安装texmaker软件。
-\item 在texmaker的选项和配置texmaker里面 （现在texmaker已经加入\XeLaTeX 编译命令。），设置快速构建，点上用户自定义那一栏，然后输入如下命令：
+\item 在texmaker的选项和配置texmaker里面 （现在texmaker已经加入XeLaTeX 编译命令。），设置快速构建，点上用户自定义那一栏，然后输入如下命令：
 \end{enumerate}
 \begin{Verbatim}
 xelatex -interaction=nonstopmode \%.tex|
