@@ -88,7 +88,7 @@ text-micro = μ
 \renewcommand\tablename{表}
 \renewcommand\partname{部分}
 \renewcommand\appendixname{附录}
-\renewcommand{\today}{\number\year 年\number\month 月\number\day 日}
+\renewcommand{\today}{\number\year{}年\number\month{}月\number\day{}日}
 
 
 %=======页眉页脚格式=========%
@@ -197,29 +197,6 @@ text-micro = μ
 
 \setlength{\skip\footins}{20pt plus 10pt}
 %main body 与脚注之间的距离
-
-
-%=====特殊的环境特殊的文字======%
-%=========重新定义 quote=====%
-\renewenvironment{quote}[1][anonymous]{
-\newcommand{\quoteauthor}[1][anonymous]{#1}
-\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent   2em
-}\item\relax
-\ttfamily}
-{\\
-\makebox[\linewidth][r]{\sffamily —\quoteauthor}
-\endlist}
-
-%重新定义quotation
-\renewenvironment{quotation}
-{\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent 2em%item的缩进也就是第一段的缩进
-\listparindent \itemindent %第二段的缩进
-}%
-\item\relax
-\ttfamily}
-{\endlist}
 
 
 %framed环境
@@ -1813,67 +1790,18 @@ minted宏包加上背景颜色会出现hbox的badness问题。
 
 \chapter{特殊文字环境}
 \section{语录和引用环境}
-\LaTeX 原生的有quote为语录环境，quotation用于超过几段的引用环境，verse用于诗歌环境。
+\LaTeX 原生的有quote为语录环境，quotation用于超过几段的引用环境，verse用于诗歌环境。这三个环境利用pandoc输出epub那边对应的都是blockquote标签。
 
-以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
-
-quote和quotation在article.cls中的原初定义是这样的：
-\begin{Verbatim}
-\newenvironment{quote}
-               {\list{}{\rightmargin\leftmargin}%
-                \item\relax}
-               {\endlist}
-\newenvironment{quotation}
-               {\list{}{\listparindent 1.5em%
-                        \itemindent    \listparindent
-                        \rightmargin   \leftmargin
-                        \parsep        \z@ \@plus\p@}%
-                \item\relax}
-               {\endlist}
-\end{Verbatim}
-
-我改成了如下：
-\begin{Verbatim}
-%=========重新定义 quote=====%
-\renewenvironment{quote}[1][anonymous]{
-\newcommand{\quoteauthor}[1][anonymous]{#1}
-\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent   2em
-}\item\relax
-\ttfamily}
-{\\
-\makebox[\linewidth][r]{\sffamily —\quoteauthor}
-\endlist}
-
-%重新定义quotation
-\renewenvironment{quotation}
-{\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent 2em%item的缩进也就是第一段的缩进
-\listparindent \itemindent %第二段的缩进
-}%
-\item\relax
-\ttfamily}
-{\endlist}
-\end{Verbatim}
-quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
-\begin{itemize}
-\item \verb+\rightmargin\leftmargin+这是让右边空白距离等于左边空白距离，左边空白距离默认等于\verb+\parindent+，这个有用我保留了。
-\item \verb+\itemindent   2em+，这个itemindent控制的是第一段的段首缩进量，这里设置为2em即两个字符的意思。
-\item 代码第七行是设置quote环境下字体为ttfamily。
-\item quote环境后面的代码，在结束环境之前，先换行，然后输出了一个盒子，右对齐，ssfamily，写着这个格言的作者，因为格言一般都要写上作者，如果不知道那么也写上anonymous，无名氏。这个作者的名字是quote环境接受一个可选项而来的额。
-\item \verb+\listparindent \itemindent+，quotation多了一个这个设置，其中listparindent是控制quotation里面除了第一段之外其他段落的缩进，这里就简单设置为跟第一段一样。
-\item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
-\end{itemize}
 
 \subsection{语录环境演示}
 \begin{Verbatim}
-\begin{quote}[无名氏]
+\begin{quote}
 some text
 \end{quote}
 \end{Verbatim}
 
 
-\begin{quote}[无名氏]
+\begin{quote}
 “When the winds of change blow, some people build walls and others build windmills.”
 \end{quote}
 
@@ -2903,6 +2831,9 @@ $t$（分） & $s$（英尺）  \\ \midrule
 \end{figure}
 
 
+
+
+
 \chapter{如何显示更多的特殊符号}
 本小节内容建议读者从理解Tex字体的原理来学习，但真的不推荐使用。
 
@@ -3829,6 +3760,58 @@ TeX中的计数器用arabic命令之后是1 2 3...这样的形式，如何产生
 上标\textsuperscript{上标}下标{\scriptsize 下标}
 
 更常见的是化学分子式里面的上标和下标，推荐使用mhchem宏包，至于数学模式里的上标和下标自不必说了。
+
+
+\section{定制quote和quoation环境}
+以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
+
+quote和quotation在article.cls中的原初定义是这样的：
+\begin{Verbatim}
+\newenvironment{quote}
+               {\list{}{\rightmargin\leftmargin}%
+                \item\relax}
+               {\endlist}
+\newenvironment{quotation}
+               {\list{}{\listparindent 1.5em%
+                        \itemindent    \listparindent
+                        \rightmargin   \leftmargin
+                        \parsep        \z@ \@plus\p@}%
+                \item\relax}
+               {\endlist}
+\end{Verbatim}
+
+我改成了如下：
+\begin{Verbatim}
+%=========重新定义 quote=====%
+\renewenvironment{quote}[1][anonymous]{
+\newcommand{\quoteauthor}[1][anonymous]{#1}
+\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent   2em
+}\item\relax
+\ttfamily}
+{\\
+\makebox[\linewidth][r]{\sffamily —\quoteauthor}
+\endlist}
+
+%重新定义quotation
+\renewenvironment{quotation}
+{\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent 2em%item的缩进也就是第一段的缩进
+\listparindent \itemindent %第二段的缩进
+}%
+\item\relax
+\ttfamily}
+{\endlist}
+\end{Verbatim}
+quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
+\begin{itemize}
+\item \verb+\rightmargin\leftmargin+这是让右边空白距离等于左边空白距离，左边空白距离默认等于\verb+\parindent+，这个有用我保留了。
+\item \verb+\itemindent   2em+，这个itemindent控制的是第一段的段首缩进量，这里设置为2em即两个字符的意思。
+\item 代码第七行是设置quote环境下字体为ttfamily。
+\item quote环境后面的代码，在结束环境之前，先换行，然后输出了一个盒子，右对齐，ssfamily，写着这个格言的作者，因为格言一般都要写上作者，如果不知道那么也写上anonymous，无名氏。这个作者的名字是quote环境接受一个可选项而来的额。
+\item \verb+\listparindent \itemindent+，quotation多了一个这个设置，其中listparindent是控制quotation里面除了第一段之外其他段落的缩进，这里就简单设置为跟第一段一样。
+\item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
+\end{itemize}
 
 
 \section{多张图片并列显示}
