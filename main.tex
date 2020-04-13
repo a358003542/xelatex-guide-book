@@ -3859,8 +3859,7 @@ i want  some test to show there is a text and not to column break.\\
 \begin{document}
 \begin{LARGE}
 \begin{multicols}{5}
-\multido{\i=0+1}{"196607"}{% from U+0000 to U+2FFFF
-%后面的还会继续扩展，目前一般还没使用。
+\multido{\i=0+1}{"10000"}{
   \iffontchar\font\i
     \makebox[4em][l]{\i}%
     \symbol{\i}\endgraf
