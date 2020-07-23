@@ -1,0 +1,51 @@
+\documentclass[12pt,oneside]{book}
+
+
+\RequirePackage{geometry}
+\RequirePackage[CJKecglue={\hskip 0pt}]{xeCJK}
+\xeCJKsetup{PunctStyle=plain}
+\setCJKmainfont[ItalicFont=方正楷体简体]{思源宋体 CN}
+\setCJKsansfont{思源黑体 CN}
+\setCJKmonofont{方正楷体简体}
+
+
+\begin{document}
+\makeatletter
+\renewcommand\title[1]{\def\@title{#1}}
+\newcommand\subtitle[1]{\def\@subtitle{#1}}
+\renewcommand\author[1]{\def\@author{#1}}
+\newcommand\version[1]{\def\@version{#1}}
+\renewcommand\date[1]{\def\@date{#1}}
+
+\renewcommand{\today}{\number\year{}年\number\month{}月\number\day{}日}
+\subtitle{}
+\date{\today}
+\version{}
+
+\title{XeLaTex指南}
+\author{万泽}
+%\subtitle{一个简单的封面}
+%\date{\today}
+\version{第四次修订版}
+
+\begin{titlepage}
+\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+\begin{center}
+\vspace*{120pt}
+{\fontsize{80pt}{40pt}\selectfont\sffamily \@title}
+
+\vspace{40pt}
+{\fontsize{40pt}{20pt}\selectfont\sffamily \@subtitle} 
+
+\vspace{200pt}
+{\fontsize{40pt}{20pt}\selectfont\sffamily \@author}
+
+\vspace{150pt}
+{\fontsize{30pt}{20pt}\selectfont\ttfamily \@date \@version}
+
+\end{center}
+\end{titlepage}
+
+\makeatother
+
+\end{document}

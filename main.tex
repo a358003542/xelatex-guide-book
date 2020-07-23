@@ -148,7 +148,9 @@ text-micro = μ
      \lower\ULdepth\hbox{\kern.25em . \kern.045em}%
      \endgroup}%
   \ULon}
-\renewcommand\emshape{\color{red}}
+
+\let\oldemph\emph % Save emph in oldemph
+\renewcommand{\emph}[1]{\textcolor{red}{#1}}  
 
 %==================插入圖片=======%
 \RequirePackage{wrapfig}
@@ -220,13 +222,17 @@ text-micro = μ
 \title{XeLaTeX 指南}
 \author{万泽}
 \date{第四次修订版}
- 
+
+\newcommand{\bookcover}[1]{\tikz[remember picture,overlay]{\node[inner sep=0] at (current page.center)
+{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}} 
  
 \begin{document}
 \frontmatter 
+\thispagestyle{empty}
 
+\bookcover{book_cover.png}
 
-\maketitle
+\cleardoublepage
 
 \flypage{感谢上天}
 
@@ -237,7 +243,7 @@ text-micro = μ
 
 一个总的原则就是不要使用latex那些特有的太过于花哨的特性，本书xelatex基础篇部分讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。
 
-关于这部分工作的详细内容整理将会在附录中的利用pandoc输出epub一章 \ref{sec:pandoc_epub} 中有更详细的讨论说明之。
+关于这部分工作的详细内容整理将会在附录中的利用pandoc输出epub一章 \pageref{ch:pandoc_epub} 中有更详细的讨论说明之。
 
 关于本项目epub的css部分，有些是显示需求然后稍作调整，有些是从bootstrap那里或者不知道是那里抄来的，读者权做参考。
 
@@ -773,7 +779,7 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 \% ,我们知道这个符号在文档是用来标记注释信息的开始的，所以在文档也不能直接使用。在前面加个\textbackslash 即可。
 
 \subsection{\~{}}
-\~ ,这个符号在文档中产生一格空白，如要显示在前面加上\textbackslash 符号。这样显示的波浪号有点小。还可以进入数学模式下输入\textbackslash sim，在texmaker左边的关系符号一栏中也可以找到。所以为了美观的话就用数学模式吧。然后在Rime输入法里面我们看到还有一种符号是全角下的波浪号～。我比较了下这个和前面两个都不相同，简单起见用这个全角的波浪号也是可以的。
+\~ ,这个符号在文档中产生一格空白，如要显示在前面加上\textbackslash 符号。这样显示的波浪号有点小。还可以进入数学模式下输入\textbackslash sim，在texmaker左边的关系符号一栏中也可以找到。所以为了美观的话就用数学模式吧。然后在Rime输入法里面我们看到还有一种符号是全角下的波浪号～。我比较了下这个和前面两个都不相同，简单起见用这个全角的波浪号也是可以的。——这里所谓的Rime输入法意思就是中文输入法下的全角输入。
 
 \subsection{\$}
 \$ ,美元符号之所以不可以用是因为它标记了数学模式的开始和结束。比如说我要输入字母$\pi$,就是在两个美元符号中间输入\textbackslash pi即可。如果直接从输入法输入希腊字母的符号π，这个也是可以正常显示的，只是没有前面数学模式下的美观。我查了一下，数学模式下的那个$\pi$也是unicode区域里面的那个希腊字母，我想只是字体问题了。\footnote{\href{http://www.johndcook.com/unicode_latex.html}{这个网站}用来查找unicode和\LaTeX 命令的对应关系}
@@ -820,11 +826,7 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 \end{figure}
 
 \subsection{省略号}
-this...   that\ldots   \\
-三个点...   ldots命令\ldots  \\
-老实说没看出什么区别，所以省略号就跟着点三个点也是可以的，别用中文句号就行了。
-
-
+英文输入法下直接输入三个小数点和使用 \verb+\ldots+ 命令区别不大，中文省略号请使用中文输入法下的全角模式下的省略号。
 
 
 
@@ -1341,9 +1343,12 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 
 \section{重新定义emph}
 \label{sec:emph}
-本文档中的emph命令被重新定义了：\\
-\verb+\renewcommand\emshape{\color{red}}+\\
-比如：\emph{我觉得字体设为红色更加起到强调作用}
+本文档中的emph命令被重新定义了：
+\begin{Verbatim}
+\renewcommand{\emph}[1]{\textcolor{red}{#1}}  
+\end{Verbatim}
+
+比如：\emph{我觉得字体设为红色更加起到强调作用} 。
 
 \section{underline命令}
 这个也是\LaTeX 自带的命令，就是加上下划线，不过在中文中并不能正确换行。所以往下看。
@@ -1959,7 +1964,7 @@ $\frac{1}{2} \qquad 1/2$
 
 \end{itemize}
 
-\subsection{集合的含义和表示}
+\subsection{集合的表示}
 一般的 $x-7<3$ 直接写就是了，然后有时我们看到中间三个点的应该属于中文的标点符号，不过用数学模式来写问题不大：\verb+$\cdots$+ $\cdots$ 。
 
 1~20以内的的所有质数中间的波浪号应该属于中文符号，数学模式下类似的中间一个波浪号的可以用 \verb+$\sim$+ $\sim$ 来画出来，从命令的名字来看其应该更多的用于描述两个三角形相似性之类的关系上。
@@ -2033,14 +2038,14 @@ $$
 
 
 
-\subsubsection{力的矢量表示}
-比如物理上力的矢量表示（以区分力的分量$ F_x $），则需要符号加粗。——mathbf显示效果并不是很理想（因为其是跳出数学环境了的，可能设置好mathbf对应的字体显示效果就会变好了。）
+\subsection{力的矢量表示}
+比如物理上力的矢量表示（以区分力的分量$ F_x $），则需要符号加粗。
 
 $ \boldsymbol{F} $    \verb+\boldsymbol{F}+
 
 $ \mathbf{F} $    \verb+\mathbf{F}+
 
-总的来说物理学上表示力的矢量推荐用 boldsymbol 命令来封装，而数学意义上的某个向量则推荐用 mathbf 命令来封装。
+总的来说个人推荐物理学上表示力的矢量推荐用 boldsymbol 命令来封装，而数学意义上的某个向量则推荐用 mathbf 命令来封装\footnote{参考amsmath官方文档9.3小节，mathbf通常用于数学环境下的拉丁字母加粗显示，但是对于其他数学符号是没有效果的，正因为如此amsmath宏包才又提供了boldsymbol来应对那些没有效果的情况，如果该符号在你的数学字体集（math font set）下是有粗体的话。}。
 
 
 描述法来描述一个集合，所有奇数的集合：
@@ -2056,7 +2061,7 @@ E = \{x \in \mathbb{Z} | x = 2k + 1, k \in \mathbb{Z}\}
 $$
 
 
-\subsubsection{平方根符号}
+\subsection{平方根符号}
 \verb+\sqrt+，如果是\verb+\sqrt[n]+表示n次平方根。
 
 \begin{Verbatim}
@@ -2214,7 +2219,7 @@ $$
 补集 complement set 有的说是要在上面带个C字母， $A^{C}$ 或者 如教材上这种写法： $C_{\mathbb{U}}A$ ，都可以把。
 
 
-\subsection{函数及其表示}
+\subsection{一般函数的写法}
 下面的写法是基本功了，就不多说了，值得一提的具体显示尤其是小写字母的斜斜的那种处理，很美观，也和我们平时看的教材书籍上的显示效果是差不多的。
 
 \begin{Verbatim}
@@ -2234,7 +2239,7 @@ $B=\{ y|y\geqslant \frac{4ac - b^2}{4a} \}$
 \end{Verbatim}
 
 大于和小于直接键盘输入就是了，大于等于之类的符号如下命令输入之。
-\subsubsection{大于等于之类的符号}
+\subsection{大于等于之类的符号}
 大于等于之类的符号如下所示：
 
 \begin{itemize}
@@ -2259,7 +2264,7 @@ $B=\{ y|y\geqslant \frac{4ac - b^2}{4a} \}$
 
 上面的例子，感觉花括号不够大，那么可以通过如下命令系列来调整花括号的大小：
 
-\subsubsection{调整括号大小}
+\subsection{调整括号大小}
 如下在花括号前面加上 \verb+\big+ 来增大花括号符号，
 
 当 $a<0$时，$B=\big\{ y|y\geqslant \frac{4ac - b^2}{4a} \big\}$ 
@@ -2275,7 +2280,7 @@ $B=\big\{ y|y\geqslant \frac{4ac - b^2}{4a} \big\}$
 当 $a<0$时，$B=\bigg\{ y|y\geqslant \frac{4ac - b^2}{4a} \bigg\}$ 
  
 
-\subsubsection{特殊的函数}
+\subsection{特殊的函数}
 如下这些特殊的函数，用命令会有更好的显示效果。
 
 \begin{Verbatim}
@@ -2323,7 +2328,7 @@ $$
 $$
 \end{Verbatim}
 
-\subsubsection{分段函数}
+\subsection{分段函数}
 $
 y = |x| = 
 \begin{cases}
@@ -2332,7 +2337,7 @@ x, & x \geqslant 0,\\
 \end{cases}
 $ ，cases环境是amsmath包提供的。
 
-\subsubsection{常用箭头符号}
+\subsection{常用箭头符号}
 函数定义为从集合A到集合B的一个映射： $f: A \rightarrow B$ ，这几个箭头应该很常用：
 
 \begin{itemize}
@@ -3592,12 +3597,12 @@ sudo texhash
 如果有需要的可以阅读这些代码来学习你正在的sty或者cls文件都是怎么编写的。其中base文件夹里面有book，article，report之类文档类型的定义，也许里面有些命令的原始代码是你需要的。
 
 \chapter{利用pandoc输出epub}
-\label{sec:pandoc_epub}
+\label{ch:pandoc_epub}
 一个总的原则就是不要使用太过于花哨的latex特性，请参看本书xelatex基础篇部分，其中讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。下面更详细地讨论一些具体的问题。
 
 \begin{itemize}
 \item 图片格式不要选pdf和svg了，就用png或者jpeg，然后图片类型后缀名不要省略了。
-\item 不要使用 \XeLaTeX  \XeTeX epub那边不支持
+\item 不要使用 \XeLaTeX 和 \XeTeX ，epub那边不支持
 \item 图表环境下label应该跟在caption后面，否则epub那边工作不正常，原因不明。
 \item 数学模式基本上都支持，其在epub中大概是这样的形式 \verb+<math ....+，还可以换成mathjax，关于这块pandoc文档的 \verb+Math rendering in html+ 一节有更详细的讨论，不管怎么说，默认的配置一般就够用了。
 \item cite命令和参考文献环境thebibliography都工作不太正常。
@@ -3605,6 +3610,10 @@ sudo texhash
 \item verbatim和Verbatim环境都是支持的，将转成html那边的pre标签，minted环境的语法高亮也是支持的，同样需要你安装pygments。
 \end{itemize}
 
+最终制作epub输出命令简单如下：
+\begin{Verbatim}
+pandoc -o main.epub main.tex --metadata-file=epub.yaml
+\end{Verbatim}
 
 
 
