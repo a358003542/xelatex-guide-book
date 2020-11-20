@@ -132,10 +132,8 @@ text-micro = μ
 \RequirePackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref} %設置書簽和目錄鏈接等
 \newcommand{\hlabel}[1]{\phantomsection \label{#1}}%某一小段的引用
 
-
 %=================文字強調=========%
-\RequirePackage{ulem} %下劃線,加點
-\normalem%normal em , not instead of the uline
+\RequirePackage{xeCJKfntef}
 
 \DeclareRobustCommand*{\uwave}%波浪线稍微下移点。
 {\bgroup \markoverwith{\lower5\p@\hbox{\sixly \char58}}\ULon}
@@ -1348,26 +1346,32 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 \renewcommand{\emph}[1]{\textcolor{red}{#1}}  
 \end{Verbatim}
 
-比如：\emph{我觉得字体设为红色更加起到强调作用} 。
+比如：\emph{我觉得字体设为红色更加起到强调作用} 。这样重新定义emph命令是能够正确处理中文换行问题的，然后引入的textcolor输出到html或者epub下通过css同样也是可以获得颜色加强效果的。当然这个是个人喜好了，现在个人更偏好一般文字强调用textbf加粗，输出到html或者epub下是就是strong标签不需要做额外的处理。
 
 \section{underline命令}
-这个也是\LaTeX 自带的命令，就是加上下划线，不过在中文中并不能正确换行。所以往下看。
+这个也是\LaTeX 自带的命令，就是加上下划线，不过在中文中并不能正确换行。所以请往下看。
 
 \section{ulem宏包}
-下面的内容来自ulem宏包。\footnote{现在ulem中文可以正确换行了。}
+也不知道从什么时候开始ulem的uline命令中文不能正确换行了，还有一个很老的解决方案什么CJKulem宏包个人试了一下也并不可行，在xecjk宏包中发现了解决方案，其还提供了一个子宏包 \textbf{xeCJKfntef} ，可以将之前引入ulem宏包的命令删除了，xeCJKfntef是依赖ulem宏包的，然后加载之：
 
-\subsection{ulem宏包源码}
-ulem宏包在ubuntu系统中源码的位置是：
-
+\section{xeCJKfntef宏包}
 \begin{Verbatim}
-/usr/share/texlive/texmf-dist/tex/generic/ulem
+\RequirePackage{xeCJKfntef}
 \end{Verbatim}
 
-ulem宏包提供如下命令：uline，uuline，uwave，sout， xout，dashline，dotuline。主要用于文字的强调，其中uline是下划线，dotuline是加点强调，uwave是波浪线。其他命令请参看ulem宏包文档。
+ulem宏包原来的命令： uline，uuline，uwave，sout， xout，dashline，dotuline等等都是支持的，这个宏包还提供了一些额外的命令这里就略过讨论了。
 
 \uline{这是一段很长的测试文字，主要用于说明中文情况下加入下划线并且能够正确的换行。用的是uline命令。}
 
-注意如果单纯加载ulem宏包，原有的emph命令也会成为类似uline命令的效果，也就是加下划线。可以后面跟上命令\textbackslash normalem，也就是emph命令还是原来的处理效果。
+因为我这里已经将emph命令重新定义了，所以不太关心原来提到的ulem宏包的将emph命令修改的问题。
+
+其中uline和sout命令是推荐使用的，这两个命令到html和epub那边继续效果不会丢失，sout命令会输出del标签，而uline命令通过css的这一行来达到效果的：
+
+\begin{Verbatim}
+span.underline {
+    text-decoration: underline;
+}
+\end{Verbatim}
 
 
 
