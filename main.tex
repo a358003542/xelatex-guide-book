@@ -56,10 +56,6 @@
 \RequirePackage{fontspec}
 %si unit
 \RequirePackage{siunitx}
-\sisetup{
-math-micro = \text{μ},
-text-micro = μ
-}
 
 \everymath{\displaystyle}
 
@@ -71,9 +67,9 @@ text-micro = μ
 %中文環境
 \RequirePackage[]{xeCJK}
 \xeCJKsetup{PunctStyle=plain}
-\setCJKmainfont[FallBack=DejaVu Serif, ItalicFont=TW-Kai]{Source Han Serif CN}
+\setCJKmainfont[FallBack=DejaVu Serif, ItalicFont=KaiTi]{Source Han Serif CN}
 \setCJKsansfont[FallBack=DejaVu Sans]{Source Han Sans CN}
-\setCJKmonofont[FallBack=DejaVu Sans Mono]{TW-Kai}
+\setCJKmonofont[FallBack=DejaVu Sans Mono]{KaiTi}
 
 \RequirePackage{xltxtra} %put here to avoid some package option error. maybe this package is useless ?
 
@@ -3569,7 +3565,7 @@ fc-list :lang=zh | sort >ziti.txt
 /home/wanze/.fonts/simsun.ttc:  宋体,SimSun:style=Regular
 \end{Verbatim}
     
-其中第一个是字体文件所在的目录，第二个信息是可以调用的名字，有宋体和SimSun。
+其中第一个是字体文件所在的目录，第二个信息是可以调用的名字，有宋体和SimSun，冒号后面都是tex引擎能够识别的名字。
 
 
 
