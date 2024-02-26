@@ -198,20 +198,24 @@
 %framed环境
 \RequirePackage{framed}
 
-\newfontfamily{\ubuntu}[Scale=2]{Ubuntu}
-\usepackage{newunicodechar}
-\newunicodechar{}{{\ubuntu{}}}
-
 
 \newenvironment{shici}{
 \begin{verse}
 \centering\large\hspace{12pt}}
 {\end{verse}}
 
+\RequirePackage{indentfirst} 
+
+% hr
+\newcommand\hr{\par\noindent\hrule}
+
+%重新定义quotation
+\AtBeginEnvironment{quotation}{\ttfamily}
+ 
+
 \makeatother
 
-\usepackage{indentfirst} 
- 
+
 
 \title{XeLaTeX 指南}
 \author{万泽}
@@ -227,19 +231,6 @@
 \bookcover{book_cover.png}
 
 \cleardoublepage
-
-\flypage{感谢上天}
-
-
-\addchtoc{第四次修订版前言}
-\chapter*{第四次修订版前言}
-第四次修订版除了再次全面审视本书籍的内容之外，最重大的一个改动就是将会引入pandoc从tex文件生成epub电子书籍的支持，这就意味着某些LaTex特有的功能将会慢慢抽离出来，这些内容是不可能被epub或者其他标记语言支持的，比如Tikz制图，比如pdf特有的花哨排版需求等。所以本书xelatex基础部分将更加关注于那些latex作为标记语言很容易被其他标记语言转换识别的部分，其他不是那么容易转换甚至不可能转换的部分将会移动到进阶部分而且不会再从tex源码那里进行输出尝试了，只是用文字或者图片进行说明。
-
-一个总的原则就是不要使用latex那些特有的太过于花哨的特性，本书xelatex基础篇部分讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。
-
-关于这部分工作的详细内容整理将会在附录中的利用pandoc输出epub一章 \pageref{ch:pandoc_epub} 中有更详细的讨论说明之。
-
-关于本项目epub的css部分，有些是显示需求然后稍作调整，有些是从bootstrap那里或者不知道是那里抄来的，读者权做参考。
 
 
 \addchtoc{前言}
@@ -277,6 +268,16 @@
 
 \mainmatter 
 \part{xelatex基础}
+本部分主要关注latex作为标记语言很容易被其他标记语言识别的部分，具体来说就是利用pandoc从tex文件既能输出pdf也能输出epub并且两边都支持良好的功能。
+
+一个总的原则就是不要使用latex那些特有的太过于花哨的特性，本部分讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。
+
+关于这部分工作的详细内容整理将会在附录中的利用pandoc输出epub一章\ref{ch:pandoc_epub} 中有更详细的讨论说明之。
+
+关于本项目epub的css部分，有些是显示需求然后稍作调整，有些是从bootstrap那里或者不知道是那里抄来的，读者权做参考。
+
+某些LaTex特有的功能将会在本文的后续章节中说明，这些内容是不可能被epub或者其他标记语言支持的，比如Tikz制图，比如pdf特有的花哨排版需求等。
+
 
 \chapter{背景知识}
 \section{TeX}
@@ -923,7 +924,8 @@ baselinestretch量相当于行间距glue的伸缩量，也就是对前面的base
 
 
 \section{段落对齐}
-flushleft环境为左对齐环境，flashright环境为右对齐环境，center为居中环境。类似的命令样式有raggedleft，raggedright和centering。这些命令还可以控制表格图片(也许是一切盒子?)的位置。简单示例如下：
+\label{sec:段落对齐}
+flushleft环境为左对齐环境，flushright环境为右对齐环境，center为居中环境。类似的命令样式有raggedleft，raggedright和centering。这些命令还可以控制表格图片(也许是一切盒子?)的位置。简单示例如下：
 
 \begin{Verbatim}
 \begin{flushright}
@@ -935,23 +937,32 @@ flushleft环境为左对齐环境，flashright环境为右对齐环境，center�
 右边才是王道。
 \end{flushright}
 
+raggedleft，raggedright和centering这三个命令这里就不深入讨论了。flushleft和flushright和center这三个环境在latex那边都是原生支持的，所以输出pdf显示效果自然没有问题。
 
-\section{flushright环境空白间距问题}
-flushright环境有一个大型的空白间距，如果你不喜欢这么大的空白间距正如前面谈及的，可以使用raggedright等命令来调整，不过raggedright等命令似乎更适合对图片表格等盒子调整位置（raggedright命令不太好用，有时不知怎么不起作用，推荐就用hfill命令让其他内容居右，唯一要提醒的是hfill命令是针对当前行把内容往右推。）
-
-那么在段落内如何实现类似word那种一行之类居右对齐？
+在epub那边它们对应的标签类似这样：
 
 \begin{Verbatim}
-this is a test line
-
-{\vspace{-\parskip}\hfill  some text}
+<div class="flushright">
+<p>右边才是王道。</p>
+</div>
 \end{Verbatim}
 
-这里推荐先空一行分段，然后用hfill命令将文本推到右边去，然后用vspace调整下距离。这里选择-\textbackslash parskip这样得到的行距和其他行距是一致的。
+具体分别对应的class是 \verb+flushleft+ ， \verb+flushright+ 和 \verb+center+ 。所以你需要在css上添加：
 
-{\vspace{-\parskip}\hfill  然后我注意到开辟新的竖向模式}\\，比如换行之后，不空一行用smallskip，medskip等，然后不用vspace命令调整也是可以的。因为smallskip也是一种vspace命令的调整模式，但是行距和其他的不太一致，所以在这里推荐就空一段，然后负的parskip。当然如果可以接受不用vspace调整也是可以的。
+\begin{minted}{css}
+.flushleft{
+    text-align: left!important;
+}
+.flushright{
+    text-align: right!important;
+}
 
+.center{
+    text-align: center !important;
+}
+\end{minted}
 
+这样显示效果就很接近了。
 
 \chapter{页眉页脚设计}
 页眉页脚设计推荐用\emph{fancyhdr}宏包。
@@ -1216,10 +1227,23 @@ def命令是\TeX 的原始定义命令，比如说：\\
 \section{文章内部引用}
 某一个特别的章节图片或者表格等需要被引用时，你就在它哪里加上label命令。然后就可以用ref命令在文章内部建立链接引用他们了。值得一提的是texmaker的提示功能非常好。建立label的时候方便你管理，section部分前面就加一个sec:前缀，图片加一个fig:前缀，表格加个tab:前缀等。然后labe中文英文都是可以的，方便自己管理最好写的很明晰。
 
-比如在这里我插入了一个参考文献的引用，是用的是cite命令。\\
-\verb+ \cite{lshort}+请参见文献\cite{lshort}
+比如某个地方插入label：
+\begin{Verbatim}
+\label{ch:pandoc_epub}
+\end{Verbatim}
 
-还有一个pageref命令和ref命令差不多，文档上写法都类似，不同的是在文章上显示的是页码。
+然后要在引用它的地方插入：
+\begin{Verbatim}
+\ref{ch:pandoc_epub}
+\end{Verbatim}
+
+这个ref命令pdf和epub两边支持都较好，推荐使用。
+
+\sout{还有一个pageref命令和ref命令差不多，文档上写法都类似，不同的是在文章上显示的是页码。pageref兼容性不是很好，推荐都用ref命令。}
+
+
+
+
 
 
 
@@ -1826,6 +1850,22 @@ some text
 Robert Metcalf[以太网络的发明者]曾说过：如果将来有什么技术来取代以太网，那么这个取代物的名字还会叫“以太网”。因此以太网是永远不会消亡的Unix也多次经历了类似的转变。
 \end{quotation}
 
+\section{语录和引用环境定制}
+pdf单独的定制请参看这一小节的讨论：\ref{sec:quotation_huan_jing_ding_zhi} 。下面的讨论是兼顾pdf和epub的解决方案。
+
+在latex最前面定义：
+
+\begin{Verbatim}
+\AtBeginEnvironment{quotation}{\ttfamily}
+\end{Verbatim}
+
+这样就可以定制引用环境字体为ttfamily，这里具体是楷体，看上去更好看一些。而在epub那边，quotation环境继续自动转换为 \verb+blockquote+ 标签，比如可以设置这样的css：
+
+\begin{minted}{css}
+blockquote {
+    font-family: 'KaiTi', 'KaiTi_GB2312', 'STKaiti', 'DejaVu Sans Mono';
+}
+\end{minted}
 
 
 \section{诗词歌赋环境}
@@ -1862,15 +1902,42 @@ Robert Metcalf[以太网络的发明者]曾说过：如果将来有什么技术�
 
 
 
+\chapter{其他}
+下面一些内容是从html也就是epub那边出发想到的一些东西。
+\section{br标签}
+br标签和hr标签在html也就是epub那边算是很有特色的两个标签，其中br标签换行对应的是 \verb+\\+ ，这个没什么多的好说的。
 
-\chapter{插入摘要}
-abstract环境就是摘要环境，不过book类不能使用摘要环境，只有article和report才有。命令格式如下：
+\section{hr标签}
+hr标签也就是插入一条直线，这个有的时候可以作为文字之间的分隔符或者两个直线包围一段文字来显示该段文字的某种特殊性。当然也不一定要用直线，也可以用某种符号居中来获得类似的效果，比如：
+
 \begin{Verbatim}
-\begin{abstract}
-这是一段摘要文字。
-\end{abstract}
+\begin{center}
+* * *
+\end{center}
 \end{Verbatim}
 
+具体center居中环境的实现请参看段落对齐这一小节\ref{sec:段落对齐} 。
+
+回到正题，插入直线在latex那里：
+
+\begin{Verbatim}
+\par\noindent\rule{\textwidth}{0.4pt}
+\end{Verbatim}
+
+或者hrule命令都是可以正常转为hr标签的。从显示效果来说推荐自定义命令：
+
+\begin{Verbatim}
+% hr
+\newcommand\hr{\par\noindent\hrule}
+\end{Verbatim}
+
+然后在想要插入直线的地方加上 \verb+\hr+ 命令即可，这样显示效果是最好的。\hr
+比如上面插入了一条直线，文字之间没有特意空一行。
+
+\begin{Verbatim}
+这样显示效果是最好的。\hr
+比如上面插入了一条直线，文字之间没有特意空一行。
+\end{Verbatim}
 
 
 \chapter{数学环境}
@@ -2428,6 +2495,10 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 
 
+\part{xelatex进阶}
+\textbf{NOTICE:} 进阶篇这部分内容总的来说是笔者不推荐使用的一些特性，因为他们都太Tex了，前面基础篇的一些内容可能在epub那边一些定制效果会丢失，这还可以接受，最多在epub那边再做出一些css调整，而进阶篇这里的一些很可能会造成你的epub那边内容显示不全甚至是整个内容变得混乱不堪。
+
+
 \chapter{参考文献}
 \textbf{NOTICE:} 参考文献这块pandoc输出epub支持性很不好，似乎有一些高级内容讨论bibtex，但过于麻烦，目前个人喜欢参考文献单独起一章列出，后面可能会考虑简单通过ref命令来引用即可。
 
@@ -2443,10 +2514,8 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 bibitem命令的必填参数是参考文献的标签名字，但不是实际显示的名字，默认是显示的编号。如果你需要控制实际显示的文本名字是什么那么可以用可选项来控制之。如\verb+\bibitem[what]{latex123}+。这样处理之后文章中用cite命令简单引用这篇文献，那么显示的文本也将变成“what”，而不是编号。
 
-
-
-\part{xelatex进阶}
-\textbf{NOTICE:} 进阶篇这部分内容总的来说是笔者不推荐使用的一些特性，因为他们都太Tex了，前面基础篇的一些内容可能在epub那边一些定制效果会丢失，这还可以接受，最多在epub那边再做出一些css调整，而进阶篇这里的一些很可能会造成你的epub那边内容显示不全甚至是整个内容变得混乱不堪。
+后面要插入文献的引用，就使用cite命令，参数是该文献引用名，比如上面就是latex123。比如这里我插入了一个参考文献的引用，是用的是cite命令。\\
+\verb+ \cite{latex123}+请参见文献\cite{latex123}
 
 
 \chapter{颜色}
@@ -2756,6 +2825,13 @@ text-micro = μ
 \RequirePackage[export]{adjustbox}% 'export' is needed
 \end{Verbatim}
 
+\chapter{插入摘要}
+abstract环境就是摘要环境，不过book类不能使用摘要环境，只有article和report才有。命令格式如下：
+\begin{Verbatim}
+\begin{abstract}
+这是一段摘要文字。
+\end{abstract}
+\end{Verbatim}
 
 
 \chapter{多栏环境}
@@ -3771,7 +3847,9 @@ TeX中的计数器用arabic命令之后是1 2 3...这样的形式，如何产生
 更常见的是化学分子式里面的上标和下标，推荐使用mhchem宏包，至于数学模式里的上标和下标自不必说了。
 
 
-\section{定制quote和quoation环境}
+\section{定制quote和quotation环境}
+\label{sec:quotation_huan_jing_ding_zhi}
+
 以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
 
 quote和quotation在article.cls中的原初定义是这样的：
@@ -3822,6 +3900,21 @@ quote和quotation都是通过list环境来实现的，具体不太清楚。这�
 \item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
 \end{itemize}
 
+
+\section{flushright环境空白间距问题}
+flushright环境有一个大型的空白间距，如果你不喜欢这么大的空白间距正如前面谈及的，可以使用raggedright等命令来调整，不过raggedright等命令似乎更适合对图片表格等盒子调整位置（raggedright命令不太好用，有时不知怎么不起作用，推荐就用hfill命令让其他内容居右，唯一要提醒的是hfill命令是针对当前行把内容往右推。）
+
+那么在段落内如何实现类似word那种一行之类居右对齐？
+
+\begin{Verbatim}
+this is a test line
+
+{\vspace{-\parskip}\hfill  some text}
+\end{Verbatim}
+
+这里推荐先空一行分段，然后用hfill命令将文本推到右边去，然后用vspace调整下距离。这里选择-\textbackslash parskip这样得到的行距和其他行距是一致的。
+
+{\vspace{-\parskip}\hfill  然后我注意到开辟新的竖向模式}\\，比如换行之后，不空一行用smallskip，medskip等，然后不用vspace命令调整也是可以的。因为smallskip也是一种vspace命令的调整模式，但是行距和其他的不太一致，所以在这里推荐就空一段，然后负的parskip。当然如果可以接受不用vspace调整也是可以的。
 
 \section{多张图片并列显示}
 \label{sec:多张图片并列显示}
