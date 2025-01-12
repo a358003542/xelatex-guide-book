@@ -1,12 +1,10 @@
 % !Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
 
-\documentclass[11pt,oneside]{book}
-
+\documentclass[12pt,oneside]{book}
 
 \newlength{\textpt}
-\setlength{\textpt}{11pt}
-    
-\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}#1\vspace*{\stretch{1}}\end{center}\end{titlepage}}
+\setlength{\textpt}{12pt}
+   
     
 %========基本必备的宏包========%
 \RequirePackage{calc,float,multicol,moresize}
@@ -31,19 +29,20 @@
 %===========全文基本格式==========%
 \setlength{\parskip}{1.6ex plus 0.2ex minus 0.2ex}   %段落間距
 \setlength{\parindent}{\textpt * \real{2}}
+\RequirePackage{indentfirst} 
 
 %=========页面设置=========%
 \RequirePackage[a4paper, %a4paper size 297:210 mm
-  bindingoffset=10mm,%裝訂線
+  bindingoffset=0mm,%裝訂線
   top=35mm,  %上邊距 包括頁眉
   bottom=30mm,%下邊距 包括頁腳
-  inner=10mm,  %左邊距or inner
-  outer=10mm,  %右邊距or  outer
+  inner=30mm,  %左邊距or inner
+  outer=30mm,  %右邊距or  outer
   headheight=10mm,%頁眉
   headsep=15mm,%
   footskip=15mm,%
-  marginparsep=10pt, %旁註與正文間距
-  marginparwidth=6em,includemp=true% 旁註寬度計入width%旁註寬度
+  marginparsep=0pt, %旁註與正文間距
+  marginparwidth=0em,includemp=false% 旁註寬度計入width%旁註寬度
   ]{geometry}
 
 %color
@@ -71,7 +70,6 @@
 \setCJKsansfont[FallBack=DejaVu Sans]{Source Han Sans CN}
 \setCJKmonofont[FallBack=DejaVu Sans Mono]{KaiTi}
 
-\RequirePackage{xltxtra} %put here to avoid some package option error. maybe this package is useless ?
 
 
 %%===============中文化=========%
@@ -161,22 +159,26 @@
 %\renewcommand{\arraystretch}{1.3}
 %如果用setspace宏包而不是linespread调整行间距，那么才需要额外的表格行距拉大。
 
+
 %插入代码
 \RequirePackage{fancyvrb} 
 \fvset{frame=lines,tabsize=4 ,baselinestretch=1.8, fontsize=\footnotesize}
 
-
 %minted
 \RequirePackage{minted}%
 
+% 框线表示大段文章引用
+\RequirePackage{mdframed} 
+\mdfsetup{frametitlealignment=\center}
+\newmdenv[frametitlebackgroundcolor=gray!20, linewidth=1pt,
+                    frametitlerulewidth=1pt, frametitlerule=true]{bookref}
 
-%==========其他宏包===========%
-\RequirePackage{tikz} 
-\usetikzlibrary{calc}
 
 %========脚注=========%
+\RequirePackage{tikz} 
 \newcommand*\circled[1]{%
-  \tikz[baseline=(char.base)]\node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
+  \tikz[baseline=(char.base)]
+  \node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
 \newcommand*\circledarabic[1]{\circled{\arabic{#1}}}
 
 \RequirePackage{perpage} %the perpage package
@@ -184,55 +186,43 @@
 
 \renewcommand*{\thefootnote}{\protect\circledarabic{footnote}}
 
-
-\renewcommand\@makefntext[1]
-{\vspace{5pt}
-\noindent
-\makebox[20pt][c]{\@makefnmark}
+\renewcommand\@makefntext[1]{\vspace{5pt}\noindent
+\makebox[20pt][c]{\fontsize{10pt}{12pt}\@thefnmark}
 \fontsize{10pt}{12pt}\selectfont #1}
 
 \setlength{\skip\footins}{20pt plus 10pt}
 %main body 与脚注之间的距离
+                   
+       
+\makeatother              
 
-
+      
+%==========其他宏包===========%
 %framed环境
 \RequirePackage{framed}
-
 
 \newenvironment{shici}{
 \begin{verse}
 \centering\large\hspace{12pt}}
 {\end{verse}}
 
-\RequirePackage{indentfirst} 
-
 % hr
 \newcommand\hr{\par\noindent\hrule}
 
 %重新定义quotation
 \AtBeginEnvironment{quotation}{\ttfamily}
+\AtBeginEnvironment{quote}{\ttfamily}
  
-
-\makeatother
-
-
 
 \title{XeLaTeX 指南}
 \author{万泽}
-\date{第四次修订版}
 
-\newcommand{\bookcover}[1]{\tikz[remember picture,overlay]{\node[inner sep=0] at (current page.center)
-{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}} 
  
 \begin{document}
+\maketitle
+
+
 \frontmatter 
-\thispagestyle{empty}
-
-\bookcover{book_cover.png}
-
-\cleardoublepage
-
-
 \addchtoc{前言}
 \chapter*{前言}
 我试图收集整理各方面来的xelatex相关的信息，包括自己的实践经验总结，作为后学者的指南手册。
@@ -1309,14 +1299,12 @@ hyperref宏包目前我的DIY只限于一些颜色设置，有兴趣的请自己
 
 \section{重定义脚注文本格式}
 \begin{Verbatim}
-\renewcommand\@makefntext[1]
-{\vspace{5pt}
-\noindent
-\makebox[20pt][c]{\@makefnmark}
+\renewcommand\@makefntext[1]{\vspace{5pt}\noindent
+\makebox[20pt][c]{\fontsize{10pt}{12pt}\@thefnmark}
 \fontsize{10pt}{12pt}\selectfont #1}
 \end{Verbatim}
 
-这里重新定义了（在sty文件中）\verb+\@makefntext+命令，命令的参数就是每一条脚注的内容的。都是一些格式的调整，主要的改动是加入了一个盒子放着脚注的标签（\verb+\@makefnmark+）。
+这里重新定义了（在sty文件中）\verb+\@makefntext+命令，命令的参数就是每一条脚注的内容的。
 
 
 \section{表格里的脚注}
@@ -1867,6 +1855,40 @@ blockquote {
 }
 \end{minted}
 
+\section{线框包围环境}
+线框包围大段文字 \verb+mdframed+ 宏包提供了很好的跨页支持，内置的 \verb+\fbox+ 和 \verb+\fcolorbox+ 会有问题的，此外mdframed的解决方案相比tcolorbox更轻量级一些，如果使用mdframed的话里面的文字显示效果和格式等是不受破坏的，对于大段大段引用其他书籍的情况，mdframed宏包更合适一些。
+
+更多内容请参看mdframed宏包的官方文档，下面是一些个人定制代码：
+
+\begin{Verbatim}
+\RequirePackage{mdframed} 
+\mdfsetup{frametitlealignment=\center}
+\newmdenv[frametitlebackgroundcolor=gray!20, linewidth=1pt,
+       frametitlerulewidth=1pt, frametitlerule=true]{bookref}
+\end{Verbatim}
+
+使用代码如下：
+\begin{Verbatim}
+\begin{bookref}[frametitle={\cite{黄帝内经}}]
+[黄帝]乃问于天师曰：余闻上古之人，春秋皆度百岁，而动作不衰；...
+
+......
+\end{bookref}
+\end{Verbatim}
+
+显示效果如下：
+
+\begin{bookref}[frametitle={\cite{黄帝内经}}]
+[黄帝]乃问于天师曰：余闻上古之人，春秋皆度百岁，而动作不衰；今时之人，年半百而动作皆衰者，时世异耶，人将失之耶？
+
+歧伯对曰：上古之人，其知道者，法于阴阳，和于术数，食饮有节，起居有常，不妄作劳，故能形与神俱，而尽终其天年，度百岁乃去。今时之人不然也，以酒为浆，以妄为常，醉以入房，以欲竭其精，以耗散其真，不知持满，不时御神，务快其心，逆于生乐，起居无节，故半百而衰也。夫上古圣人之教下也，皆谓之虚邪贼风，避之有时，恬惔虚无，真气从之，精神内守，病安从来。是以志闲而少欲，心安而不惧，形劳而不倦，气从以顺，各从其欲，皆得所愿。故美其食，任其服，乐其俗，高下不相慕，其民故曰朴。是以嗜欲不能劳其目，淫邪不能惑其心，愚智贤不肖不惧于物，故合于道。所以能年皆度百岁而动作不衰者，以其德全不危也。
+\end{bookref}
+ 
+
+
+
+
+
 
 \section{诗词歌赋环境}
 本文新建了一个shici环境，在原verse环境下稍微做了一些修改，具体如下所示：
@@ -1902,42 +1924,7 @@ blockquote {
 
 
 
-\chapter{其他}
-下面一些内容是从html也就是epub那边出发想到的一些东西。
-\section{br标签}
-br标签和hr标签在html也就是epub那边算是很有特色的两个标签，其中br标签换行对应的是 \verb+\\+ ，这个没什么多的好说的。
 
-\section{hr标签}
-hr标签也就是插入一条直线，这个有的时候可以作为文字之间的分隔符或者两个直线包围一段文字来显示该段文字的某种特殊性。当然也不一定要用直线，也可以用某种符号居中来获得类似的效果，比如：
-
-\begin{Verbatim}
-\begin{center}
-* * *
-\end{center}
-\end{Verbatim}
-
-具体center居中环境的实现请参看段落对齐这一小节\ref{sec:段落对齐} 。
-
-回到正题，插入直线在latex那里：
-
-\begin{Verbatim}
-\par\noindent\rule{\textwidth}{0.4pt}
-\end{Verbatim}
-
-或者hrule命令都是可以正常转为hr标签的。从显示效果来说推荐自定义命令：
-
-\begin{Verbatim}
-% hr
-\newcommand\hr{\par\noindent\hrule}
-\end{Verbatim}
-
-然后在想要插入直线的地方加上 \verb+\hr+ 命令即可，这样显示效果是最好的。\hr
-比如上面插入了一条直线，文字之间没有特意空一行。
-
-\begin{Verbatim}
-这样显示效果是最好的。\hr
-比如上面插入了一条直线，文字之间没有特意空一行。
-\end{Verbatim}
 
 
 \chapter{数学环境}
@@ -2493,12 +2480,6 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 本章节后面有时间，除了增加特殊符号之外，觉得还有必要额外的说明的知识，会继续补充在下面。主要是关于我接触到的数学领域的特定符号的确定，精确意义上的；某些特殊的数学公式排版等等。
 
-
-
-\part{xelatex进阶}
-\textbf{NOTICE:} 进阶篇这部分内容总的来说是笔者不推荐使用的一些特性，因为他们都太Tex了，前面基础篇的一些内容可能在epub那边一些定制效果会丢失，这还可以接受，最多在epub那边再做出一些css调整，而进阶篇这里的一些很可能会造成你的epub那边内容显示不全甚至是整个内容变得混乱不堪。
-
-
 \chapter{参考文献}
 \textbf{NOTICE:} 参考文献这块pandoc输出epub支持性很不好，似乎有一些高级内容讨论bibtex，但过于麻烦，目前个人喜欢参考文献单独起一章列出，后面可能会考虑简单通过ref命令来引用即可。
 
@@ -2518,6 +2499,7 @@ bibitem命令的必填参数是参考文献的标签名字，但不是实际显�
 \verb+ \cite{latex123}+请参见文献\cite{latex123}
 
 
+\part{xelatex进阶}
 \chapter{颜色}
 \label{sec:颜色}
 \section{颜色的心理学}
@@ -3678,7 +3660,7 @@ sudo texhash
 
 \begin{itemize}
 \item 图片格式不要选pdf和svg了，就用png或者jpeg，然后图片类型后缀名不要省略了。
-\item 不要使用 \XeLaTeX 和 \XeTeX ，epub那边不支持
+\item 不要使用 \verb+\XeLaTeX+ 和 \verb+\XeTeX+ ，epub那边不支持
 \item 图表环境下label应该跟在caption后面，否则epub那边工作不正常，原因不明。
 \item 数学模式基本上都支持，其在epub中大概是这样的形式 \verb+<math ....+，还可以换成mathjax，关于这块pandoc文档的 \verb+Math rendering in html+ 一节有更详细的讨论，不管怎么说，默认的配置一般就够用了。
 \item cite命令和参考文献环境thebibliography都工作不太正常。
@@ -3691,69 +3673,41 @@ sudo texhash
 pandoc -o main.epub main.tex --metadata-file=epub.yaml
 \end{Verbatim}
 
+下面一些内容是从html也就是epub那边出发想到的一些东西。
+\section{br标签}
+br标签和hr标签在html也就是epub那边算是很有特色的两个标签，其中br标签换行对应的是 \verb+\\+ ，这个没什么多的好说的。
 
-
-\chapter{方便手机上观看的pdf}
-
-
-\section{geometry修改}
-手机上看旁注，左右上下边距都要缩小，然后paperwidth和paperheight也要相应缩小。本小节 \footnote{主要参考了\href{http://tex.stackexchange.com/questions/78920/generating-smartphone-readable-pdf}{这个网站}。}
-
-\begin{Verbatim}
-\ifphone
-%for phone
-\RequirePackage[
-  paperwidth=105mm, %除去旁註其他沒變,115,再稍微小點
-  paperheight=190mm,%太長了縮短點，
-  bindingoffset=0mm,%裝訂線
-  top=15mm,  %上邊距 包括頁眉
-  bottom=15mm,%下邊距 包括頁腳
-  left=5mm,  %左邊距or inner
-  right=5mm,  %右邊距or  outer
-  headheight=10mm,%頁眉
-  footskip=10mm,%頁腳
-  includemp=true,% 旁註寬度計入width
-  marginparsep=0mm, %沒有旁註
-  marginparwidth=0mm,  %沒有旁註
-  ]{geometry}
-\else
-
-\RequirePackage[a4paper, %a4paper size 297:210 mm
-  bindingoffset=0mm,%裝訂線
-  top=45mm,  %上邊距 包括頁眉
-  bottom=40mm,%下邊距 包括頁腳
-  left=35mm,  %左邊距or inner
-  right=40mm,  %右邊距or  outer
-  headheight=25mm,%頁眉
-  footskip=25mm,%頁腳
- includemp=true,% 旁註寬度計入width
- marginparsep=0mm, %旁註與正文間距
-marginparwidth=0mm,  %旁註寬度
-  ]{geometry}
-\fi
-\end{Verbatim}
-这里使用了一个条件命令。在加载myconfig.sty宏包的时候已经新建了一个条件变量：\\
-\verb+\newif\ifphone+\\
-\verb+\phonefalse+
-ifphone就是一个条件判断命令，这里涉及到的命令我也不大懂，总之，如果我改成：\\
-\verb+\phonetrue+\\
-就会自动生成适合在手机上观看的pdf。
-
-
-
-\section{章节上下距离修改}
-使用 \verb+titlespacing*+ 来修改章节的上下距离，经观察主要是chapter和secion上下间距较大。 \verb+titlespacing*+ 命令第一个参数是指定作用对象，第二个指定左边距离，第三个是指定上间距，第四个是指定下间距。 参考了 \href{https://tex.stackexchange.com/questions/63390/how-to-decrease-spacing-before-chapter-title}{这个网页}。
+\section{hr标签}
+hr标签也就是插入一条直线，这个有的时候可以作为文字之间的分隔符或者两个直线包围一段文字来显示该段文字的某种特殊性。当然也不一定要用直线，也可以用某种符号居中来获得类似的效果，比如：
 
 \begin{Verbatim}
-\titlespacing*{\chapter}{0pt}{-45pt}{10pt}
-
-\titlespacing*{\section}{0pt}{-5pt}{8pt}
+\begin{center}
+* * *
+\end{center}
 \end{Verbatim}
 
+具体center居中环境的实现请参看段落对齐这一小节\ref{sec:段落对齐} 。
 
+回到正题，插入直线在latex那里：
 
-\section{管理策略}
-手机版和电脑版sty文件分开编写和引入是个不错的主意，至于具体生成的pdf文件名字后面再重命名就是了。
+\begin{Verbatim}
+\par\noindent\rule{\textwidth}{0.4pt}
+\end{Verbatim}
+
+或者hrule命令都是可以正常转为hr标签的。从显示效果来说推荐自定义命令：
+
+\begin{Verbatim}
+% hr
+\newcommand\hr{\par\noindent\hrule}
+\end{Verbatim}
+
+然后在想要插入直线的地方加上 \verb+\hr+ 命令即可，这样显示效果是最好的。\hr
+比如上面插入了一条直线，文字之间没有特意空一行。
+
+\begin{Verbatim}
+这样显示效果是最好的。\hr
+比如上面插入了一条直线，文字之间没有特意空一行。
+\end{Verbatim}
 
 
 
@@ -4009,7 +3963,7 @@ changepage宏包还有changetext和changepage命令，有兴趣的可以看下�
 
 \bibitem[latex-companion]{latex-companion}  The Latex Companion 
 
-
+\bibitem[黄帝内经]{黄帝内经} 《黄帝内经》
 
 
 \end{thebibliography}
