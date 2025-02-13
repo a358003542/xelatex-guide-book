@@ -206,14 +206,8 @@
 \centering\large\hspace{12pt}}
 {\end{verse}}
 
-% hr
-\newcommand\hr{\par\noindent\hrule}
 
-%重新定义quotation
-\AtBeginEnvironment{quotation}{\ttfamily}
-\AtBeginEnvironment{quote}{\ttfamily}
  
-
 \title{XeLaTeX 指南}
 \author{万泽}
 
@@ -258,16 +252,6 @@
 
 \mainmatter 
 \part{xelatex基础}
-本部分主要关注latex作为标记语言很容易被其他标记语言识别的部分，具体来说就是利用pandoc从tex文件既能输出pdf也能输出epub并且两边都支持良好的功能。
-
-一个总的原则就是不要使用latex那些特有的太过于花哨的特性，本部分讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。
-
-关于这部分工作的详细内容整理将会在附录中的利用pandoc输出epub一章\ref{ch:pandoc_epub} 中有更详细的讨论说明之。
-
-关于本项目epub的css部分，有些是显示需求然后稍作调整，有些是从bootstrap那里或者不知道是那里抄来的，读者权做参考。
-
-某些LaTex特有的功能将会在本文的后续章节中说明，这些内容是不可能被epub或者其他标记语言支持的，比如Tikz制图，比如pdf特有的花哨排版需求等。
-
 
 \chapter{背景知识}
 \section{TeX}
@@ -1838,22 +1822,60 @@ some text
 Robert Metcalf[以太网络的发明者]曾说过：如果将来有什么技术来取代以太网，那么这个取代物的名字还会叫“以太网”。因此以太网是永远不会消亡的Unix也多次经历了类似的转变。
 \end{quotation}
 
-\section{语录和引用环境定制}
-pdf单独的定制请参看这一小节的讨论：\ref{sec:quotation_huan_jing_ding_zhi} 。下面的讨论是兼顾pdf和epub的解决方案。
 
-在latex最前面定义：
+\section{定制quote和quotation环境}
+\label{sec:quotation_huan_jing_ding_zhi}
 
+以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
+
+quote和quotation在article.cls中的原初定义是这样的：
 \begin{Verbatim}
-\AtBeginEnvironment{quotation}{\ttfamily}
+\newenvironment{quote}
+               {\list{}{\rightmargin\leftmargin}%
+                \item\relax}
+               {\endlist}
+\newenvironment{quotation}
+               {\list{}{\listparindent 1.5em%
+                        \itemindent    \listparindent
+                        \rightmargin   \leftmargin
+                        \parsep        \z@ \@plus\p@}%
+                \item\relax}
+               {\endlist}
 \end{Verbatim}
 
-这样就可以定制引用环境字体为ttfamily，这里具体是楷体，看上去更好看一些。而在epub那边，quotation环境继续自动转换为 \verb+blockquote+ 标签，比如可以设置这样的css：
+我改成了如下：
+\begin{Verbatim}
+%=========重新定义 quote=====%
+\renewenvironment{quote}[1][anonymous]{
+\newcommand{\quoteauthor}[1][anonymous]{#1}
+\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent   2em
+}\item\relax
+\ttfamily}
+{\\
+\makebox[\linewidth][r]{\sffamily —\quoteauthor}
+\endlist}
 
-\begin{minted}{css}
-blockquote {
-    font-family: 'KaiTi', 'KaiTi_GB2312', 'STKaiti', 'DejaVu Sans Mono';
-}
-\end{minted}
+%重新定义quotation
+\renewenvironment{quotation}
+{\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent 2em%item的缩进也就是第一段的缩进
+\listparindent \itemindent %第二段的缩进
+}%
+\item\relax
+\ttfamily}
+{\endlist}
+\end{Verbatim}
+quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
+\begin{itemize}
+\item \verb+\rightmargin\leftmargin+这是让右边空白距离等于左边空白距离，左边空白距离默认等于\verb+\parindent+，这个有用我保留了。
+\item \verb+\itemindent   2em+，这个itemindent控制的是第一段的段首缩进量，这里设置为2em即两个字符的意思。
+\item 代码第七行是设置quote环境下字体为ttfamily。
+\item quote环境后面的代码，在结束环境之前，先换行，然后输出了一个盒子，右对齐，ssfamily，写着这个格言的作者，因为格言一般都要写上作者，如果不知道那么也写上anonymous，无名氏。这个作者的名字是quote环境接受一个可选项而来的额。
+\item \verb+\listparindent \itemindent+，quotation多了一个这个设置，其中listparindent是控制quotation里面除了第一段之外其他段落的缩进，这里就简单设置为跟第一段一样。
+\item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
+\end{itemize}
+
 
 \section{线框包围环境}
 线框包围大段文字 \verb+mdframed+ 宏包提供了很好的跨页支持，内置的 \verb+\fbox+ 和 \verb+\fcolorbox+ 会有问题的，此外mdframed的解决方案相比tcolorbox更轻量级一些，如果使用mdframed的话里面的文字显示效果和格式等是不受破坏的，对于大段大段引用其他书籍的情况，mdframed宏包更合适一些。
@@ -3654,61 +3676,6 @@ sudo texhash
 
 如果有需要的可以阅读这些代码来学习你正在的sty或者cls文件都是怎么编写的。其中base文件夹里面有book，article，report之类文档类型的定义，也许里面有些命令的原始代码是你需要的。
 
-\chapter{利用pandoc输出epub}
-\label{ch:pandoc_epub}
-一个总的原则就是不要使用太过于花哨的latex特性，请参看本书xelatex基础篇部分，其中讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。下面更详细地讨论一些具体的问题。
-
-\begin{itemize}
-\item 图片格式不要选pdf和svg了，就用png或者jpeg，然后图片类型后缀名不要省略了。
-\item 不要使用 \verb+\XeLaTeX+ 和 \verb+\XeTeX+ ，epub那边不支持
-\item 图表环境下label应该跟在caption后面，否则epub那边工作不正常，原因不明。
-\item 数学模式基本上都支持，其在epub中大概是这样的形式 \verb+<math ....+，还可以换成mathjax，关于这块pandoc文档的 \verb+Math rendering in html+ 一节有更详细的讨论，不管怎么说，默认的配置一般就够用了。
-\item cite命令和参考文献环境thebibliography都工作不太正常。
-\item 自定义命令和自定义环境的宏展开pandoc都是支持的，经过测试发现\textbf{可选参数形式不支持}。
-\item verbatim和Verbatim环境都是支持的，将转成html那边的pre标签，minted环境的语法高亮也是支持的，同样需要你安装pygments。
-\end{itemize}
-
-最终制作epub输出命令简单如下：
-\begin{Verbatim}
-pandoc -o main.epub main.tex --metadata-file=epub.yaml
-\end{Verbatim}
-
-下面一些内容是从html也就是epub那边出发想到的一些东西。
-\section{br标签}
-br标签和hr标签在html也就是epub那边算是很有特色的两个标签，其中br标签换行对应的是 \verb+\\+ ，这个没什么多的好说的。
-
-\section{hr标签}
-hr标签也就是插入一条直线，这个有的时候可以作为文字之间的分隔符或者两个直线包围一段文字来显示该段文字的某种特殊性。当然也不一定要用直线，也可以用某种符号居中来获得类似的效果，比如：
-
-\begin{Verbatim}
-\begin{center}
-* * *
-\end{center}
-\end{Verbatim}
-
-具体center居中环境的实现请参看段落对齐这一小节\ref{sec:段落对齐} 。
-
-回到正题，插入直线在latex那里：
-
-\begin{Verbatim}
-\par\noindent\rule{\textwidth}{0.4pt}
-\end{Verbatim}
-
-或者hrule命令都是可以正常转为hr标签的。从显示效果来说推荐自定义命令：
-
-\begin{Verbatim}
-% hr
-\newcommand\hr{\par\noindent\hrule}
-\end{Verbatim}
-
-然后在想要插入直线的地方加上 \verb+\hr+ 命令即可，这样显示效果是最好的。\hr
-比如上面插入了一条直线，文字之间没有特意空一行。
-
-\begin{Verbatim}
-这样显示效果是最好的。\hr
-比如上面插入了一条直线，文字之间没有特意空一行。
-\end{Verbatim}
-
 
 
 \chapter{其他问题的讨论}
@@ -3800,59 +3767,6 @@ TeX中的计数器用arabic命令之后是1 2 3...这样的形式，如何产生
 
 更常见的是化学分子式里面的上标和下标，推荐使用mhchem宏包，至于数学模式里的上标和下标自不必说了。
 
-
-\section{定制quote和quotation环境}
-\label{sec:quotation_huan_jing_ding_zhi}
-
-以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
-
-quote和quotation在article.cls中的原初定义是这样的：
-\begin{Verbatim}
-\newenvironment{quote}
-               {\list{}{\rightmargin\leftmargin}%
-                \item\relax}
-               {\endlist}
-\newenvironment{quotation}
-               {\list{}{\listparindent 1.5em%
-                        \itemindent    \listparindent
-                        \rightmargin   \leftmargin
-                        \parsep        \z@ \@plus\p@}%
-                \item\relax}
-               {\endlist}
-\end{Verbatim}
-
-我改成了如下：
-\begin{Verbatim}
-%=========重新定义 quote=====%
-\renewenvironment{quote}[1][anonymous]{
-\newcommand{\quoteauthor}[1][anonymous]{#1}
-\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent   2em
-}\item\relax
-\ttfamily}
-{\\
-\makebox[\linewidth][r]{\sffamily —\quoteauthor}
-\endlist}
-
-%重新定义quotation
-\renewenvironment{quotation}
-{\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent 2em%item的缩进也就是第一段的缩进
-\listparindent \itemindent %第二段的缩进
-}%
-\item\relax
-\ttfamily}
-{\endlist}
-\end{Verbatim}
-quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
-\begin{itemize}
-\item \verb+\rightmargin\leftmargin+这是让右边空白距离等于左边空白距离，左边空白距离默认等于\verb+\parindent+，这个有用我保留了。
-\item \verb+\itemindent   2em+，这个itemindent控制的是第一段的段首缩进量，这里设置为2em即两个字符的意思。
-\item 代码第七行是设置quote环境下字体为ttfamily。
-\item quote环境后面的代码，在结束环境之前，先换行，然后输出了一个盒子，右对齐，ssfamily，写着这个格言的作者，因为格言一般都要写上作者，如果不知道那么也写上anonymous，无名氏。这个作者的名字是quote环境接受一个可选项而来的额。
-\item \verb+\listparindent \itemindent+，quotation多了一个这个设置，其中listparindent是控制quotation里面除了第一段之外其他段落的缩进，这里就简单设置为跟第一段一样。
-\item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
-\end{itemize}
 
 
 \section{flushright环境空白间距问题}
