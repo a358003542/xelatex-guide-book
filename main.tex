@@ -142,7 +142,7 @@
   \ULon}
 
 \let\oldemph\emph % Save emph in oldemph
-\renewcommand{\emph}[1]{\textcolor{red}{#1}}  
+\renewcommand{\emph}[1]{\textcolor{blue}{\textbf{#1}}}  
 
 %==================插入圖片=======%
 \RequirePackage{wrapfig}
@@ -323,7 +323,8 @@ texdoc xeCJK
 
 \section{从documentclass说起}
 \label{sec:documentclass}
-文档刚开始是preamble区域，放着文档的一些配置，从begin\{document\}开始进入正文区，出了end\{document\}这句话之后后面写的什么程序都不管了。document是一个环境，后面我们会接触很多的环境的。
+文档刚开始是preamble区域，放着文档的一些配置，从 \\
+\verb+begin{document}+开始进入正文区，出了 \verb+end{document}+这句话之后后面写的什么程序都不管了。document是一个环境，后面我们会接触很多的环境的。
 
 documentclass命令的必选参量有article，report，book， slides，beamer等，一般了解这几个就够用了。他们之间有很多细微的差别，这个后面慢慢了解。
 
@@ -349,8 +350,9 @@ tex有以下文档的分节命令：
 
 \subsection{一般的可选项}
 \begin{itemize}
-\item 10pt，11pt，12pt      设置文档所使用字体的大小，默认是10pt\cite{wikibook-latex} 。
-\item a4paper ，letterpaper...      定义纸张的大小，此外还有 a5paper，b5paper，executivepaper，legalpaper等。
+\item 10pt，11pt，12pt      设置文档所使用字体的大小，默认是10pt。\\
+\cite{wikibook-latex} 
+\item a4paper ，letterpaper...      定义纸张的大小，此外还有 a5paper等。
 \item fleqn       设置该选项将使数学公式左对齐，而不是中间对齐。
 \item leqno       设置该选项将使数学公式的编号放置于左侧而不是右侧。
 \item titlepage, notitlepage       指定是否在文档标题后开始新一页，article文档类不开始新页，report和book开始。
@@ -438,7 +440,7 @@ geometry的机制是以上讨论的横向或者竖向参量指定足够的数量
 
 
 \subsection{字族}
-字族分为三大类，roman or serif（rm），sans serif（sf）和 monospace（tt）。\footnote{下面参考了\href{http://wiki.ubuntu-tw.org/index.php?title=HowtoCustomFontswithFontconfig}{这个网站}}
+字族分为三大类，roman or serif（rm），sans serif（sf）和 mono\-space（tt）。\footnote{下面参考了\href{http://wiki.ubuntu-tw.org/index.php?title=HowtoCustomFontswithFontconfig}{这个网站}}
 
 
 \begin{description}
@@ -614,7 +616,7 @@ fontspec宏包有一个和这个宏包名字一样的命令，这个命令非常
 \end{figure}
 
 
-另外还有一个有用的命令就是newfontfamily，这个命令相当于把fontspec命令包起来再新建一个命令。新建的那些字体命令就像\verb+\sffamily+之类的命令一样使用。比如加上这一行命令之后：
+另外还有一个有用的命令就是newfontfamily，这个命令相当于把font\-spec命令包起来再新建一个命令。新建的那些字体命令就像\verb+\sffamily+之类的命令一样使用。比如加上这一行命令之后：
 
 \begin{Verbatim}
 \newfontfamily{\ubuntu}[Scale=3]{Ubuntu}
@@ -1015,7 +1017,7 @@ O  & 奇数页(odd) \\ \bottomrule
 
 首先是加载fancyhdr宏包\footnote{exam类有自己的页眉页脚定制方法，和fancyhdr宏包有冲突。}。接下来是页面风格fancy，不先这样做后面的sectionmark的重定义无效，具体原因不明。
 
-然后接下来重定义sectionmark，这个sectionmark我不太明白，十分有意思的它在exam文档类里面照样有效，但是如果不设置\verb+\pagestyle{fancy}+它就无效，然后放在新定义的plain样式里面也会出错。
+然后接下来重定义sectionmark，这个sectionmark我不太明白，但是如果不设置\verb+\pagestyle{fancy}+它就无效，然后放在新定义的plain样式里面也会出错。
 
 下面就是重新定制plain样式，首先是：
 \begin{Verbatim}
@@ -1335,10 +1337,10 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 \label{sec:emph}
 本文档中的emph命令被重新定义了：
 \begin{Verbatim}
-\renewcommand{\emph}[1]{\textcolor{red}{#1}}  
+\renewcommand{\emph}[1]{\textcolor{blue}{\textbf{#1}}}  
 \end{Verbatim}
 
-比如：\emph{我觉得字体设为红色更加起到强调作用} 。这样重新定义emph命令是能够正确处理中文换行问题的，然后引入的textcolor输出到html或者epub下通过css同样也是可以获得颜色加强效果的。当然这个是个人喜好了，现在个人更偏好一般文字强调用textbf加粗，输出到html或者epub下是就是strong标签不需要做额外的处理。
+比如：\emph{我觉得字体设为蓝色加粗更加起到强调作用} 。这样重新定义emph命令是能够正确处理中文换行问题的。
 
 \section{underline命令}
 这个也是\LaTeX 自带的命令，就是加上下划线，不过在中文中并不能正确换行。所以请往下看。
@@ -1351,7 +1353,7 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 \RequirePackage{xeCJKfntef}
 \end{Verbatim}
 
-ulem宏包原来的命令： uline，uuline，uwave，sout， xout，dashline，dotuline等等都是支持的，这个宏包还提供了一些额外的命令这里就略过讨论了。
+ulem宏包原来的命令： uline，uuline，uwave，sout， xout等等都是支持的，这个宏包还提供了一些额外的命令这里就略过讨论了。
 
 \uline{这是一段很长的测试文字，主要用于说明中文情况下加入下划线并且能够正确的换行。用的是uline命令。}
 
@@ -1609,7 +1611,7 @@ hline命令表示画一条横线。\& 这个特殊符号表示进入下一列。
 \end{enumerate}
 
 
-在这里我们还有个捷径\footnote{texmaker编辑器的向导菜单那里有个表格向导方便快速生成表格tex代码片段。}，不一定要手工将表格代码全部敲出来。首先我们找一个表格软件，libreoffice的或者gnumeric都行。然后将数据输入进去保存好。然后我们将数据选择复制，打开网站：\href{http://www.tablesgenerator.com/}{http://www.tablesgenerator.com/} ，在那个网站的表格的开头哪里按下Ctrl+v。这个网站还有一些设置可以调整，稍微摸索下就知道了。唯一要说的是那个activate/deactivate custom grid edit选项，可以选择绘制某几根线框显示。在这里不做调整，直接选择最右边的booktabs table style。然后把多余的行或者列删除掉，就可以点击下面的generate了。生成的代码如下：
+在这里我们还有个捷径\footnote{texmaker编辑器的向导菜单那里有个表格向导方便快速生成表格tex代码片段。}，不一定要手工将表格代码全部敲出来。首先我们找一个表格软件，libreoffice的或者gnumeric都行。然后将数据输入进去保存好。然后我们将数据选择复制，打开网站：\href{http://www.tablesgenerator.com/}{www.tablesgenerator.com} ，在那个网站的表格的开头哪里按下Ctrl+v。这个网站还有一些设置可以调整，稍微摸索下就知道了。唯一要说的是那个activate/deactivate custom grid edit选项，可以选择绘制某几根线框显示。在这里不做调整，直接选择最右边的booktabs table style。然后把多余的行或者列删除掉，就可以点击下面的generate了。生成的代码如下：
 \begin{Verbatim}
 \begin{table}[h]
 \begin{tabular}{@{}ll@{}}
@@ -2106,7 +2108,8 @@ $$
 \item 复数集 \verb+$\mathbb{C}$+ $\mathbb{C}$
 \end{itemize}
 
-实际上所有大写字母，看上去中间有些空的那种符号，都可以 \verb+$\mathbb{A}$+  $\mathbb{A}$ 来获得。NOTICE: mathbb命令需要本文档加载 amssymb 包。
+实际上所有大写字母，看上去中间有些空的那种符号，都可以 \\
+\verb+$\mathbb{A}$+  $\mathbb{A}$ 来获得。NOTICE: mathbb命令需要本文档加载 amssymb 包。
 
 列举法写出某个集合，这里关键是 \{ 花括号在 \LaTeX 中是特殊符号，所以前面要加个左斜杠符号。 \verb+$\{1,2,3\}$+ $\{1,2,3\}$ 。
 
@@ -2477,7 +2480,8 @@ $ ，cases环境是amsmath包提供的。
 
 $\overline{x+y}$  $\underline{\frac{2}{3}}$
 
-对于统计学上的样本均值就是使用的这里的overline命令：$\overline{X}$  \verb+$\overline{X}$+ 。
+对于统计学上的样本均值就是使用的这里的overline命令：\\
+$\overline{X}$  \verb+$\overline{X}$+ 。
 
 
 \subsection{表达式上或下有个大括号}
@@ -2790,7 +2794,8 @@ print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
 
 一般的数字当然就是直接写，然后一般的单位也是直接写，比如10cm啊10米啊就是标准的做法。然后有些特殊的单位符号以及上标下标问题等如果用数学环境写，就会破坏文档这部分内容的谐调性，\emph{siunitx}宏包就是来解决这个问题的。
 
-比如说\verb+\num{3d10}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_1.png}，比如说\verb+100\si{\text{厘米}^3}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_2.png} 。
+比如说\verb+\num{3d10}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_1.png}，比如说\\
+\verb+100\si{\text{厘米}^3}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_2.png} 。
 
 值得一提的是原来xeCJK宏包会让数字和中文（单位）之间自动空一格，这很好，而使用了num命令或si命令之后这个自动空格机制被干扰了，你可以选择重新包装这个命令或者手动空一格吧。
 
@@ -3653,7 +3658,8 @@ fc-list :lang=zh | sort >ziti.txt
 
 \section{新宏包的安装}
 \label{sec-9}
-安装texlive-full之后，如果还遇到没有的宏包，可以先到CTAN官网上下载到这个宏包之后，然后将这个宏包解压到系统目录： \verb~/usr/share/texmf/tex/latex~ 里面即可。
+安装texlive-full之后，如果还遇到没有的宏包，可以先到CTAN官网上下载到这个宏包之后，然后将这个宏包解压到系统目录：\\
+ \verb~/usr/share/texmf/tex/latex~ 里面即可。
 
 当然你也可以在另外一个文件夹里面，这里必须是你的主文件夹下，新建一个文件夹texmf，然后里面新建一个tex，然后再新建一个目录latex，然后在这个latex里面放着你下载下来的宏包。具体比如说有一个宏包名字叫做config，那么latex下面就是config文件夹，然后里面就是config.sty文件。你自己写的宏包扔进去一样有效。
 唯一要额外做的操作就是在texmf目录之下运行命令：
