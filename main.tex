@@ -2501,10 +2501,27 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 
 \section{多行数学环境}
-\textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，这两个环境都是amsmath包提供的。如下演示，对于编写多行数学环境很是方便：
+\textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，这两个环境都是amsmath包提供的。
+
+比如下面这个例子，选用align环境的理由就是希望通过加上 \verb+&+ 来指定对齐位置，从而实现各个等号之间对齐，来达到一种推导过程的展示效果。
 
 
-本章节后面有时间，除了增加特殊符号之外，觉得还有必要额外的说明的知识，会继续补充在下面。主要是关于我接触到的数学领域的特定符号的确定，精确意义上的；某些特殊的数学公式排版等等。
+\begin{Verbatim}
+\begin{align*}
+P_1 &= \frac{v}{2} + \frac{w}{2} - (\frac{3v}{4} + \frac{w}{4}) \\
+    &= -\frac{1}{4}v + \frac{w}{4} \\
+    &= \frac{1}{4}(w-v) 
+\end{align*}
+\end{Verbatim}
+
+\begin{align*}
+P_1 &= \frac{v}{2} + \frac{w}{2} - (\frac{3v}{4} + \frac{w}{4}) \\
+    &= -\frac{1}{4}v + \frac{w}{4} \\
+    &= \frac{1}{4}(w-v) 
+\end{align*}
+
+
+
 
 \chapter{参考文献}
 \textbf{NOTICE:} 参考文献这块pandoc输出epub支持性很不好，似乎有一些高级内容讨论bibtex，但过于麻烦，目前个人喜欢参考文献单独起一章列出，后面可能会考虑简单通过ref命令来引用即可。
