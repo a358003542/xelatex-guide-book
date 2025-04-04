@@ -1,19 +1,15 @@
-xelatex-guide-book
-==================
+## XeLaTeX 指南
 
-我试图收集整理各方面来的xelatex相关的信息，包括自己的实战经验总结，作为后学者的指南手册。
-
-## pdf分支
-pdf分支将只关注输出pdf文档。
-
-
-## 制作epub
-
-```
-pandoc -o main.epub main.tex --metadata-file=epub.yaml
-```
+XeLaTeX 指南
 
 ## 更新日志
+### 20250404
+1. 只关注于本地pdf文件输出
+2. 移除了epub输出支持
+3. Texlive升级到2025版
+4. 结构精简，移除了大量不常用的内容
+5. 更加关注数学公式输出那一块
+
 
 ### 20201120
 

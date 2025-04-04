@@ -76,7 +76,7 @@
 \renewcommand\contentsname{目~录}
 \renewcommand\listfigurename{插图目录}
 \renewcommand\listtablename{表格目录}
-\renewcommand\bibname{参~考~文~献}
+\renewcommand\bibname{参~考~资~料}
 \renewcommand\indexname{索~引}
 \renewcommand\figurename{图}
 \renewcommand\tablename{表}
@@ -209,7 +209,7 @@
 
  
 \title{XeLaTeX 指南}
-\author{万泽}
+\author{wander}
 
  
 \begin{document}
@@ -223,7 +223,6 @@
 
 一切在尊重版权的基础上出于爱好兴趣和相信自由分享的价值原则上进行。
 
-第三次修订版删去了一些繁琐晦涩的内容，让文章变得更简洁明了。然后让文章主体部分的编译和生成是平台无关的，主要就是做了一些针对windows平台下的调整工作。这些平台相关的调整知识都加入附录部分了。
 
 \addchtoc{本书基本结构}
 \chapter*{本书基本结构}
@@ -233,9 +232,9 @@
 
 \item[2. xelatex进阶] 更深入地讨论xelatex的特有的排版问题。
 
-\item[3. xelatex高级篇] 这部分讨论了xelatex更底层的一些知识。
+\item[3. xelatex应用] 这部分讨论了xelatex的一些引用，比如：化学，tikz制图，幻灯片，试卷等。
 
-\item[4. xelatex应用篇] 这部分讨论了xelatex在不同领域（比如化学，tikz制图，幻灯片，试卷等等）的应用。
+\item[4. tex高级篇] 这部分讨论了tex底层的一些知识。
 
 \item[5. 附录] 里面有些内容你可能会很感兴趣。
 \end{description}
@@ -252,12 +251,11 @@
 
 \mainmatter 
 \part{xelatex基础}
-
 \chapter{背景知识}
 \section{TeX}
 以下完全按照wikibook中的latex翻译的。\href{http://en.wikibooks.org/wiki/LaTeX/Introduction}{wikibook-latex}
 
-Tex是一个底层的标记式的编程语言，Donald Knuth发明的排版系统，可以用来排版出很漂亮的文章。当初Knuth看到自己的文章和书籍被排版的丑陋不堪，于是在1977年开发了这个排版引擎，这个引擎深深地改变了出版业，大力扩展了数字打印设备的潜能。1989年Tex支持了8位字符，然后Tex的开发就被冻结了，只限bug的修复。Tex作为一种编程语言，是支持if-else结构的：你能够在里面执行数学运算（他们在编译文件的时候被执行），等等。。不过你会发现要做其他的还是很困难的除了排版文字。Tex对于文章的结构和格式提供了良好的解决方案，使得它成为一个强大的神器。Tex是出了名的稳定，可以运行在各种计算机上，几乎没有bug。Tex的版本是按照$\pi$的序列扩展的，目前到了3.1415926。
+Tex是一个底层的标记式的编程语言，Donald Knuth发明的排版系统，可以用来排版出很漂亮的文章。当初Knuth看到自己的文章和书籍被排版的丑陋不堪，于是在1977年开发了这个排版引擎，这个引擎深深地改变了出版业，大力扩展了数字打印设备的潜能。1989年Tex支持了8位字符，然后Tex的开发就被冻结了，只限bug的修复。Tex作为一种编程语言，是支持if-else结构的：你能够在里面执行数学运算（他们在编译文件的时候被执行），等等。不过你会发现要做其他的还是很困难的除了排版文字。Tex对于文章的结构和格式提供了良好的解决方案，使得它成为一个强大的神器。Tex是出了名的稳定，可以运行在各种计算机上，几乎没有bug。Tex的版本是按照$\pi$的序列扩展的，目前到了3.1415926。
 
 \section{关于Knuth教授}
 Knuth教授是\TeX 排版系统的发明人，出于内容精简的目的，关于Knuth教授的生平信息删去了，有兴趣的请参看\href{http://zh.wikipedia.org/wiki/%E9%AB%98%E5%BE%B7%E7%BA%B3}{wiki-高德纳}。
@@ -273,7 +271,7 @@ LaTeX是一个宏包,其目的是使作者能够利用一个预先定义好的�
 在\LaTeX 的代码中最重要的是理解各种各样的命令的功能，正是这些各种各样的命令让你输入的文字显得与众不同。比如说我现在在打很长的一段文字，\LaTeX 会自动换行的，而我在这里按下Enter键
 ，实际上并没有换行的效果。理解这一点很重要，\LaTeX 不同于微软的word软件或者其他openoffice之类，不是采用的所见即所得模式，我在这里打的是奇奇怪怪的东西，但是最后显示出来的却可能是很美观的东西。\LaTeX 的一个设计理念就是所想即所得，它甚至有点偏执地要求你组织好你自己的文章的结构，而这正是\LaTeX 的爱好者所推崇的。
 
-同样在代码中你空 一个格或者空      很多个格都是没有区别的，都是一个空格\footnote{现在中文之间的空格不会显示了，不清楚是xelatex还是xecjk宏包处理的，这样挺好的。然后在epub那里还是会保留一个空格。}。
+同样在代码中你空 一个格或者空      很多个格都是没有区别的，都是一个空格\footnote{现在中文之间的空格不会显示了，不清楚是xelatex还是xecjk宏包处理的，这样挺好的。然后如果用pandoc输出epub那里还是会保留一个空格。}。
 
 
 
@@ -295,7 +293,7 @@ LaTeX是一个宏包,其目的是使作者能够利用一个预先定义好的�
 \end{Verbatim}
 
 
-比如说本文档的第一行：\verb+\documentclass[11pt,oneside]{book}+ ，意思是描述文章模板的类型为book，也就是一本书，除此之外还有article，report，slides类型等，更详细的讨论参见documentclass说明一章\ref{sec:documentclass} 。
+比如说本文档的第一行：\verb+\documentclass[12pt,oneside]{book}+ ，意思是描述文章模板的类型为book，也就是一本书，除此之外还有article，report，slides类型等，更详细的讨论参见documentclass说明一章\ref{sec:documentclass} 。
 
 然后我们看到第二行代码：\verb+\usepackage{什么宏包}+ ，这个usepackage命令后面跟上你想加载的库文件，等你使用\LaTeX 久了，就会接触到更多的宏包的。
 
@@ -330,23 +328,22 @@ documentclass命令的必选参量有article，report，book， slides，beamer�
 
 tex有以下文档的分节命令：
 
-\begin{Verbatim}
-\part{partname}
-\chapter{chaptername}
-\section{sectionname}
-\subsection{subsectionname}
-\subsubsection{subsubsectionname}
-\paragraph{paragraphname}
-\subparagraph{subparagraphname}
-\end{Verbatim}
+\begin{itemize}
+\item part
+\item chapter
+\item section
+\item subsection
+\item subsubsection
+\item paragraph
+\item subparagraph
+\end{itemize}
 
-上面的分节命令如果带上星号，如\verb+\section*{}+ 这样的形式则表示该分节不进入目录，也不编号。
+
+上面的分节命令如果带上星号，如\verb+\chapter*{}+和 \verb+\section*{}+ 这样的形式则表示该分节不进入目录，也不编号。【在某些情况下你可能需要该章节不编号但是也要在目录上显示，请参看\ref{sec:前言加入目录} 的讨论。但更精细的测试显示\verb+\part*+是会进入目录的。】
 
 一般paragraph和subparagraph分节不怎么使用，就在文档中一行一行空出来即可。还有subsubsection这个分节也不常使用，因为section之下有subsection已经很好地满足了思想的分级结构。paragraph命令可以构建出类似description环境的效果，不同的是后面不缩进，装载内容容量更大。
 
-所以结合前面book，article分类我在这里为了简单起见约定如下:文档中一个小段落就是subparagraph不需要用命令再标识一次，几个段落构成一个paragraph，这从原则上就是某一个问题的阐述，也就是一个section级别，当我们对某一个课题反复思考之后，积累的资料越来越多，然后我们发现某几个section可以合并起来，这样出现了section和subsection两个级别。目录只需要显示section，如果是大型文档有part的时候可以考虑加入少量的subsection，这样目录才不至于过于庞大反而失去了实用性。这所有的section潜在的一个大的分类是chapter，但是这里不需要写出来，因为这个时候整个文档的级别是article。也就是通常所见的小容量的书小册子，某一个专门课题的讨论就按照article来处理。如果上升到某一个学科不同课题的讨论，那么上面article隐藏的chapter写出来，然后将他们合并为book类，这个时候这个book潜藏的最高级别为part。如果是不同学科的合并书籍那么级别就上升到part了。目录在book类的时候有part写上part，然后chapter和section都显示出来，结构也不会太复杂的。
-
-当然以上讨论只是泛泛而论，你需要根据自己的实际情况来，但总的原则是自己心里应该有一个划分标准，毕竟一本书最有价值的部分就是目录了，如果一本书的目录结构是乱七八糟的那么这本书不值一看。
+对于一本书而言目录是很重要的一环，如果一本书的目录结构是乱七八糟的那么这本书不值一看。
 
 \subsection{一般的可选项}
 \begin{itemize}
@@ -386,9 +383,9 @@ tex有以下文档的分节命令：
 \label{sec:页码}
 frontmatter命令跟在begin document后面，接下来页码为罗马数字。
 
-mainmatter命令放在正文开始的前面，表示页码的阿拉伯数字开始计数。
+mainmatter命令放在正文开始的前面，表示页码为阿拉伯数字开始计数。【书籍从前言到目录完结应该是罗马数字，当要引用一本书的内容时候，一般是书名然后P123，这个123就是123页的意思。所以作者请不要在前言部分长篇大论，最多就是关于本书内容的简要介绍和一些感谢之类的，因为假如你的前言部分有什么重要的信息别人要引用，会让别人有点不太好办。mainmatter之后如果有什么一般性的讨论，绪论，序论，引言都是可以的。】
 
-appendix命令表示附录开始,后面各章节改为字母标记。页码没有变化
+appendix命令表示附录开始，后面各章节改为字母标记。页码没有变化
 
 backmatter命令放在参考文献或者索引的前面。章节编号关掉，页码没有变化。\footnote{backmatter不能在appendix前面，请参考\href{http://tex.stackexchange.com/questions/20538/what-is-the-right-order-when-using-frontmatter-tableofcontents-mainmatter}{这个网站}。}
 
@@ -1129,7 +1126,7 @@ tocdepth是一个counter量，默认是2，显示到subsection。这里为了是
 本文目录的前面加入如下命令即可：\\
 \verb+\addchtoc{目录}+
 
-同理，参考文献处理情况类似。值得提醒的是section的时候注意换命令。然后part，section之类的命令带个星号*表示不编号不进入目录，这个前面说过的。
+同理，参考文献处理情况类似。值得提醒的是section的时候注意换命令。
 
 \section{目录行间距拉大}
 我试图建立一个通用的格式环境横跨目录的时候会失效，只好将其分开。不过这样做带来一个好处，那就是你在目录前面设置一些格式只对目录起作用。比如：\\
@@ -2996,206 +2993,26 @@ $t$（分） & $s$（英尺）  \\ \midrule
 
 
 
-\chapter{尾注}
-\textbf{NOTICE:} 本文档已经取消了endnotes功能，也不推荐读者使用，一切从简，脚注其实已经很好地满足需求了。下面本章的内容更多的可以用来作为参考来学习Tex内部机制和如何编写latex宏包。
-
-尾注也就是每一章后面的注释部分，这种排版形式显得更加专业。而且如果尾注写的好参考文献一章或者其他附录部分都可以不用写了。
-
-本来已经有一个endnotes宏包了，但是这个宏包不支持超链接，然后后来我按照\href{http://tex.stackexchange.com/questions/8452/making-endnotes-clickable-links-with-hyperref}{这个网站}的说明操作加入另外一个sty文件之后是能够正常双向链接的，但是为了解决一个问题引入两个宏包，而且这两个宏包还存在交互问题只是让问题更加复杂了。
-
-我试着慢慢将这两个宏包融合起来，遇到了很多困难，因为我对tex原初命令并不是十分熟悉，最终似乎解决了这一问题。其中有些细节我也不大清楚，下面就这个新的endnotes宏包详细说明。
 
 
-\section{endnotes宏包说明}
-整个宏包还是很简洁的，满打满算八九十行。宏包的文件在github源码的texmf文件夹里面。
+\part{xelatex应用}
+\chapter{tikz制图}
+tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_gallery}{这个项目} 读者可以看下。
+
+\chapter{化学相关}
+化学相关符号甚至非常复杂的有机分子式的显示问题推荐用\emph{chemfig}宏包解决。
 
 
-\begin{Verbatim}
-\NeedsTeXFormat{LaTeX2e}[1994/12/01]
-\ProvidesPackage{endnotes}[2013/11/29 v0.12  endnotes]
-\end{Verbatim}
-首先是一些文档的注释说明信息，这里就不写了。
+\chapter{exam类}
+详细情况请参看本github中文件夹 \verb+exam类+ 。
 
-然后是标准的宏包sty文件的开头样式，这里填上endnotes宏包即可。
+\chapter{beamer类}
+\LaTeX 中幻灯片的处理是用beamer类来写的，老实说我认为\LaTeX 并不适合偏视觉的幻灯片的编写，\LaTeX 更适合内容文字等等较多的时候的情况，那个时候 word都有点力不从心，而tex标记语法风格结合良好的编辑器是很得心应手的。
 
-\begin{Verbatim}
-\RequirePackage{etoolbox}
-\DeclareRobustCommand*{\flabel}[2]%
-{\phantomsection \def\@currentlabel{#2}
-\label{#1}}%
-\end{Verbatim}
-
-这里使用RequirePackage命令引入了etoolbox宏包，主要是为了引入了expandonce命令，这个命令是确保后面的一个命令只运行一次。
-
-然后接下来新建了一个命令flabel，这个命令是为了文本中的尾注标记符号和尾注中的标记符号区分开来，比如文本中的尾注标记符号是上标的，而尾注中的标记符号则不是。flabel命令里面使用了hyperref宏包的精确定位命令phantomsection，因为hyperref宏包在myconfig宏包中已经加载了，这里就不加载了。
-
-flabel命令接受两个参数，第一个参数\#{}1表示真实的label，而第二个参数\#{}2表示显示的label。所谓真实的label指等下生成的pdf中的精确定位label标记。命令中重新定义了\verb+\@currentlabel+，也就是显示的label。这样将这两者区分开来，本来他们都是一样的。
+所以这部分内容我决定略过了，在本github里面有个 \verb+制作幻灯片+ 的文件夹，里面有一点我早期探索的内容，可做读者的参考。
 
 
-
-\begin{Verbatim}
-\gdef\theenmark{\arabic{@EndnoteCounter}}%
-\gdef\endnotemark{\textsuperscript{(\theenmark)}}%
-\gdef\endnotemarkback{(\theenmark)}%
-\end{Verbatim}
-然后上面三行定义了一些对外的接口命令，方便DIY。theenmark命令是尾注标记符号的计数器部分，这里使用了arabic命令转化了。endnotemark命令是文本中尾注标记符号的形式，这里简单加上了()然后使用textsuperscript命令将其转化成为上标形式，之所以使用这样的形式，是因为使用数字可以没有任何限制，而使用其他奇怪的符号标记要为可能超过界限操心。而endnotemarkback命令则是尾注中的标记符号形式，这里和前面的区别就是没有转化成为上标。
-
-\begin{Verbatim}
-\newlength{\enoteindent}
-\setlength{\enoteindent}{2.5\textpt}
-\end{Verbatim}
-这段代码的意思是设置了一个长度量enoteindent，然后将其设置为2.5倍textpt长，这个textpt之前说过的是为了让文档相对化将之前documentclass设置的12pt传递过来的，你也可以在这里设置成一个你喜欢的长度。这个长度影响等下尾注标签的缩进量。
-
-
-接下来下面的代码首先用newwrite命令新建了文件，tex中的文件操作命令如下：
-\begin{Verbatim}
-\newwrite\tempfile
-\immediate\openout\tempfile=lists.txt
-\immediate\write\tempfile{this is test}
-\immediate\closeout\tempfile
-\end{Verbatim}
-这里的newwrite是新建一个写文件，然后后面immediate命令表示立即执行，openout表示打开某个文件，这里打开了新建的这个写文件\textbackslash tempfile，后面的等号跟着你想要的这个新文件的文件名，等下电脑中新建出来的这个文件就是这个文件名。
-
-然后write命令是往这个文件里面写入某个文本信息。接下来是closeout命令把这个文件关闭，只有文件正常关闭了写的内容才能从缓冲区真正进入系统中的文本。
-
-
-\begin{Verbatim}
-\newwrite\@entout
-
-\newcounter{@EndnoteCounter}%
-\newcounter{@AllEndnoteCounter}%
-\newcounter{@ShowEndnoteCounter}%
-\setcounter{@EndnoteCounter}{0}
-\setcounter{@AllEndnoteCounter}{0}
-\setcounter{@ShowEndnoteCounter}{1}
-
-\newif\if@entopen \global\@entopenfalse
-\end{Verbatim}
-接下来是新建了三个计数器@EndnoteCounter等，其中@EndnoteCounter标记每一章尾注内部的计数，而AllEndnoteCounter标记了所有的尾注的计数，这个影响真实label。ShowEndnoteCounter标记了每一个分章的章数（这里主要指按照每一章，不过实际操作并不局限于此。）的计数。然后用setcounter命令给这些计数器一个初值。
-
-上一段代码最后还新建了一个条件控制变量，具体请参看tex条件控制语句一小节\ref{sec:条件控制语句}。这里的global命令是让接下来的定义或者声明是全局性的。
-
-\begin{Verbatim}
-\def\@openent{%
-\def\@entname{\jobname
-\ifnum\value{@ShowEndnoteCounter}<10 0\fi
-\ifnum\value{@ShowEndnoteCounter}<100 0\fi
-\arabic{@ShowEndnoteCounter}}%
-
-\immediate\openout\@entout=\@entname.ent%
-\global\@entopentrue
-}%
-\end{Verbatim}
-上一段代码新建了一个命令@openent，这个命令等下要完成打开新建的ent文件任务，然后正如前面谈及的文件操作，在openout命令打开文件的时候，这里对具体生成的ent文件的文件名进行了一些DIY。其实我可以将文件名简单设置成为jobname-1，-2之类的形式，之所以弄成以上这种形式多少是我在之前探索过程中弄出的一种jobname001，jobname002这种形式，然后方便使用linux系统的cat命令来将他们汇总，后来修改修改着这个功能发现不需要了，但这个技巧还是很有用的就没删除了。
-
-下一段的解释先跳过，看到下下一段定义的endnote命令。
-\begin{Verbatim}
-\begingroup \catcode `|=0 \catcode `[=1
-\catcode`]=2 \catcode `\{=12 \catcode `\}=12
-\catcode`\\=12
-|gdef|@writeent[|immediate|write|@entout[
-{\footnotesize
-\hspace{-2\parindent}\makebox[\parindent-3pt][l]
-{\flabel{|@linknameb}{|@showlinknameb}  \ref{|@linkname}}
-\leftskip=\parindent   |expandonce|@include \par } ] ]%
-|endgroup
-\end{Verbatim}
-上面这段代码就是定义了那个@writeent，但是以一种十分绕脑袋的形式，我也没完全弄明白。。首先看到catcode命令，这个是改变tex系统内部字符列表的命令。在tex中字符分为以下几类：
-\begin{enumerate}
-\setcounter{enumi}{-1}
-\item 跳脱符号，一般是\textbackslash
-\item group开始符号，一般是\{
-\item group结束符号，一般是\}
-\item 数学符号，一般是\$
-\item 表格分隔符，一般是\&
-\item 一行结束符号，一般是<return>
-\item 参数符号，一般是\#
-\item 上标符号，一般是\^{}
-\item 下标符号，一般是\_
-\item 忽略符号，一般是<null>
-\item space，一般是<space>和<tab>
-\item 字母，一般是a-z和A-Z
-\item 其他，不是其他分类就在此类
-\item 激活（Active）符号，比如\~{}
-\item 注释符号，一般是\%
-\item 无效（Invalid）符号，一般是<delete>
-\end{enumerate}
-也就是说tex引擎看到\textbackslash 符号就会认为接下来将是一个命令，然后catcode命令可以改变这个列表。比如上面这段代码中，\verb+\catcode `|=0+就将|符号归为0类，这样tex看到|也会跟看到\textbackslash 一样处理。后面的类似，于是我们有：\\
-\emph{|类似\textbackslash{  }   [类似\{  ]类似\}  \{\} \textbackslash 都是其他 }
-
-gdef命令是global和def命令的组合缩写，这里定义了下面要用到的@writeent命令。就是立即向打开的那个ent文件写入花括号内的信息。其中的符号变化法则上面谈及了，于是这里的\textbackslash footnote之类的都不会处理，而是直接写入ent文件之中。但是因为我们在这里要建立label（等下插入ent文件之后，在尾注那里要标记label和ref命令。）因此label和ref内的参数必须立即运算出来。在这里有一些尾注的格式美化命令，比如用makebox命令调整尾注标记符号格式等，这里介绍略过。
-
-现在主要看到从下一段代码中定义的@include命令接受的是endnote命令传递过来的文本，本来在下一段代码中新建一个group然后用let命令将endnote命令中所有的protect命令改成了string（字符串），应该是可以了。实际上操作中确实各个命令没有展开直接以文本进入ent文件了，但是环境命令还是展开了，于是这里加上了etoolbox宏包提供的expandonce命令，也就是控制只展开一次，这样环境命令也成功传递过去了。这里的具体实现细节我实际上也没弄太明白。
-
-\begin{Verbatim}
-\DeclareRobustCommand*\endnote[1]{%
-\stepcounter{@EndnoteCounter}%
-\stepcounter{@AllEndnoteCounter}%
-\edef\@linkname{enote:\arabic{@AllEndnoteCounter}}%
-\edef\@linknameb{enote:\arabic{@AllEndnoteCounter}b}%
-\edef\@showlinknameb{\endnotemark}%
-\edef\@showlinkname{\endnotemarkback}%
-\ignorespaces\flabel{\@linkname}{\@showlinkname}%
-\ignorespaces\hspace{-0.5ex}\ref{\@linkname b}%
-\if@entopen \else \@openent \fi%
-\begingroup%
-\let\protect\string%
-\gdef\@include{#1}%
-\endgroup%
-\@writeent%
-}
-\end{Verbatim}
-显然你看到这里定义的命令endnote就知道这是这个宏包的主体部分，程序一般遇到的就是两个命令，endnote引入尾注，showendnotes插入尾注。首先这个命令将两个主要计数器加1，其中@EndnoteCounter计数器是标记一章尾注内部的计数的，这里加1了就开始从1开始，然后后面这里的处理技巧是如果你需要插入尾注了，那么就将@EndnoteCounter这个计数器归为零。这样做和将@EndnoteCounter和chapter或者part绑定起来的好处就是更加的自由，你不需要考虑什么，甚至在某一个section部分内，插入showendnotes命令就插入了尾注，然后内部计数又重新开始。
-
-接下来定义了四个命令，我们看到这里有一个edef命令，edef命令和def命令类似，区别在于定义某个命令的时候立即展开，比如在这里我edef了一个@linkname命令，那么后面的@AllEndnoteCounter当时是什么立即赋值计算出来。因为这里要建立label的名字比如是独一无二的，然后看到后面@showlinkname和@showlinknameb，这是在决定文档中尾注标记符号和尾注中标记符号的样式，这里名字弄翻了，因为之前我在编写的时候也不大确切，然后后面就交换了一下。
-
-然后我们注意到这个endnote命令后面每一行都有一个\%，这是不得已而为之。endnote命令在它所在地地方我需要插入label和ref，然后每一行换行之后都会增加一个空格。只好用百分号消去。
-
-这里插入的ignorespaces命令为了消去空格可能是多余的，然后使用flabel命令植入label，前面谈及了第一个参数是真实的label，第二个参数是显示的label。还有我们需要把label命令和ref命令的关系弄清楚，label只是在文档中植入一个记号，而ref命令才会在文档中显示某些字符。我在测试的时候发现尾注标签上标记号有点偏后，然后用hspace命令稍作调整，注意我们调整距离尽可能使用ex或者em这样的相对距离。然后就是使用ref命令。
-
-接下来一行语句的意思就是ent那个文件打开了吗？打开了什么也不做，没打开打开这个文件，使用之前定义的openent命令打开。
-
-然后我们进入一个group，tex命令中\textbackslash begingroup \textbackslash endgroup之间夹著一个内环境。这个内环境的作用就是为了把endnote命令中的文本内容传递出去，为什么要这么做？我们的思路是将endnote中的文本写入到某个ent文件中去，然后继续写，直到要插入尾注了再引入这个ent文件即可。思路很简单，但是要实现起来并不简单。
-
-这里最大的问题是endnote命令里面的命令和环境都要不执行，当作文本一行写入进去。因为tex默认参数都要执行计算出来的，这就是问题的所在。这里面的细节甚是复杂，我也没完全弄明白。我们再看到上面那段代码定义的@writeent命令。
-
-
-\begin{Verbatim}
-\DeclareRobustCommand*\showendnotes{%
-\immediate\closeout\@entout%
-\global\@entopenfalse
-
-\input{\@entname.ent}
-
-\setcounter{@EndnoteCounter}{0}
-\stepcounter{@ShowEndnoteCounter}%
-
-}
-
-\endinput
-\end{Verbatim}
-这是宏包的最后一段了，非常容易理解了。定义了一个showendnotes命令，命令首先将那个打开的ent文件关闭，这样之前写入的内容都写进去了。然后改变那个条件变量表明文件关闭了。然后引入尾注。
-然后@EndnoteCounter计数器归零，这个前面谈到过。然后ShowEndnoteCounter计数器加一。然后结束宏包使用endinput命令。
-
-
-\section{endnotes宏包的使用}
-在加载好endnotes宏包之后，用法还是很简单的。
-
-\subsection{endnote命令}
-想要在那里插入尾注部分注释就用endnote命令即可：\\
-\verb+\endnote{这是一段尾注}+。比如这里\footnote{这是一段尾注}。
-
-\subsection{showendnotes命令}
-在你想要显示尾注时，使用showendnotes命令即可。那么到目前为止，所有尾注内容都会显示出来：\\
-\verb+\showendnotes+
-
-一般上面还加上一个标题，表示注释内容就在这里。如果整个文档都不使用showendnotes命令，那么也不会有什么错误。
-
-
-
-
-
-\part{xelatex高级篇}
+\part{tex高级篇}
 本部分关注于tex最底层的一些概念和原理，有些知识点了解之后对读者如何定制latex原有的命令和功能有所帮助，有些能够加深读者对tex底层如何工作的理解。
 
 \chapter{长度量}
@@ -3578,37 +3395,10 @@ fcolorbox和colorbox的区别就是外面加了一个边框，然后第一个参
 \end{figure}
 
 
-\section{保存盒子}
-\subsection{savebox}
-
 
 \chapter{线条}
 \verb+\rule[depth]{width}{height}+
 这三个选项都要填长度量，第一个长度量是线条竖向偏移量，第二个长度量是线条横向长度，第三个长度量是线条竖向宽度。
-
-\chapter{大文档管理}
-之前我也用过include命令来试着将文档分开，但是发现一是减弱了编辑器的各种小插件功能，二是有的时候include命令会出错（一些奇怪的错误，我也不太明白）。然后那个includeonly命令我觉得也挺累赘的，如果你使用input命令，不要引入了前面加个百分号注释掉即可。一个文档就是整体，觉得还是不要分开的好。
-
-
-
-
-\part{xelatex应用篇}
-\chapter{tikz制图}
-tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_gallery}{这个项目} 读者可以看下。
-
-\chapter{化学相关}
-化学相关符号甚至非常复杂的有机分子式的显示问题推荐用\emph{chemfig}宏包解决。
-
-
-\chapter{exam类}
-详细情况请参看本github中文件夹 \verb+exam类+ 。
-
-\chapter{beamer类}
-\LaTeX 中幻灯片的处理是用beamer类来写的，老实说我认为\LaTeX 并不适合偏视觉的幻灯片的编写，\LaTeX 更适合内容文字等等较多的时候的情况，那个时候 word都有点力不从心，而tex标记语法风格结合良好的编辑器是很得心应手的。
-
-所以这部分内容我决定略过了，在本github里面有个 \verb+制作幻灯片+ 的文件夹，里面有一点我早期探索的内容，可做读者的参考。
-
-
 
 
 \appendix
@@ -3719,12 +3509,8 @@ sudo texhash
 
 
 \chapter{其他问题的讨论}
-
 \section{TeX一些常用命令简介}
 如果读者真的要学习TeX原生命令，推荐查阅\href{http://www.tug.org/utilities/plain/cseq.html}{这个网站} 和阅读高德纳写的 The TexBook。
-
-\subsection{relax命令}
-类似python的pass命令，什么也不做的意思。
 
 \section{TeX中执行系统的命令}
 \href{http://tex.stackexchange.com/questions/20444/what-are-immediate-write18-and-how-does-one-use-them}{参考了这个网站}
@@ -3740,65 +3526,6 @@ sudo texhash
 xelatex -synctex=1 -interaction=nonstopmode 
     --enable-write18  %.tex
 \end{Verbatim}
-
-
-\section{TeX中写文件和读文件}
-\href{http://stackoverflow.com/questions/2115379/write-and-read-from-a-latex-temporary-file}{参考了这个网站}
-
-TeX中写文件的流程如下： 
-\begin{enumerate}
-\item 首先新建一个待写的文件：\\
-\verb+\newwrite\tempfile+
-\item 然后打开这个文件并给这个文件一个实际的文件名（支持带文件夹的相对路径名前缀）：\\
-\verb+\immediate\openout\tempfile=test.txt+
-\item 然后用write命令给这个文件写入信息，只要文件没有关闭，可以一直附加的写：\\
-\verb+\immediate\write\tempfile{this is interesting}+
-\item 写完之后记得关闭文件，这样写入的内容才实际从缓存区进入真实的文件区：\\
-\verb+\immediate\closeout\tempfile+
-\end{enumerate}
-
-TeX中读入文件一般用input命令即可，此外verbatim宏包还提供了原文照列的verbatiminput命令，还有fancyvrb宏包有Verbatiminput命令。
-
-\section{TeX中的程序结构}
-\subsection{条件控制语句}
-\label{sec:条件控制语句}
-\href{http://handyfloss.wordpress.com/2007/08/29/latex-programming-how-to-implement-conditionals/}{参考了这个网站}
-
-条件控制语句的首先要新建一个条件控制变量：\\
-\verb+\newif\iflogvar+
-默认这个变量是设置为假，然后通过以下模式来建立条件语句：
-\begin{Verbatim}
-\iflogvar
-  aaaa
-\else
-  bbbb
-\fi
-\end{Verbatim}
-条件语句可以嵌套，然后你可以通过这样的命令来调整条件控制变量的真假：\\
-\verb+\logvartrue+\\
-\verb+\logvarfalse+
-
-\subsubsection{ifnum命令}
-ifnum命令用于判断数字。\\
-\verb+\ifnum number = 0+\\
-ifnum控制结构和if命令类似，这里数字判断还可以是大于>或者小于<。
-
-\section{TeX生成前面有零的数字序列}
-\href{http://tex.stackexchange.com/questions/30930/how-to-output-a-counter-with-leading-zeros}{参考了这个网站}
-
-TeX中的计数器用arabic命令之后是1 2 3...这样的形式，如何产生001 002... 010 011 ... 100 ...这样的形式呢？之所以有这样的需求是我在试着编写endnotes宏包的时候用了一种错误的思路，然后希望使用linux系统的cat命令来讲一条条的尾注汇总，cat命令对于计数器产生的文件名，如果按照原来1 2 3...这样的形式顺序是错误的，为了纠正就需要变成001  002 ...这样的一致规则形式。
-
-\begin{Verbatim}
-\def\@entname{\jobname
-\ifnum\value{@ShowEndnoteCounter}<10 0\fi
-\ifnum\value{@ShowEndnoteCounter}<100 0\fi
-\arabic{@ShowEndnoteCounter}}%
-\end{Verbatim}
-
-比如上面这个命令，就是我目前使用的endnotes宏包产生的临时ent文件，文件名如下：xelatex指南001.ent xelatex指南002.ent等等。
-
-这里的逻辑如下，首先假定这个计数器从0开始吧，小于0的情况不予考虑，不要视图做出什么情况都考虑到的完美程序，那只是浪费脑力罢了。如果计数器范围在0到9，那么经过第二行将会生成一个0，经过第三行将会生成另外一个0，然后后面生成个位数的计数器1之类的。如果计数器范围10到99，那么经过第二行不会生成0什么也没有，如是格式就有了010 011之类的。这种构造考虑程序自上而下的顺序，很是简单，比如你如果觉得一千之类的范围太小，那就再加上类似的一行。
-
 
 
 \section{文本中的上标还有下标}
@@ -3824,88 +3551,10 @@ this is a test line
 
 {\vspace{-\parskip}\hfill  然后我注意到开辟新的竖向模式}\\，比如换行之后，不空一行用smallskip，medskip等，然后不用vspace命令调整也是可以的。因为smallskip也是一种vspace命令的调整模式，但是行距和其他的不太一致，所以在这里推荐就空一段，然后负的parskip。当然如果可以接受不用vspace调整也是可以的。
 
-\section{多张图片并列显示}
-\label{sec:多张图片并列显示}
-
-\begin{Verbatim}
-\begin{figure}[h]
-
-\label{fig:四栏图片}
-\begin{multicols}{4}
-\includegraphics[width=\linewidth ,totalheight=\textheight , 
-        keepaspectratio]{temp.jpg}
-i want  some test to show there is a text and not to column break.\\
-\centerline{test}
-\columnbreak
-\includegraphics[width=\linewidth ,totalheight=\textheight , 
-         keepaspectratio]{temp.jpg}
-\centerline{test}
-\columnbreak
-\includegraphics[width=\linewidth ,totalheight=\textheight ,
-         keepaspectratio]{temp.jpg}
-\centerline{test}
-\columnbreak
-\includegraphics[width=\linewidth ,totalheight=\textheight ,
-         keepaspectratio]{temp.jpg}
-\centerline{test}
-\end{multicols}
-\caption{denosie fig}
-
-\end{figure}
-\end{Verbatim}
-这段代码的分栏还有插入图片知识都已经介绍了，值得一提的就是widetext环境，也就是有changepage宏包而来的临时改变页面布局环境和浮动体环境figure以及table不兼容。比如放入浮动体环境内才能起作用。然后caption命令似乎只是默认的linewidth居中。所以如果想要图片和表格在扩大的文本布局中居中对齐，那么需要在浮动体环境内部使用改变页面布局命令，然后使用居中命令。
-
-\section[生成字体所有已有的字形]{生成字体所有已有的字形\footnote{主要参照了\href{http://tex.stackexchange.com/questions/23863/generating-a-table-of-glyphs-with-xetex}{这个网站}}}
-\label{sec:字体已有字形}
-\begin{Verbatim}
-\documentclass[landscape]{article}
-\usepackage{geometry}
-\usepackage{fontspec}
-\setmainfont{DejaVu Sans}
-\usepackage{multicol}
-\setlength{\columnseprule}{0.4pt}
-\usepackage{multido}
-\setlength{\parindent}{0pt}
-\begin{document}
-\begin{LARGE}
-\begin{multicols}{5}
-\multido{\i=0+1}{"10000"}{
-  \iffontchar\font\i
-    \makebox[4em][l]{\i}%
-    \symbol{\i}\endgraf
-  \fi
-}
-\end{multicols}
-\end{LARGE}
-\end{document}
-\end{Verbatim}
-
-
-\section{临时改变页面布局}
-临时改变页面布局前面讲的geometry宏包也有一种实现机制，但是不太好用而且会把后面的段落格式打乱。这里推荐使用changepage宏包。
-
-进入adjustwidth环境就可以调整旁注宽度了。比如这里我新建一个widetext环境代码如下：
-
-\begin{Verbatim}
-\newenvironment{widetext}  
-	{\begin{adjustwidth}{}{-70mm}}%marginparwidth+marginparsep
-	{\end{adjustwidth}}
-\end{Verbatim}  
-
-新建环境请看\ref{sec:新的环境}。我们在这里建立了一个widetext环境，主要是adjustwidth环境操作，我们看到后面有两个花括号，第一个指左margin，第二个指右margin。注意这里不要和前面geometry宏包里面设置的includemp弄混了。\footnote{geometry宏包里面设置includemp=true让marginpar部分进入width，也就是right margin并不包含旁注部分了，但是只适用于geometry宏包。}这里左margin就是前面设置的left，右margin是前面设置的：\\right+marginparwidth+marginparsep。所以可以考虑geometry宏包不要设置includemp，我前面只是为了理解简单才如此设置的，当然这里理解这个概念了就没有什么问题了。
-
-然后正数表示margin宽度增大，负数表示margin部分宽度减小。这里设置-70mm即右边marginparwidth+marginparsep的宽度。然后自己注意进入这个环境了就不要使用marginpar或者其他旁注的命令了，这是显而易见的。不设置数值即表示不改变，出了adjustwidth环境，一切复原。
-
-还有一个adjustwidth*环境，意思表示margin改变随着页面奇偶数变化而定，这个宏包的页面奇偶数设定及相关讨论后面都略过了，因为本文只关注于oneside模式，毕竟电子书籍设置成为oneside更好一些。
-
-changepage宏包还有changetext和changepage命令，有兴趣的可以看下，感觉并不太好用。
-
-
-
 
 \backmatter
-\chapter*{参考文献}
-\addchtoc{参考文献}
+\part*{附录：参考资料}
+
 \begin{thebibliography}{9}
 \bibitem[lshort]{lshort} 有名的《一份不太简短的\LaTeX2e 介绍》，原版作者：Tobias Oetik\- er,Hubert Partl,Irene Hyna等，版本：2001-08-09，中文翻译：CTeX用户小组，版本：2002-05，pdf下载链接：\\ \href{http://www.ctan.org/tex-archive/info/lshort/chinese}{http://www.ctan.org/tex-archive/info/lshort/chinese}。
 
