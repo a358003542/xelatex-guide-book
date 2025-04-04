@@ -36,3 +36,4 @@
 *.epub
 *.pdf
 *.tex.bak
+_minted/
