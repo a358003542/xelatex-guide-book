@@ -1,0 +1,211 @@
+% !TEX TS-program = xelatex
+
+% 根据 https://www.overleaf.com/latex/templates/constructions/vqhvxmnfgcbh
+% 改动而成
+
+\documentclass[12pt,a4paper,twoside]{article}
+\newlength{\textpt}
+\setlength{\textpt}{12pt}
+
+\usepackage[T1]{fontenc}
+\usepackage{tabularx, colortbl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{xcolor}
+\definecolor{ochre}{RGB}{204, 119, 34}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=ochre]{hyperref}
+
+\usepackage[final,nopatch=footnote]{microtype}
+
+\usepackage{
+	enumitem,
+	multicol,
+	multirow,
+	linguex,
+	amssymb,
+	microtype,
+	stmaryrd,
+	amsmath,
+	booktabs,
+	calculator,
+	verbatim,
+	titling,
+	fontspec,
+	changepage,
+	float,
+    multirow
+}
+
+% Paper license
+\usepackage[
+    type={CC},
+    modifier={by},
+    version={4.0},
+]{doclicense}
+
+% set bibliography style
+\bibliographystyle{unified}
+
+%================字體================%
+%設置英文字體
+\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\setsansfont[Mapping=tex-text]{DejaVu Sans}
+\setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
+
+%中文環境
+\RequirePackage[]{xeCJK}
+\xeCJKsetup{PunctStyle=plain}
+\setCJKmainfont[FallBack=DejaVu Serif, ItalicFont=KaiTi]{Source Han Serif CN}
+\setCJKsansfont[FallBack=DejaVu Sans]{Source Han Sans CN}
+\setCJKmonofont[FallBack=DejaVu Sans Mono]{KaiTi}
+
+
+% packages:
+\usepackage[]{titlesec}
+\usepackage[hang]{footmisc}
+\usepackage[nocenter]{qtree}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+% 默认图片地址
+\graphicspath{{figures/}}
+
+\setlength{\intextsep}{4pt plus 2pt minus 2pt}
+\renewcommand{\firstrefdash}{}
+% 中文行间距还是需要稍微拉大点
+% 格式略微调整
+\linespread{1.3}
+\setlength{\parindent}{2em}
+\RequirePackage{indentfirst} 
+\setlength{\parskip}{1.6ex}
+
+\newcommand{\ii}{\={i}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\Reference}{\\ \textcolor{white}{.}\hfill}
+
+% header style for all but first page
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+
+% header style for first page
+\fancypagestyle{plain}{%
+  \fancyhf{}% clear all header and footer fields
+  \renewcommand{\footrulewidth}{0.4pt}
+  \lfoot{ }
+  \rfoot{\thepage}%
+}
+
+
+% set head height
+\setlength{\headheight}{14.49998pt}
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titlespacing*{\section}{0em}{15pt}{10pt}
+
+
+% for vertical centering text in tabularx X column
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+% column types for tabularx
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+
+
+% no vertical space in lists
+\setlist{nosep}
+
+% remove vertical space after verbatim environment
+\usepackage{etoolbox}
+\makeatletter
+\preto{\@verbatim}{\topsep=0pt \partopsep=0pt }
+\makeatother
+
+% enumitem package seems to override this
+% behavior, so we also add
+% (thanks to https://tex.stackexchange.com/questions/43331/control-vertical-space-before-and-after-verbatim-environment)
+\AtBeginEnvironment{verbatim}{\setlist[trivlist]{nolistsep}}
+
+
+\fancyhead[LO]{}
+\fancyhead[RE]{}
+\fancyhead[RO, LE]{\thepage}
+
+
+\raggedbottom
+\begin{document}
+
+
+% make sure that first page doesn't
+% have running heads:
+\thispagestyle{plain}
+
+% first page header:
+% DOI and Creative Commons license
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+
+% 此处输入doi 一些文献管理软件比如zotero会自动解析出很多信息
+\noindent
+\begin{tabularx}{\textwidth}{XY}
+\doclicenseImage[imagewidth=0.5\linewidth] & \small{doi{10.1093/mind/LIX.236.433}} \\
+\end{tabularx}
+
+\vspace{30pt}
+
+% 标题
+\begin{center}
+    \LARGE{\textbf{计算机器与智能}}
+\end{center}
+
+% 作者信息
+\begin{center}
+\vspace{4pt}
+\large
+    Alan M. Turing
+\end{center}
+
+
+% 摘要
+\begin{small}
+\begin{center}
+\vspace{9pt}
+\textbf{Abstract}    
+\end{center}
+
+\begin{adjustwidth}{20pt}{20pt}
+1950年，后来被誉为“计算机科学之父”和“人工智能先驱”的艾伦·图灵（Alan M. Turing）发表了划时代论文《计算机器与智能》（Computing Machinery and Intelligence），探讨“机器是否能思考”这一根本问题。文中图灵设计了“模仿游戏”（Imitation Game）的思想实验，这就是后世广为人知的“图灵测试”。然而，透过“图灵测试”的光环仔细研读，会发现图灵在文中表达了对机器与智能远远更为深刻的思考。为此集智俱乐部AGI社区【何瑞杰、徐博文、刘兆庭、冯睿洋| 翻译】对这篇经典论文做了完整翻译，希望能够回归本源，探讨其丰厚内涵，也希望对读者有所启发。
+\end{adjustwidth}
+
+
+\end{small}
+
+
+\vspace{10pt}
+\section{模仿游戏}
+考虑以下问题：“机器能思考吗？”（Can machines think?）要回答这个问题，首先需要定义“机器”和“思考”这两个术语。定义的表述或许要尽可能反映这两个词的通常用法，但这种看法是危险的。如果我们通过考察这两个词的通常用法来找到它们的含义，那么很难避免得出这样的结论：这两个词的含义和“机器能思考吗”这一问题的答案，将在“盖洛普民意测验”之类的统计调查中寻求。这是荒谬的。我并不试图给出这样的定义，而是提出另一个问题，它与原问题密切相关，并用相对清晰的词汇表达。
+
+新的问题可以通过一个游戏来描述，称之为“模仿游戏”（imitation game）。游戏中有一个男人（A）、一个女人（B）和一个提问者（C，不论男女）。提问者待在一个与另外两人相隔离的屋子里，其目标是判断出外面哪个是男人、哪个是女人。提问者用标签 X、Y 指称外面的两个人。游戏结束时，他要说出“X 是 A，Y 是 B”或者“X 是 B，Y 是 A”。例如，提问者 C 可以向 A 和 B 提出下面这样的问题：
+
+
+
+
+
+\begin{thebibliography}{99}
+\bibitem{1} Samuel Butler, Erewhon, London, 1865. Chapters 23, 24, 25, The Book of the Machines.
+\bibitem{2} Alonzo Church, An Unsolvable Problem of Elementary Number Theory”, American J. of Math., 58(1936), 345–363.
+\bibitem{3} K. Gödel, Über formal unentscheildbare Sätze der Principia Mathematica und verwandter Sys- teme, I”, Monatshefle für Math. und Phys. , (1931), 173–189.
+\bibitem{4} D. R. Hartree, Calculating Instruments and Machines, New York, 1949.
+\bibitem{5} S. C. Kleene, General Recursive Functions of Natural Numbers ”, American J. of Math., 57(1935), 153–173 and 219–244.
+\bibitem{6} G. Jefferson, The Mind of Mechanical Man”. Lister Oration for 1949. British Medical Journal, vol.i (1949), 1105–1121.
+\bibitem{7} Countess of Lovelace, Translator’s notes te an article on Babbage’s Analytical Engire”, Scientific Memoirs (ed. by R. Taylor), vol.3 (1842), 691–731.
+\bibitem{8} Bertrand Russell, History of Western Philosophy, London, 1940.
+\bibitem{9} A. M. Turing, On Computable Numbers, with an Application to the Entscheidungsproblem”,Proc.London Math.Soc. (2), 42 (1937), 230–265. Victoria University of Manchester.
+
+\end{thebibliography}
+
+\end{document}

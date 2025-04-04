@@ -1,12 +1,10 @@
 % !Mode:: "TeX:UTF-8"%確保文檔utf-8編碼
 
-\documentclass[11pt,oneside]{book}
-
+\documentclass[12pt,oneside]{book}
 
 \newlength{\textpt}
-\setlength{\textpt}{11pt}
-    
-\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}#1\vspace*{\stretch{1}}\end{center}\end{titlepage}}
+\setlength{\textpt}{12pt}
+   
     
 %========基本必备的宏包========%
 \RequirePackage{calc,float,multicol,moresize}
@@ -31,19 +29,20 @@
 %===========全文基本格式==========%
 \setlength{\parskip}{1.6ex plus 0.2ex minus 0.2ex}   %段落間距
 \setlength{\parindent}{\textpt * \real{2}}
+\RequirePackage{indentfirst} 
 
 %=========页面设置=========%
 \RequirePackage[a4paper, %a4paper size 297:210 mm
-  bindingoffset=10mm,%裝訂線
+  bindingoffset=0mm,%裝訂線
   top=35mm,  %上邊距 包括頁眉
   bottom=30mm,%下邊距 包括頁腳
-  inner=10mm,  %左邊距or inner
-  outer=10mm,  %右邊距or  outer
+  inner=30mm,  %左邊距or inner
+  outer=30mm,  %右邊距or  outer
   headheight=10mm,%頁眉
   headsep=15mm,%
   footskip=15mm,%
-  marginparsep=10pt, %旁註與正文間距
-  marginparwidth=6em,includemp=true% 旁註寬度計入width%旁註寬度
+  marginparsep=0pt, %旁註與正文間距
+  marginparwidth=0em,includemp=false% 旁註寬度計入width%旁註寬度
   ]{geometry}
 
 %color
@@ -71,7 +70,6 @@
 \setCJKsansfont[FallBack=DejaVu Sans]{Source Han Sans CN}
 \setCJKmonofont[FallBack=DejaVu Sans Mono]{KaiTi}
 
-\RequirePackage{xltxtra} %put here to avoid some package option error. maybe this package is useless ?
 
 
 %%===============中文化=========%
@@ -144,7 +142,7 @@
   \ULon}
 
 \let\oldemph\emph % Save emph in oldemph
-\renewcommand{\emph}[1]{\textcolor{red}{#1}}  
+\renewcommand{\emph}[1]{\textcolor{blue}{\textbf{#1}}}  
 
 %==================插入圖片=======%
 \RequirePackage{wrapfig}
@@ -161,22 +159,26 @@
 %\renewcommand{\arraystretch}{1.3}
 %如果用setspace宏包而不是linespread调整行间距，那么才需要额外的表格行距拉大。
 
+
 %插入代码
 \RequirePackage{fancyvrb} 
 \fvset{frame=lines,tabsize=4 ,baselinestretch=1.8, fontsize=\footnotesize}
 
-
 %minted
 \RequirePackage{minted}%
 
+% 框线表示大段文章引用
+\RequirePackage{mdframed} 
+\mdfsetup{frametitlealignment=\center}
+\newmdenv[frametitlebackgroundcolor=gray!20, linewidth=1pt,
+                    frametitlerulewidth=1pt, frametitlerule=true]{bookref}
 
-%==========其他宏包===========%
-\RequirePackage{tikz} 
-\usetikzlibrary{calc}
 
 %========脚注=========%
+\RequirePackage{tikz} 
 \newcommand*\circled[1]{%
-  \tikz[baseline=(char.base)]\node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
+  \tikz[baseline=(char.base)]
+  \node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
 \newcommand*\circledarabic[1]{\circled{\arabic{#1}}}
 
 \RequirePackage{perpage} %the perpage package
@@ -184,55 +186,37 @@
 
 \renewcommand*{\thefootnote}{\protect\circledarabic{footnote}}
 
-
-\renewcommand\@makefntext[1]
-{\vspace{5pt}
-\noindent
-\makebox[20pt][c]{\@makefnmark}
+\renewcommand\@makefntext[1]{\vspace{5pt}\noindent
+\makebox[20pt][c]{\fontsize{10pt}{12pt}\@thefnmark}
 \fontsize{10pt}{12pt}\selectfont #1}
 
 \setlength{\skip\footins}{20pt plus 10pt}
 %main body 与脚注之间的距离
+                   
+       
+\makeatother              
 
-
+      
+%==========其他宏包===========%
 %framed环境
 \RequirePackage{framed}
-
 
 \newenvironment{shici}{
 \begin{verse}
 \centering\large\hspace{12pt}}
 {\end{verse}}
 
-\RequirePackage{indentfirst} 
 
-% hr
-\newcommand\hr{\par\noindent\hrule}
-
-%重新定义quotation
-\AtBeginEnvironment{quotation}{\ttfamily}
  
-
-\makeatother
-
-
-
 \title{XeLaTeX 指南}
 \author{万泽}
-\date{第四次修订版}
 
-\newcommand{\bookcover}[1]{\tikz[remember picture,overlay]{\node[inner sep=0] at (current page.center)
-{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}} 
  
 \begin{document}
+\maketitle
+
+
 \frontmatter 
-\thispagestyle{empty}
-
-\bookcover{book_cover.png}
-
-\cleardoublepage
-
-
 \addchtoc{前言}
 \chapter*{前言}
 我试图收集整理各方面来的xelatex相关的信息，包括自己的实践经验总结，作为后学者的指南手册。
@@ -268,16 +252,6 @@
 
 \mainmatter 
 \part{xelatex基础}
-本部分主要关注latex作为标记语言很容易被其他标记语言识别的部分，具体来说就是利用pandoc从tex文件既能输出pdf也能输出epub并且两边都支持良好的功能。
-
-一个总的原则就是不要使用latex那些特有的太过于花哨的特性，本部分讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。
-
-关于这部分工作的详细内容整理将会在附录中的利用pandoc输出epub一章\ref{ch:pandoc_epub} 中有更详细的讨论说明之。
-
-关于本项目epub的css部分，有些是显示需求然后稍作调整，有些是从bootstrap那里或者不知道是那里抄来的，读者权做参考。
-
-某些LaTex特有的功能将会在本文的后续章节中说明，这些内容是不可能被epub或者其他标记语言支持的，比如Tikz制图，比如pdf特有的花哨排版需求等。
-
 
 \chapter{背景知识}
 \section{TeX}
@@ -349,7 +323,8 @@ texdoc xeCJK
 
 \section{从documentclass说起}
 \label{sec:documentclass}
-文档刚开始是preamble区域，放着文档的一些配置，从begin\{document\}开始进入正文区，出了end\{document\}这句话之后后面写的什么程序都不管了。document是一个环境，后面我们会接触很多的环境的。
+文档刚开始是preamble区域，放着文档的一些配置，从 \\
+\verb+begin{document}+开始进入正文区，出了 \verb+end{document}+这句话之后后面写的什么程序都不管了。document是一个环境，后面我们会接触很多的环境的。
 
 documentclass命令的必选参量有article，report，book， slides，beamer等，一般了解这几个就够用了。他们之间有很多细微的差别，这个后面慢慢了解。
 
@@ -375,8 +350,9 @@ tex有以下文档的分节命令：
 
 \subsection{一般的可选项}
 \begin{itemize}
-\item 10pt，11pt，12pt      设置文档所使用字体的大小，默认是10pt\cite{wikibook-latex} 。
-\item a4paper ，letterpaper...      定义纸张的大小，此外还有 a5paper，b5paper，executivepaper，legalpaper等。
+\item 10pt，11pt，12pt      设置文档所使用字体的大小，默认是10pt。\\
+\cite{wikibook-latex} 
+\item a4paper ，letterpaper...      定义纸张的大小，此外还有 a5paper等。
 \item fleqn       设置该选项将使数学公式左对齐，而不是中间对齐。
 \item leqno       设置该选项将使数学公式的编号放置于左侧而不是右侧。
 \item titlepage, notitlepage       指定是否在文档标题后开始新一页，article文档类不开始新页，report和book开始。
@@ -464,7 +440,7 @@ geometry的机制是以上讨论的横向或者竖向参量指定足够的数量
 
 
 \subsection{字族}
-字族分为三大类，roman or serif（rm），sans serif（sf）和 monospace（tt）。\footnote{下面参考了\href{http://wiki.ubuntu-tw.org/index.php?title=HowtoCustomFontswithFontconfig}{这个网站}}
+字族分为三大类，roman or serif（rm），sans serif（sf）和 mono\-space（tt）。\footnote{下面参考了\href{http://wiki.ubuntu-tw.org/index.php?title=HowtoCustomFontswithFontconfig}{这个网站}}
 
 
 \begin{description}
@@ -640,7 +616,7 @@ fontspec宏包有一个和这个宏包名字一样的命令，这个命令非常
 \end{figure}
 
 
-另外还有一个有用的命令就是newfontfamily，这个命令相当于把fontspec命令包起来再新建一个命令。新建的那些字体命令就像\verb+\sffamily+之类的命令一样使用。比如加上这一行命令之后：
+另外还有一个有用的命令就是newfontfamily，这个命令相当于把font\-spec命令包起来再新建一个命令。新建的那些字体命令就像\verb+\sffamily+之类的命令一样使用。比如加上这一行命令之后：
 
 \begin{Verbatim}
 \newfontfamily{\ubuntu}[Scale=3]{Ubuntu}
@@ -1041,7 +1017,7 @@ O  & 奇数页(odd) \\ \bottomrule
 
 首先是加载fancyhdr宏包\footnote{exam类有自己的页眉页脚定制方法，和fancyhdr宏包有冲突。}。接下来是页面风格fancy，不先这样做后面的sectionmark的重定义无效，具体原因不明。
 
-然后接下来重定义sectionmark，这个sectionmark我不太明白，十分有意思的它在exam文档类里面照样有效，但是如果不设置\verb+\pagestyle{fancy}+它就无效，然后放在新定义的plain样式里面也会出错。
+然后接下来重定义sectionmark，这个sectionmark我不太明白，但是如果不设置\verb+\pagestyle{fancy}+它就无效，然后放在新定义的plain样式里面也会出错。
 
 下面就是重新定制plain样式，首先是：
 \begin{Verbatim}
@@ -1309,14 +1285,12 @@ hyperref宏包目前我的DIY只限于一些颜色设置，有兴趣的请自己
 
 \section{重定义脚注文本格式}
 \begin{Verbatim}
-\renewcommand\@makefntext[1]
-{\vspace{5pt}
-\noindent
-\makebox[20pt][c]{\@makefnmark}
+\renewcommand\@makefntext[1]{\vspace{5pt}\noindent
+\makebox[20pt][c]{\fontsize{10pt}{12pt}\@thefnmark}
 \fontsize{10pt}{12pt}\selectfont #1}
 \end{Verbatim}
 
-这里重新定义了（在sty文件中）\verb+\@makefntext+命令，命令的参数就是每一条脚注的内容的。都是一些格式的调整，主要的改动是加入了一个盒子放着脚注的标签（\verb+\@makefnmark+）。
+这里重新定义了（在sty文件中）\verb+\@makefntext+命令，命令的参数就是每一条脚注的内容的。
 
 
 \section{表格里的脚注}
@@ -1363,10 +1337,10 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 \label{sec:emph}
 本文档中的emph命令被重新定义了：
 \begin{Verbatim}
-\renewcommand{\emph}[1]{\textcolor{red}{#1}}  
+\renewcommand{\emph}[1]{\textcolor{blue}{\textbf{#1}}}  
 \end{Verbatim}
 
-比如：\emph{我觉得字体设为红色更加起到强调作用} 。这样重新定义emph命令是能够正确处理中文换行问题的，然后引入的textcolor输出到html或者epub下通过css同样也是可以获得颜色加强效果的。当然这个是个人喜好了，现在个人更偏好一般文字强调用textbf加粗，输出到html或者epub下是就是strong标签不需要做额外的处理。
+比如：\emph{我觉得字体设为蓝色加粗更加起到强调作用} 。这样重新定义emph命令是能够正确处理中文换行问题的。
 
 \section{underline命令}
 这个也是\LaTeX 自带的命令，就是加上下划线，不过在中文中并不能正确换行。所以请往下看。
@@ -1379,7 +1353,7 @@ emph命令是\LaTeX 自带的最基本的用于文字强调的方法。
 \RequirePackage{xeCJKfntef}
 \end{Verbatim}
 
-ulem宏包原来的命令： uline，uuline，uwave，sout， xout，dashline，dotuline等等都是支持的，这个宏包还提供了一些额外的命令这里就略过讨论了。
+ulem宏包原来的命令： uline，uuline，uwave，sout， xout等等都是支持的，这个宏包还提供了一些额外的命令这里就略过讨论了。
 
 \uline{这是一段很长的测试文字，主要用于说明中文情况下加入下划线并且能够正确的换行。用的是uline命令。}
 
@@ -1637,7 +1611,7 @@ hline命令表示画一条横线。\& 这个特殊符号表示进入下一列。
 \end{enumerate}
 
 
-在这里我们还有个捷径\footnote{texmaker编辑器的向导菜单那里有个表格向导方便快速生成表格tex代码片段。}，不一定要手工将表格代码全部敲出来。首先我们找一个表格软件，libreoffice的或者gnumeric都行。然后将数据输入进去保存好。然后我们将数据选择复制，打开网站：\href{http://www.tablesgenerator.com/}{http://www.tablesgenerator.com/} ，在那个网站的表格的开头哪里按下Ctrl+v。这个网站还有一些设置可以调整，稍微摸索下就知道了。唯一要说的是那个activate/deactivate custom grid edit选项，可以选择绘制某几根线框显示。在这里不做调整，直接选择最右边的booktabs table style。然后把多余的行或者列删除掉，就可以点击下面的generate了。生成的代码如下：
+在这里我们还有个捷径\footnote{texmaker编辑器的向导菜单那里有个表格向导方便快速生成表格tex代码片段。}，不一定要手工将表格代码全部敲出来。首先我们找一个表格软件，libreoffice的或者gnumeric都行。然后将数据输入进去保存好。然后我们将数据选择复制，打开网站：\href{http://www.tablesgenerator.com/}{www.tablesgenerator.com} ，在那个网站的表格的开头哪里按下Ctrl+v。这个网站还有一些设置可以调整，稍微摸索下就知道了。唯一要说的是那个activate/deactivate custom grid edit选项，可以选择绘制某几根线框显示。在这里不做调整，直接选择最右边的booktabs table style。然后把多余的行或者列删除掉，就可以点击下面的generate了。生成的代码如下：
 \begin{Verbatim}
 \begin{table}[h]
 \begin{tabular}{@{}ll@{}}
@@ -1850,22 +1824,94 @@ some text
 Robert Metcalf[以太网络的发明者]曾说过：如果将来有什么技术来取代以太网，那么这个取代物的名字还会叫“以太网”。因此以太网是永远不会消亡的Unix也多次经历了类似的转变。
 \end{quotation}
 
-\section{语录和引用环境定制}
-pdf单独的定制请参看这一小节的讨论：\ref{sec:quotation_huan_jing_ding_zhi} 。下面的讨论是兼顾pdf和epub的解决方案。
 
-在latex最前面定义：
+\section{定制quote和quotation环境}
+\label{sec:quotation_huan_jing_ding_zhi}
 
+以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
+
+quote和quotation在article.cls中的原初定义是这样的：
 \begin{Verbatim}
-\AtBeginEnvironment{quotation}{\ttfamily}
+\newenvironment{quote}
+               {\list{}{\rightmargin\leftmargin}%
+                \item\relax}
+               {\endlist}
+\newenvironment{quotation}
+               {\list{}{\listparindent 1.5em%
+                        \itemindent    \listparindent
+                        \rightmargin   \leftmargin
+                        \parsep        \z@ \@plus\p@}%
+                \item\relax}
+               {\endlist}
 \end{Verbatim}
 
-这样就可以定制引用环境字体为ttfamily，这里具体是楷体，看上去更好看一些。而在epub那边，quotation环境继续自动转换为 \verb+blockquote+ 标签，比如可以设置这样的css：
+我改成了如下：
+\begin{Verbatim}
+%=========重新定义 quote=====%
+\renewenvironment{quote}[1][anonymous]{
+\newcommand{\quoteauthor}[1][anonymous]{#1}
+\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent   2em
+}\item\relax
+\ttfamily}
+{\\
+\makebox[\linewidth][r]{\sffamily —\quoteauthor}
+\endlist}
 
-\begin{minted}{css}
-blockquote {
-    font-family: 'KaiTi', 'KaiTi_GB2312', 'STKaiti', 'DejaVu Sans Mono';
-}
-\end{minted}
+%重新定义quotation
+\renewenvironment{quotation}
+{\list{}{\rightmargin\leftmargin %右间距等于左间距
+\itemindent 2em%item的缩进也就是第一段的缩进
+\listparindent \itemindent %第二段的缩进
+}%
+\item\relax
+\ttfamily}
+{\endlist}
+\end{Verbatim}
+quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
+\begin{itemize}
+\item \verb+\rightmargin\leftmargin+这是让右边空白距离等于左边空白距离，左边空白距离默认等于\verb+\parindent+，这个有用我保留了。
+\item \verb+\itemindent   2em+，这个itemindent控制的是第一段的段首缩进量，这里设置为2em即两个字符的意思。
+\item 代码第七行是设置quote环境下字体为ttfamily。
+\item quote环境后面的代码，在结束环境之前，先换行，然后输出了一个盒子，右对齐，ssfamily，写着这个格言的作者，因为格言一般都要写上作者，如果不知道那么也写上anonymous，无名氏。这个作者的名字是quote环境接受一个可选项而来的额。
+\item \verb+\listparindent \itemindent+，quotation多了一个这个设置，其中listparindent是控制quotation里面除了第一段之外其他段落的缩进，这里就简单设置为跟第一段一样。
+\item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
+\end{itemize}
+
+
+\section{线框包围环境}
+线框包围大段文字 \verb+mdframed+ 宏包提供了很好的跨页支持，内置的 \verb+\fbox+ 和 \verb+\fcolorbox+ 会有问题的，此外mdframed的解决方案相比tcolorbox更轻量级一些，如果使用mdframed的话里面的文字显示效果和格式等是不受破坏的，对于大段大段引用其他书籍的情况，mdframed宏包更合适一些。
+
+更多内容请参看mdframed宏包的官方文档，下面是一些个人定制代码：
+
+\begin{Verbatim}
+\RequirePackage{mdframed} 
+\mdfsetup{frametitlealignment=\center}
+\newmdenv[frametitlebackgroundcolor=gray!20, linewidth=1pt,
+       frametitlerulewidth=1pt, frametitlerule=true]{bookref}
+\end{Verbatim}
+
+使用代码如下：
+\begin{Verbatim}
+\begin{bookref}[frametitle={\cite{黄帝内经}}]
+[黄帝]乃问于天师曰：余闻上古之人，春秋皆度百岁，而动作不衰；...
+
+......
+\end{bookref}
+\end{Verbatim}
+
+显示效果如下：
+
+\begin{bookref}[frametitle={\cite{黄帝内经}}]
+[黄帝]乃问于天师曰：余闻上古之人，春秋皆度百岁，而动作不衰；今时之人，年半百而动作皆衰者，时世异耶，人将失之耶？
+
+歧伯对曰：上古之人，其知道者，法于阴阳，和于术数，食饮有节，起居有常，不妄作劳，故能形与神俱，而尽终其天年，度百岁乃去。今时之人不然也，以酒为浆，以妄为常，醉以入房，以欲竭其精，以耗散其真，不知持满，不时御神，务快其心，逆于生乐，起居无节，故半百而衰也。夫上古圣人之教下也，皆谓之虚邪贼风，避之有时，恬惔虚无，真气从之，精神内守，病安从来。是以志闲而少欲，心安而不惧，形劳而不倦，气从以顺，各从其欲，皆得所愿。故美其食，任其服，乐其俗，高下不相慕，其民故曰朴。是以嗜欲不能劳其目，淫邪不能惑其心，愚智贤不肖不惧于物，故合于道。所以能年皆度百岁而动作不衰者，以其德全不危也。
+\end{bookref}
+ 
+
+
+
+
 
 
 \section{诗词歌赋环境}
@@ -1902,48 +1948,13 @@ blockquote {
 
 
 
-\chapter{其他}
-下面一些内容是从html也就是epub那边出发想到的一些东西。
-\section{br标签}
-br标签和hr标签在html也就是epub那边算是很有特色的两个标签，其中br标签换行对应的是 \verb+\\+ ，这个没什么多的好说的。
 
-\section{hr标签}
-hr标签也就是插入一条直线，这个有的时候可以作为文字之间的分隔符或者两个直线包围一段文字来显示该段文字的某种特殊性。当然也不一定要用直线，也可以用某种符号居中来获得类似的效果，比如：
-
-\begin{Verbatim}
-\begin{center}
-* * *
-\end{center}
-\end{Verbatim}
-
-具体center居中环境的实现请参看段落对齐这一小节\ref{sec:段落对齐} 。
-
-回到正题，插入直线在latex那里：
-
-\begin{Verbatim}
-\par\noindent\rule{\textwidth}{0.4pt}
-\end{Verbatim}
-
-或者hrule命令都是可以正常转为hr标签的。从显示效果来说推荐自定义命令：
-
-\begin{Verbatim}
-% hr
-\newcommand\hr{\par\noindent\hrule}
-\end{Verbatim}
-
-然后在想要插入直线的地方加上 \verb+\hr+ 命令即可，这样显示效果是最好的。\hr
-比如上面插入了一条直线，文字之间没有特意空一行。
-
-\begin{Verbatim}
-这样显示效果是最好的。\hr
-比如上面插入了一条直线，文字之间没有特意空一行。
-\end{Verbatim}
 
 
 \chapter{数学环境}
 
 \section{基本知识}
-\verb+$ $+包围起来的是行内（inline）的数学公式；\verb+$$   $$+ 包围起来的是独立成一段的数学公式。这个有点类似于css里面的inline和block的概念。inline环境一般推荐使用 \verb+$ $+ 。而displaymath环境，也就是上面说的独立成一段的数学公式，wikibooks上说推荐如下使用displaymath环境：
+\verb+$ $+包围起来的是行内（inline）的数学公式；\verb+\[   \]+ 包围起来的是独立成一段的数学公式。inline环境一般推荐使用 \verb+$ $+ 。而displaymath环境，也就是上面说的独立成一段的数学公式，wikibooks上说推荐如下使用displaymath环境：
 
 \begin{Verbatim}
 \begin{displaymath}
@@ -1951,13 +1962,15 @@ hr标签也就是插入一条直线，这个有的时候可以作为文字之间
 \end{displaymath}
 \end{Verbatim}
 
-个人感觉还好吧，如果没有特别的理由，就用 \verb+$ $+ 和 \verb+$$   $$+  了。
+个人感觉还好吧，如果没有特别的理由，就用 \verb+$ $+ 和 \verb+\[   \]+  了。
+
+\textbf{NOTICE}: 现在数学行间环境已经不推荐使用 \verb+$$   $$+ 了。
 
 \textbf{displaymath}环境显示单独占一行的数学公式，不过没有编号；\textbf{equation}环境有编号，\textbf{equation*}环境没有编号。
 
 现在一般使用数学环境都会推荐加载 amsmath 这个包，网页上显示 \LaTeX 排版的数学公式推荐使用 mathjax，其也有加载 amsmath 这个选项。
 
-下面依次演示displaymath，equation和equation*环境的显示效果。然后equation*环境是amsmath提供的，如果你已经加载了amsmath宏包，那么推荐就使用equation和equation*这两个环境。
+下面依次演示displaymath，equation和equation*环境的显示效果。然后equation*环境是amsmath提供的。
 
 \begin{Verbatim}
 \begin{displaymath}
@@ -2039,51 +2052,51 @@ $\frac{1}{2} \qquad 1/2$
 元素a属于集合A，a is member of A 
 
 \begin{Verbatim}
-$$
+\[
 a \in A
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 a \in A
-$$
+\]
 
 a不属于A，
 
 \begin{Verbatim}
-$$
+\[
 a \notin A
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 a \notin A
-$$
+\]
 
 全体非负整数组成的非负整数集合或者说自然数集合：
 
 \begin{Verbatim}
-$$
+\[
 \mathbb{N}
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 \mathbb{N}
-$$
+\]
 
 正整数集
 
 
 \begin{Verbatim}
-$$
+\[
 \mathbb{N}^{*}
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 \mathbb{N}^{*}
-$$
+\]
 
 
 基本的上标下标用法下面就不多言了。
@@ -2097,7 +2110,8 @@ $$
 \item 复数集 \verb+$\mathbb{C}$+ $\mathbb{C}$
 \end{itemize}
 
-实际上所有大写字母，看上去中间有些空的那种符号，都可以 \verb+$\mathbb{A}$+  $\mathbb{A}$ 来获得。NOTICE: mathbb命令需要本文档加载 amssymb 包。
+实际上所有大写字母，看上去中间有些空的那种符号，都可以 \\
+\verb+$\mathbb{A}$+  $\mathbb{A}$ 来获得。NOTICE: mathbb命令需要本文档加载 amssymb 包。
 
 列举法写出某个集合，这里关键是 \{ 花括号在 \LaTeX 中是特殊符号，所以前面要加个左斜杠符号。 \verb+$\{1,2,3\}$+ $\{1,2,3\}$ 。
 
@@ -2118,50 +2132,54 @@ $ \mathbf{F} $    \verb+\mathbf{F}+
 描述法来描述一个集合，所有奇数的集合：
 
 \begin{Verbatim}
-$$
+\[
 E = \{x \in \mathbb{Z} | x = 2k + 1, k \in \mathbb{Z}\}
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 E = \{x \in \mathbb{Z} | x = 2k + 1, k \in \mathbb{Z}\}
-$$
+\]
 
 
 \subsection{平方根符号}
 \verb+\sqrt+，如果是\verb+\sqrt[n]+表示n次平方根。
 
 \begin{Verbatim}
-$$\sqrt[n]{x^2+y^2}$$
+\[
+\sqrt[n]{x^2+y^2}
+\]
 \end{Verbatim}
 
-$$\sqrt[n]{x^2+y^2}$$
+\[
+\sqrt[n]{x^2+y^2}
+\]
 
 
 \subsection{集合间的关系}
 如果集合A中的任何一个元素都是集合B中的元素，我们说A是B的子集，记作 
 
 \begin{Verbatim}
-$$
+\[
 A \subseteq B
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 A \subseteq B
-$$
+\]
 
 或者说 B 包含 A，记作：
 
 \begin{Verbatim}
-$$
+\[
 B \supseteq A
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 B \supseteq A
-$$
+\]
 
 两个集合相等就直接用 = 即可。
 
@@ -2169,119 +2187,119 @@ $$
 
 
 \begin{Verbatim}
-$$
+\[
 A \subsetneqq B
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 A \subsetneqq B
-$$
+\]
 
 或者：
 
 \begin{Verbatim}
-$$
+\[
 B \supsetneqq A
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 B \supsetneqq A
-$$
+\]
 
 我记得真子集我读书的时候是用下面这两个符号来表示的，不是下面加上一个不等于号，就是没有等于号表示不相等。
 
 
 \begin{Verbatim}
-$$
+\[
 A \subset B
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 A \subset B
-$$
+\]
 
 或者：
 
 \begin{Verbatim}
-$$
+\[
 B \supset A
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 B \supset A
-$$
+\]
 
 按照简单性原则，和参看 \href{https://www.rapidtables.com/math/symbols/Basic_Math_Symbols.html#lnkset}{这个网页} ，真子集我是推荐后面的方案。
 
 空集：
 
 \begin{Verbatim}
-$$
+\[
 \emptyset
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 \emptyset
-$$
+\]
 
 上面的空集按照命令的字面意思是推荐使用 emptyset 这个命令的，但可能有时你会觉得 varnothing命令显示效果会更好一点吧。
 
 \begin{Verbatim}
-$$
+\[
 \varnothing
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 \varnothing
-$$
+\]
 
 
 \subsection{集合的基本运算}
 A和B之间的并集记作：
 
 \begin{Verbatim}
-$$
+\[
 A \cup B
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 A \cup B
-$$
+\]
 
 也许并集符号像个杯子所以记作cup吧。
 
 A和B之间的交集记作：
 
 \begin{Verbatim}
-$$
+\[
 A \cap B
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 A \cap B
-$$
+\]
 
 而cap是帽子的意思。
 
 全集 universe set ，按照上面的描述，那种中间有点空的字体表示某种特殊的集合，所以全集的表示为：
 
 \begin{Verbatim}
-$$
+\[
 \mathbb{U}
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 \mathbb{U}
-$$
+\]
 
 补集 complement set 有的说是要在上面带个C字母， $A^{C}$ 或者 如教材上这种写法： $C_{\mathbb{U}}A$ ，都可以把。
 
@@ -2290,14 +2308,14 @@ $$
 下面的写法是基本功了，就不多说了，值得一提的具体显示尤其是小写字母的斜斜的那种处理，很美观，也和我们平时看的教材书籍上的显示效果是差不多的。
 
 \begin{Verbatim}
-$$
+\[
 h = 130t - 5 t^2.
-$$
+\]
 \end{Verbatim}
 
-$$
+\[
 h = 130t - 5 t^2.
-$$
+\]
 
 当 $a<0$时，$B=\{ y|y\geqslant \frac{4ac - b^2}{4a} \}$ ，这一行代码如下：
 
@@ -2374,28 +2392,39 @@ $B=\big\{ y|y\geqslant \frac{4ac - b^2}{4a} \big\}$
 
 所以写对应的函数更加规范的应该使用上面这些对应的名字，然后上标下标的就不用多说了。比如：
 
-$$
+\[
 \lim_{x\to\infty}
-$$
+\]
 
 \begin{Verbatim}
-$$
+\[
 \lim_{x\to\infty}
-$$
+\]
 \end{Verbatim}
 
 
-$$
+\[
 \log_2 10
-$$
+\]
 
 \begin{Verbatim}
-$$
+\[
 \log_2 10
-$$
+\]
 \end{Verbatim}
 
 \subsection{分段函数}
+\begin{Verbatim}
+$
+y = |x| = 
+\begin{cases}
+x, & x \geqslant 0,\\
+-x, & x<0.
+\end{cases}
+$
+\end{Verbatim}
+
+
 $
 y = |x| = 
 \begin{cases}
@@ -2468,7 +2497,8 @@ $ ，cases环境是amsmath包提供的。
 
 $\overline{x+y}$  $\underline{\frac{2}{3}}$
 
-对于统计学上的样本均值就是使用的这里的overline命令：$\overline{X}$  \verb+$\overline{X}$+ 。
+对于统计学上的样本均值就是使用的这里的overline命令：\\
+$\overline{X}$  \verb+$\overline{X}$+ 。
 
 
 \subsection{表达式上或下有个大括号}
@@ -2488,15 +2518,26 @@ $\vec {A} \quad \overrightarrow{BC}$
 
 
 \section{多行数学环境}
-\textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，这两个环境都是amsmath包提供的。如下演示，对于编写多行数学环境很是方便：
+\textbf{gather}或者\textbf{gather*}，\textbf{align}或者\textbf{align*}。这样就可以直接用\verb+\\+换行了。带星号表示没有编号，这两个环境都是amsmath包提供的。
+
+比如下面这个例子，选用align环境的理由就是希望通过加上 \verb+&+ 来指定对齐位置，从而实现各个等号之间对齐，来达到一种推导过程的展示效果。
 
 
-本章节后面有时间，除了增加特殊符号之外，觉得还有必要额外的说明的知识，会继续补充在下面。主要是关于我接触到的数学领域的特定符号的确定，精确意义上的；某些特殊的数学公式排版等等。
+\begin{Verbatim}
+\begin{align*}
+P_1 &= \frac{v}{2} + \frac{w}{2} - (\frac{3v}{4} + \frac{w}{4}) \\
+    &= -\frac{1}{4}v + \frac{w}{4} \\
+    &= \frac{1}{4}(w-v) 
+\end{align*}
+\end{Verbatim}
+
+\begin{align*}
+P_1 &= \frac{v}{2} + \frac{w}{2} - (\frac{3v}{4} + \frac{w}{4}) \\
+    &= -\frac{1}{4}v + \frac{w}{4} \\
+    &= \frac{1}{4}(w-v) 
+\end{align*}
 
 
-
-\part{xelatex进阶}
-\textbf{NOTICE:} 进阶篇这部分内容总的来说是笔者不推荐使用的一些特性，因为他们都太Tex了，前面基础篇的一些内容可能在epub那边一些定制效果会丢失，这还可以接受，最多在epub那边再做出一些css调整，而进阶篇这里的一些很可能会造成你的epub那边内容显示不全甚至是整个内容变得混乱不堪。
 
 
 \chapter{参考文献}
@@ -2518,6 +2559,7 @@ bibitem命令的必填参数是参考文献的标签名字，但不是实际显�
 \verb+ \cite{latex123}+请参见文献\cite{latex123}
 
 
+\part{xelatex进阶}
 \chapter{颜色}
 \label{sec:颜色}
 \section{颜色的心理学}
@@ -2786,7 +2828,8 @@ print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
 
 一般的数字当然就是直接写，然后一般的单位也是直接写，比如10cm啊10米啊就是标准的做法。然后有些特殊的单位符号以及上标下标问题等如果用数学环境写，就会破坏文档这部分内容的谐调性，\emph{siunitx}宏包就是来解决这个问题的。
 
-比如说\verb+\num{3d10}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_1.png}，比如说\verb+100\si{\text{厘米}^3}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_2.png} 。
+比如说\verb+\num{3d10}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_1.png}，比如说\\
+\verb+100\si{\text{厘米}^3}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_2.png} 。
 
 值得一提的是原来xeCJK宏包会让数字和中文（单位）之间自动空一格，这很好，而使用了num命令或si命令之后这个自动空格机制被干扰了，你可以选择重新包装这个命令或者手动空一格吧。
 
@@ -3649,7 +3692,8 @@ fc-list :lang=zh | sort >ziti.txt
 
 \section{新宏包的安装}
 \label{sec-9}
-安装texlive-full之后，如果还遇到没有的宏包，可以先到CTAN官网上下载到这个宏包之后，然后将这个宏包解压到系统目录： \verb~/usr/share/texmf/tex/latex~ 里面即可。
+安装texlive-full之后，如果还遇到没有的宏包，可以先到CTAN官网上下载到这个宏包之后，然后将这个宏包解压到系统目录：\\
+ \verb~/usr/share/texmf/tex/latex~ 里面即可。
 
 当然你也可以在另外一个文件夹里面，这里必须是你的主文件夹下，新建一个文件夹texmf，然后里面新建一个tex，然后再新建一个目录latex，然后在这个latex里面放着你下载下来的宏包。具体比如说有一个宏包名字叫做config，那么latex下面就是config文件夹，然后里面就是config.sty文件。你自己写的宏包扔进去一样有效。
 唯一要额外做的操作就是在texmf目录之下运行命令：
@@ -3671,89 +3715,6 @@ sudo texhash
 
 
 如果有需要的可以阅读这些代码来学习你正在的sty或者cls文件都是怎么编写的。其中base文件夹里面有book，article，report之类文档类型的定义，也许里面有些命令的原始代码是你需要的。
-
-\chapter{利用pandoc输出epub}
-\label{ch:pandoc_epub}
-一个总的原则就是不要使用太过于花哨的latex特性，请参看本书xelatex基础篇部分，其中讨论的内容基本上latex和epub两边都能兼顾得很好，可能epub那边想要显示的样式会没有，比如你定制了一个自己的罗列环境标签，而在epub那边则总是 \verb+1.+ 之类的，因为epub里面的内容实质上是html，所以这可以通过css来进一步调整，问题不是太大。下面更详细地讨论一些具体的问题。
-
-\begin{itemize}
-\item 图片格式不要选pdf和svg了，就用png或者jpeg，然后图片类型后缀名不要省略了。
-\item 不要使用 \XeLaTeX 和 \XeTeX ，epub那边不支持
-\item 图表环境下label应该跟在caption后面，否则epub那边工作不正常，原因不明。
-\item 数学模式基本上都支持，其在epub中大概是这样的形式 \verb+<math ....+，还可以换成mathjax，关于这块pandoc文档的 \verb+Math rendering in html+ 一节有更详细的讨论，不管怎么说，默认的配置一般就够用了。
-\item cite命令和参考文献环境thebibliography都工作不太正常。
-\item 自定义命令和自定义环境的宏展开pandoc都是支持的，经过测试发现\textbf{可选参数形式不支持}。
-\item verbatim和Verbatim环境都是支持的，将转成html那边的pre标签，minted环境的语法高亮也是支持的，同样需要你安装pygments。
-\end{itemize}
-
-最终制作epub输出命令简单如下：
-\begin{Verbatim}
-pandoc -o main.epub main.tex --metadata-file=epub.yaml
-\end{Verbatim}
-
-
-
-\chapter{方便手机上观看的pdf}
-
-
-\section{geometry修改}
-手机上看旁注，左右上下边距都要缩小，然后paperwidth和paperheight也要相应缩小。本小节 \footnote{主要参考了\href{http://tex.stackexchange.com/questions/78920/generating-smartphone-readable-pdf}{这个网站}。}
-
-\begin{Verbatim}
-\ifphone
-%for phone
-\RequirePackage[
-  paperwidth=105mm, %除去旁註其他沒變,115,再稍微小點
-  paperheight=190mm,%太長了縮短點，
-  bindingoffset=0mm,%裝訂線
-  top=15mm,  %上邊距 包括頁眉
-  bottom=15mm,%下邊距 包括頁腳
-  left=5mm,  %左邊距or inner
-  right=5mm,  %右邊距or  outer
-  headheight=10mm,%頁眉
-  footskip=10mm,%頁腳
-  includemp=true,% 旁註寬度計入width
-  marginparsep=0mm, %沒有旁註
-  marginparwidth=0mm,  %沒有旁註
-  ]{geometry}
-\else
-
-\RequirePackage[a4paper, %a4paper size 297:210 mm
-  bindingoffset=0mm,%裝訂線
-  top=45mm,  %上邊距 包括頁眉
-  bottom=40mm,%下邊距 包括頁腳
-  left=35mm,  %左邊距or inner
-  right=40mm,  %右邊距or  outer
-  headheight=25mm,%頁眉
-  footskip=25mm,%頁腳
- includemp=true,% 旁註寬度計入width
- marginparsep=0mm, %旁註與正文間距
-marginparwidth=0mm,  %旁註寬度
-  ]{geometry}
-\fi
-\end{Verbatim}
-这里使用了一个条件命令。在加载myconfig.sty宏包的时候已经新建了一个条件变量：\\
-\verb+\newif\ifphone+\\
-\verb+\phonefalse+
-ifphone就是一个条件判断命令，这里涉及到的命令我也不大懂，总之，如果我改成：\\
-\verb+\phonetrue+\\
-就会自动生成适合在手机上观看的pdf。
-
-
-
-\section{章节上下距离修改}
-使用 \verb+titlespacing*+ 来修改章节的上下距离，经观察主要是chapter和secion上下间距较大。 \verb+titlespacing*+ 命令第一个参数是指定作用对象，第二个指定左边距离，第三个是指定上间距，第四个是指定下间距。 参考了 \href{https://tex.stackexchange.com/questions/63390/how-to-decrease-spacing-before-chapter-title}{这个网页}。
-
-\begin{Verbatim}
-\titlespacing*{\chapter}{0pt}{-45pt}{10pt}
-
-\titlespacing*{\section}{0pt}{-5pt}{8pt}
-\end{Verbatim}
-
-
-
-\section{管理策略}
-手机版和电脑版sty文件分开编写和引入是个不错的主意，至于具体生成的pdf文件名字后面再重命名就是了。
 
 
 
@@ -3846,59 +3807,6 @@ TeX中的计数器用arabic命令之后是1 2 3...这样的形式，如何产生
 
 更常见的是化学分子式里面的上标和下标，推荐使用mhchem宏包，至于数学模式里的上标和下标自不必说了。
 
-
-\section{定制quote和quotation环境}
-\label{sec:quotation_huan_jing_ding_zhi}
-
-以下讨论参考了\href{http://tex.stackexchange.com/questions/33219/whats-the-difference-between-the-environments-quote-and-quotation}{这个网站} 。
-
-quote和quotation在article.cls中的原初定义是这样的：
-\begin{Verbatim}
-\newenvironment{quote}
-               {\list{}{\rightmargin\leftmargin}%
-                \item\relax}
-               {\endlist}
-\newenvironment{quotation}
-               {\list{}{\listparindent 1.5em%
-                        \itemindent    \listparindent
-                        \rightmargin   \leftmargin
-                        \parsep        \z@ \@plus\p@}%
-                \item\relax}
-               {\endlist}
-\end{Verbatim}
-
-我改成了如下：
-\begin{Verbatim}
-%=========重新定义 quote=====%
-\renewenvironment{quote}[1][anonymous]{
-\newcommand{\quoteauthor}[1][anonymous]{#1}
-\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent   2em
-}\item\relax
-\ttfamily}
-{\\
-\makebox[\linewidth][r]{\sffamily —\quoteauthor}
-\endlist}
-
-%重新定义quotation
-\renewenvironment{quotation}
-{\list{}{\rightmargin\leftmargin %右间距等于左间距
-\itemindent 2em%item的缩进也就是第一段的缩进
-\listparindent \itemindent %第二段的缩进
-}%
-\item\relax
-\ttfamily}
-{\endlist}
-\end{Verbatim}
-quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
-\begin{itemize}
-\item \verb+\rightmargin\leftmargin+这是让右边空白距离等于左边空白距离，左边空白距离默认等于\verb+\parindent+，这个有用我保留了。
-\item \verb+\itemindent   2em+，这个itemindent控制的是第一段的段首缩进量，这里设置为2em即两个字符的意思。
-\item 代码第七行是设置quote环境下字体为ttfamily。
-\item quote环境后面的代码，在结束环境之前，先换行，然后输出了一个盒子，右对齐，ssfamily，写着这个格言的作者，因为格言一般都要写上作者，如果不知道那么也写上anonymous，无名氏。这个作者的名字是quote环境接受一个可选项而来的额。
-\item \verb+\listparindent \itemindent+，quotation多了一个这个设置，其中listparindent是控制quotation里面除了第一段之外其他段落的缩进，这里就简单设置为跟第一段一样。
-\item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
-\end{itemize}
 
 
 \section{flushright环境空白间距问题}
@@ -4009,7 +3917,7 @@ changepage宏包还有changetext和changepage命令，有兴趣的可以看下�
 
 \bibitem[latex-companion]{latex-companion}  The Latex Companion 
 
-
+\bibitem[黄帝内经]{黄帝内经} 《黄帝内经》
 
 
 \end{thebibliography}
