@@ -2217,7 +2217,7 @@ $ ，cases环境是amsmath包提供的。
 \item \verb+\left\| x \right\| + $\left\| x \right\| $ 
 \end{itemize}
 
-只有在极个别的情况下不写上\verb+\left...\right+会在显示上没有问题，但一般都推荐带上，请看下面的讨论。
+除了一些简单的单行行间数学环境，可以不写上\verb+\left...\right+ ，其他的一般都推荐带上，来避免一些显示问题，请看下面的讨论。
 
 \subsection{括号放大对比带上left命令}
 括号放大命令罗列如下，逐渐放的更大：
@@ -2313,45 +2313,6 @@ a \notin A
 a \notin A
 \]
 
-全体非负整数组成的非负整数集合或者说自然数集合：
-
-\begin{Verbatim}
-\[
-\mathbb{N}
-\]
-\end{Verbatim}
-
-\[
-\mathbb{N}
-\]
-
-正整数集
-
-
-\begin{Verbatim}
-\[
-\mathbb{N}^{*}
-\]
-\end{Verbatim}
-
-\[
-\mathbb{N}^{*}
-\]
-
-
-基本的上标下标用法下面就不多言了。
-
-此外还有：
-
-\begin{itemize}
-\item 整数集 \verb+$\mathbb{Z}$+ $\mathbb{Z}$
-\item 有理数集 \verb+$\mathbb{Q}$+ $\mathbb{Q}$
-\item 实数集 \verb+$\mathbb{R}$+ $\mathbb{R}$
-\item 复数集 \verb+$\mathbb{C}$+ $\mathbb{C}$
-\end{itemize}
-
-实际上所有大写字母，看上去中间有些空的那种符号，都可以 \\
-\verb+$\mathbb{A}$+  $\mathbb{A}$ 来获得。NOTICE: mathbb命令需要本文档加载 amssymb 包。
 
 列举法写出某个集合，这里关键是 \{ 花括号在 \LaTeX 中是特殊符号，所以前面要加个左斜杠符号。 \verb+$\{1,2,3\}$+ $\{1,2,3\}$ 。
 
@@ -2368,6 +2329,22 @@ E = \{x \in \mathbb{Z} | x = 2k + 1, k \in \mathbb{Z}\}
 \[
 E = \{x \in \mathbb{Z} | x = 2k + 1, k \in \mathbb{Z}\}
 \]
+
+\subsection{常见的数集}
+\begin{description}
+\item[自然数集] \verb+$\mathbb{N}$+ $\mathbb{N}$  【0是否属于自然数是有点争议的，这不是本文讨论的内容。】
+\item[正整数集] \verb+$\mathbb{N}^{*}$+ $\mathbb{N}^{*}$
+\item[整数集] \verb+$\mathbb{Z}$+ $\mathbb{Z}$
+\item[有理数集]  \verb+$\mathbb{Q}$+ $\mathbb{Q}$
+\item[实数集] \verb+$\mathbb{R}$+ $\mathbb{R}$
+\item[复数集]  \verb+$\mathbb{C}$+ $\mathbb{C}$
+\end{description}
+
+
+实际上所有大写字母，看上去中间有些空的那种符号，都可以 \\
+\verb+$\mathbb{A}$+  $\mathbb{A}$ 来获得。
+
+NOTICE: mathbb命令需要本文档加载 amssymb 包。
 
 \subsection{集合的关系}
 如果集合A中的任何一个元素都是集合B中的元素，我们说A是B的子集，记作 
@@ -2691,94 +2668,23 @@ a & b & c
 \end{itemize}
 
 \section{希腊字母}
-\begin{itemize}
-\item 
-\end{itemize}
-
- $\alpha$
- 
- $\beta$
- 
- $\gamma$
- 
- $\delta$
- 
- $\epsilon$
- 
- $\zeta$
- 
- $\eta$
- 
- $\theta$
- 
- $\iota$
-
- $\kappa$
- 
- $\lambda$
- 
- $\mu$
- 
- $\nu$
- 
- $\xi$
- 
- $\pi$
- 
- $\rho$
- 
- $\sigma$
- 
- $\tau$
- 
- $\upsilon$
- 
- $\phi$
- 
- $\chi$
- 
- $\psi$
- 
- $\omega$
-
- $\digamma$
- 
- $\varepsilon$
- 
- $\varkappa$
- 
- $\varphi$
- 
- $\varpi$
- 
- $\varrho$
- 
- $\varsigma$
- 
- $\vartheta$
- 
- $\Gamma$
- 
- $\Delta$
- 
- $\Lambda$
- 
- $\Phi$
- 
- $\Pi$
- 
- $\Psi$
-
- $\Sigma$
- 
- $\Theta$
- 
- $\Upsilon$
- 
- $\Xi$
- 
- $\Omega$
- 
+\begin{table}[H]
+\resizebox{\linewidth}{!}{
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+$\alpha$ & alpha  &$\beta$ & beta  & $\gamma$ & gamma & $\delta$ & delta  &$\epsilon$ & epsilon  \\
+$\zeta$ & zeta  &$\eta$ & eta  & $\theta$ & theta & $\iota$ & iota  &$\kappa$ & kappa  \\
+$\lambda$ & lambda  &$\mu$ & mu  & $\nu$ & nu & $\xi$ & xi  &$\pi$ & pi  \\
+$\rho$ & rho  &$\sigma$ & sigma  & $\tau$ & tau & $\upsilon$ & upsilon  &$\phi$ & phi  \\
+$\chi$ & chi  &$\psi$ & psi  & $\omega$ & omega & $\digamma$ & digamma  &$\varepsilon$ & varepsilon  \\
+$\varkappa$ & varkappa  &$\varphi$ & varphi  & $\varpi$ & varpi & $\varrho$ & varrho  &$\varsigma$ & varsigma  \\
+$\vartheta$ & vartheta  &$\Gamma$ & Gamma  & $\Delta$ & Delta & $\Lambda$ & Lambda  &$\Phi$ & Phi  \\
+$\Pi$ & Pi  &$\Psi$ & Psi  & $\Sigma$ & Sigma & $\Theta$ & Theta  &$\Upsilon$ & Upsilon  \\
+$\Xi$ & Xi  &$\Omega$ & Omega  & & & & & & \\
+\hline
+\end{tabular}
+}
+\end{table}
 
 
 
@@ -2995,7 +2901,6 @@ slices      & \multicolumn{2}{l}{abs.error(slices)} \\ \cmidrule(l){2-3}
 \section{表格放大或缩小}
 用scalebox和resizebox命令除了可以放大或者缩小图片之外，也可以用于放大或者缩小表格，这是值得注意的一件事，因为在排版的时候对表格的大小调整有的时候也是很重要的。
 
-\emph{值得一提的是现在在表格里面verb命令不可以用了，会出错。}
 
 \begin{Verbatim}
 \begin{table}[H]
