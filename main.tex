@@ -4,8 +4,6 @@
 
 \newlength{\textpt}
 \setlength{\textpt}{12pt}
-
-\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}#1\vspace*{\stretch{1}}\end{center}\end{titlepage}}
     
 %========基本必备的宏包========%
 \RequirePackage{calc,float,multicol,moresize}
@@ -190,6 +188,10 @@
 \ttfamily}
 {\endlist}
 
+
+%framed环境 另一个简单的框线环境 或者其他用途
+\RequirePackage{framed}
+
 % 框线表示大段文章引用
 \RequirePackage{mdframed} 
 \mdfsetup{frametitlealignment=\center}
@@ -221,8 +223,6 @@
 
       
 %==========其他宏包===========%
-%framed环境
-\RequirePackage{framed}
 
 \newenvironment{shici}{
 \begin{verse}
@@ -246,13 +246,11 @@
 
 一切在尊重版权的基础上出于爱好兴趣和相信自由分享的价值原则上进行。
 
-全书主要分为五大块：
+全书主要分为四大块：
 \begin{description}
 \item[xelatex基础] 这部分内容会就xelatex或者latex的基础知识内容做全面的整理归类排版，争取做到言简意赅并面面俱到和实用性很强的手册性质。
 
 \item[xelatex进阶] 更深入地讨论xelatex的特有的排版问题。
-
-\item[xelatex应用] 这部分讨论了xelatex的一些引用，比如：化学，tikz制图，幻灯片，试卷等。
 
 \item[tex高级篇] 这部分讨论了tex底层的一些知识。
 
@@ -1690,6 +1688,7 @@ O  & 奇数页(odd)
 
 \section{fancyvrb宏包}
 fancyverb宏包提供了一个Verbatim环境，比如下面的配置代码的说明如下。更多说明请参见fancyvrb宏包文档。
+
 \begin{Verbatim}
 \fvset{numbers=left,frame=lines,tabsize=4 ,baselinestretch=2,
     xleftmargin=6pt, fontsize=\footnotesize , numbersep=2pt}
@@ -1713,18 +1712,20 @@ numbersep=2pt                        & 数字和框框间距 \\   \bottomrule
 \end{tabular}
 \end{table}
 
+\subsection{引入外部文件}
+如果用input命令引入外部文件，除非这个文件就是原生的tex格式，否则一般会出错，也即是如果你想将外部脚本的运行结果引入进来，最好还是引入到代码环境里面。fancyvrb提供了 \textit{VerbatimInput} 命令，可能是你想要的。
 
 
 \section{minted宏包}
-minted宏包也是利用pygments来自动进行语法染色，它还提供了一个listings环境，不过并不能正确分页，所以让我们忘了那个listings环境（或者现在问题解决了？），然后就其他部分，自动语法染色，fancyvrbDIY选项的继承，还新增了背景颜色的设置，这些都是极好极好的。。
+本小节简要介绍下minted宏包的使用，更多信息请参看官方文档。
+
+minted宏包是利用pygments来进行语法染色，它还提供了一个listings环境，不过并不能正确分页，所以让我们忘了那个listings环境（或者现在问题解决了？），然后就其他部分，自动语法染色，fancyvrb DIY选项的继承，还新增了背景颜色的设置，这些都是极好的。
 
 \textbf{注意}：不管你在那个系统，要正确使用这个宏包系统中都必须要有pygmentize这个命令，也就是你要安装python的pygments这个模块。即：
 
 \begin{Verbatim}
 pip install pygments
 \end{Verbatim}
-
-如果读者不清楚这里谈论的pip是个什么东西，那么请先补习一下python生态的相关知识。
 
 \subsection{mint命令}
 minted宏包提供了mint命令来进行inline的code输入，这正好弥补了原verb命令功能过于简陋的问题。
@@ -1759,6 +1760,16 @@ int main(void)
 \end{minted}
 
 minted宏包加上背景颜色会出现hbox的badness问题。
+
+\subsection{引入外部文件}
+minted宏包提供了 \textit{inputminted} 命令来引入外部文件到minted环境中。
+
+一个简单的例子如下所示，其中label选项可以在开头显示具体的引入文件名，或者你想要显示的其他信息。
+
+\begin{Verbatim}
+\def\source{filename.py}
+\inputminted[label=\source]{python}{\source}
+\end{Verbatim}
 
 
 \chapter{特殊文字环境}
@@ -1849,9 +1860,23 @@ quote和quotation都是通过list环境来实现的，具体不太清楚。这�
 \item quotation环境的其他修改，parsep是控制段与段之间距离的，这里取消了，因为默认的就很好了。
 \end{itemize}
 
+\section{简单的线框包围环境}
+framed宏包提供了一个简单的线框包围环境。跨页测试没有问题，有些时候可能就想要这样一个简单的线框包围环境，因为其他复杂的环境里面七七八八各种Tex命令，干扰因素会很多。
 
-\section{线框包围环境}
-线框包围大段文字 \verb+mdframed+ 宏包提供了很好的跨页支持，内置的 \verb+\fbox+ 和 \verb+\fcolorbox+ 会有问题的，此外mdframed的解决方案相比tcolorbox更轻量级一些，如果使用mdframed的话里面的文字显示效果和格式等是不受破坏的，对于大段大段引用其他书籍的情况，mdframed宏包更合适一些。
+\begin{Verbatim}
+\begin{framed}
+样例文字.
+\end{framed}
+\end{Verbatim}
+
+
+\begin{framed}
+这里参考了Knuth的The Texbook，但是我并没有将其写入参考文献，因为只是觉得关于box和glue的概念最好参考原初定义，但是并不推荐读者阅读这本书，现在已经是\LaTeX 时代了，不推荐读者使用原始的\TeX 命令，一是不太实用，二是兼容性可能不太好。除非你是宏包编写者，但就作为一般的使用者真的没有必要接触那些原始命令了。还参考了\cite{boxes}
+\end{framed}
+
+
+\section{mdframed宏包}
+线框包围大段文字 \verb+mdframed+ 宏包提供了很好的跨页支持，内置的 \verb+\fbox+ 和 \verb+\fcolorbox+ 会有问题的，此外mdframed的解决方案相比tcolorbox更轻量级一些\footnote{tcolorbox这个宏包非常的重。}，如果使用mdframed的话里面的文字显示效果和格式等是不受破坏的，对于大段大段引用其他书籍的情况，mdframed宏包更合适一些。
 
 更多内容请参看mdframed宏包的官方文档，下面是一些个人定制代码：
 
@@ -2965,7 +2990,7 @@ rowscolors第二个选项            & 奇数列的颜色  \\
 \end{figure}
 
 
-\chapter{代码环境}
+\chapter{插入代码}
 \section{tcolorbox宏包}
 这里用tcolorbox宏包的主要是想给代码块就是加上背景颜色。
 
@@ -3179,21 +3204,6 @@ $t$（分） & $s$（英尺）  \\ \midrule
 
 
 
-\part{xelatex应用}
-\chapter{tikz制图}
-tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_gallery}{这个项目} 读者可以看下。
-
-\chapter{化学相关}
-化学相关符号甚至非常复杂的有机分子式的显示问题推荐用\emph{chemfig}宏包解决。
-
-
-\chapter{exam类}
-详细情况请参看本github中文件夹 \verb+exam类+ 。
-
-\chapter{beamer类}
-\LaTeX 中幻灯片的处理是用beamer类来写的，老实说我认为\LaTeX 并不适合偏视觉的幻灯片的编写，\LaTeX 更适合内容文字等等较多的时候的情况，那个时候 word都有点力不从心，而tex标记语法风格结合良好的编辑器是很得心应手的。
-
-所以这部分内容我决定略过了，在本github里面有个 \verb+制作幻灯片+ 的文件夹，里面有一点我早期探索的内容，可做读者的参考。
 
 
 \part{tex高级篇}
@@ -3768,6 +3778,11 @@ pandoc -o main.epub main.tex --metadata-file=epub.yaml
 在\verb+epub.yaml+文件那里你还可以定义一些配置，具体请参看本项目配置参考文件夹下面的 \verb+epub.yaml+ 文件，配套的还有 \verb+epub.css+ 文件，这个css文件在输出epub的时候会混入进去，大体html5那一套东西。
 
 
+\chapter{tikz制图}
+tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_gallery}{这个项目} 读者可以看下。
+
+\chapter{化学相关}
+化学相关符号甚至非常复杂的有机分子式的显示问题推荐用\emph{chemfig}宏包解决。
 
 
 
