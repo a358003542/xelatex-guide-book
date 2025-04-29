@@ -4,7 +4,9 @@
 
 \newlength{\textpt}
 \setlength{\textpt}{12pt}
-    
+
+\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}#1\vspace*{\stretch{1}}\end{center}\end{titlepage}}
+
 %========基本必备的宏包========%
 \RequirePackage{calc,float,multicol,moresize}
 %\RequirePackage[onehalfspacing]{setspace}
@@ -238,10 +240,11 @@
 \begin{document}
 \maketitle
 
+\flypage{感谢上帝}
 
 \frontmatter 
-\addchtoc{前言}
-\chapter*{前言}
+\addchtoc{序言}
+\chapter*{序言}
 我试图收集整理各方面来的xelatex相关的信息，包括自己的实践经验总结，作为后学者的指南手册。
 
 一切在尊重版权的基础上出于爱好兴趣和相信自由分享的价值原则上进行。
@@ -2224,6 +2227,7 @@ $ ，cases环境是amsmath包提供的。
 \item  向左箭头 $\leftarrow$  \verb+\leftarrow+
 \item  宽向右箭头 $\Rightarrow$  \verb+\Rightarrow+
 \item  宽向左箭头 $\Leftarrow$  \verb+\Leftarrow+
+\item  宽左右箭头 $\Leftrightarrow$ \verb+\Leftrightarrow+
 \item  向上箭头 $\uparrow$  \verb+\uparrow+
 \item  向下箭头 $\downarrow$  \verb+\downarrow+
 \item  宽向上箭头 $\Uparrow$  \verb+\Uparrow+
