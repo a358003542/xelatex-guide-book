@@ -7,10 +7,14 @@
 \PassOptionsToPackage{unicode,colorlinks=true,linkcolor=blue,citecolor=blue}{hyperref}
 \PassOptionsToPackage{svgnames,table}{xcolor}
 
-\newif\if@code
-\@codefalse
-% 定义选项 code
-\DeclareOption{code}{\@codetrue}
+\newif\if@minted
+\newif\if@scripts
+\@mintedfalse
+\@scriptsfalse
+% 定义选项minted
+\DeclareOption{minted}{\@mintedtrue}
+% 定义选项scripts
+\DeclareOption{scripts}{\@scriptstrue}
 % 处理未定义的选项
 \DeclareOption*{%
     \PackageWarning{mybook}{Unknown option `\CurrentOption'}%
@@ -31,6 +35,8 @@
 %1.3 onehalfspacing
 %1.6 doublespacing
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}{\Huge #1}\vspace*{\stretch{1}}\end{center}\end{titlepage}}
 
 %===========加入目录 某章或某节=====%
 \newcommand{\addchtoc}[1]{
@@ -163,6 +169,8 @@
 %如果用setspace宏包而不是linespread调整行间距，那么才需要额外的表格行距拉大。
 
 
+% 简单的框线环境
+\RequirePackage{framed}
 
 % 框线表示文章引用
 \RequirePackage{mdframed} 
@@ -191,14 +199,38 @@
 %main body 与脚注之间的距离
 \setlength{\skip\footins}{20pt plus 10pt}
 
-
-\if@code
 %插入代码
 \RequirePackage{fancyvrb} 
 \fvset{frame=lines,tabsize=4 ,baselinestretch=1.8, fontsize=\footnotesize}    
+
+
+\if@minted
+%minted
+\RequirePackage{minted}
+\setminted{frame=lines, tabsize=4, framesep=10pt, fontsize=\footnotesize}
 \fi
 
+\if@scripts
+\NewDocumentCommand{\showCode}{m O{python}}{
+\def\source{\detokenize{scripts/#1}}
 
+  \IfFileExists{\source}
+  {\inputminted[label=\source]{#2}{\source}}
+  {file: \source ~not exists.}
+}
+
+\NewDocumentCommand{\showCodeOut}{m}{
+\def\outfile{\detokenize{scripts/#1}}
+  \IfFileExists{\outfile}
+  {\VerbatimInput{\outfile}}
+  {file: \outfile  ~not exits.}
+}
+
+\NewDocumentCommand{\showCodeAndOut}{m O{python}}{
+\showCode{#1}[#2]
+\showCodeOut{#1.out}
+}
+\fi
 
 
 \makeatother
