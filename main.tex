@@ -2,171 +2,19 @@
 
 \documentclass[12pt,oneside]{book}
 
-\newlength{\textpt}
-\setlength{\textpt}{12pt}
+\usepackage[minted]{mybook} 
+\usepackage{mybookcover}
 
-\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}#1\vspace*{\stretch{1}}\end{center}\end{titlepage}}
 
-%========基本必备的宏包========%
-\RequirePackage{calc,float,multicol,moresize}
-%\RequirePackage[onehalfspacing]{setspace}
-\linespread{1.5}
-%1.3 onehalfspacing
-%试卷或需要文字紧凑的
-%1.6 doublespacing
-
-%===========加入目录 某章或某节=====%
-\makeatletter
-
-\newcommand{\addchtoc}[1]{
-        \cleardoublepage
-        \phantomsection
-        \addcontentsline{toc}{chapter}{#1}}
-
-\newcommand{\addsectoc}[1]{
-        \phantomsection
-        \addcontentsline{toc}{section}{#1}}
-
-%===========全文基本格式==========%
-\setlength{\parskip}{1.6ex plus 0.2ex minus 0.2ex}   %段落間距
-\setlength{\parindent}{\textpt * \real{2}}
-\RequirePackage{indentfirst} 
-
-%=========页面设置=========%
-\RequirePackage[a4paper, %a4paper size 297:210 mm
-  bindingoffset=0mm,%裝訂線
-  top=35mm,  %上邊距 包括頁眉
-  bottom=30mm,%下邊距 包括頁腳
-  inner=30mm,  %左邊距or inner
-  outer=30mm,  %右邊距or  outer
-  headheight=10mm,%頁眉
-  headsep=15mm,%
-  footskip=15mm,%
-  marginparsep=0pt, %旁註與正文間距
-  marginparwidth=0em,includemp=false% 旁註寬度計入width%旁註寬度
-  ]{geometry}
-
-%color
-\RequirePackage[table,svgnames]{xcolor}
-
-%================字體================%
-%设置数学字体
-\RequirePackage{amssymb,amsmath}
-\RequirePackage{stmaryrd}
-\RequirePackage{fontspec}
+\usepackage{longtable}
 %si unit
-\RequirePackage{siunitx}
-
-\everymath{\displaystyle}
-
- %設置英文字體
-\setmainfont[Mapping=tex-text]{DejaVu Serif}
-\setsansfont[Mapping=tex-text]{DejaVu Sans}
-\setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
-
-%中文環境
-\RequirePackage[]{xeCJK}
-\xeCJKsetup{PunctStyle=plain}
-\setCJKmainfont[FallBack=DejaVu Serif, ItalicFont=KaiTi]{Source Han Serif CN}
-\setCJKsansfont[FallBack=DejaVu Sans]{Source Han Sans CN}
-\setCJKmonofont[FallBack=DejaVu Sans Mono]{KaiTi}
-
-
-
-%%===============中文化=========%
-\renewcommand\contentsname{目~录}
-\renewcommand\listfigurename{插图目录}
-\renewcommand\listtablename{表格目录}
-\renewcommand\bibname{参~考~资~料}
-\renewcommand\indexname{索~引}
-\renewcommand\figurename{图}
-\renewcommand\tablename{表}
-\renewcommand\partname{部分}
-\renewcommand\appendixname{附录}
-\renewcommand{\today}{\number\year{}年\number\month{}月\number\day{}日}
-
-
-%=======页眉页脚格式=========%
-\RequirePackage{fancyhdr}   %頁眉頁腳
-\RequirePackage{zhnumber}  %计数器中文化
-\pagestyle{fancy}
-\renewcommand{\sectionmark}[1]
-{\markright{第\zhnumber{\arabic{section}}节~~#1}{}}
-
-\fancypagestyle{plain}{%
-    \fancyhf{}
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}
-    \fancyhf[HR]{\ttfamily \footnotesize \rightmark }
-    \fancyhf[FR]{\thepage}}
-\pagestyle{plain}
-
-
-%=========章節標題設計=========%
-\RequirePackage{titlesec}
-%修改part
-\titleformat{\part}{\huge\sffamily}{}{0em}{}
-%修改chapter
-\titleformat{\chapter}{\LARGE\sffamily}{}{0em}{}
-%修改section
-\titleformat{\section}{\Large\sffamily}{}{0em}{}
-%修改subsection
-\titleformat{\subsection}{\large\sffamily}{}{0em}{}
-%修改subsubsection
-\titleformat{\subsubsection}{\normalsize\sffamily}{}{0em}{}
-
-
-%================目录===============%
-%toc label to contents space   dynamic adjust
-\RequirePackage{tocloft}%
-\renewcommand{\numberline}[1]{%
-  \@cftbsnum #1\@cftasnum~\@cftasnumb%
-}
-
-%==============超鏈接===============%
-\RequirePackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref} %設置書簽和目錄鏈接等
-\newcommand{\hlabel}[1]{\phantomsection \label{#1}}%某一小段的引用
-
-%=================文字強調=========%
-\RequirePackage{xeCJKfntef}
-
-\DeclareRobustCommand*{\uwave}%波浪线稍微下移点。
-{\bgroup \markoverwith{\lower5\p@\hbox{\sixly \char58}}\ULon}
-
-%modified udot command from the dotuline
-\def\udot{\bgroup
-  \UL@setULdepth
-  \markoverwith{\begingroup
-     \advance\ULdepth0.1ex
-     \lower\ULdepth\hbox{\kern.25em . \kern.045em}%
-     \endgroup}%
-  \ULon}
-
-\let\oldemph\emph % Save emph in oldemph
-\renewcommand{\emph}[1]{\textcolor{blue}{\textbf{#1}}}  
-
-%==================插入圖片=======%
-\RequirePackage{wrapfig}
-\RequirePackage{graphicx}
-\graphicspath{{figures/}}
-%change the caption style a little like 1-1
-\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
-
-
-%==============插入表格========%
-\RequirePackage{booktabs}
-\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}
-\RequirePackage{caption}
-%\renewcommand{\arraystretch}{1.3}
-%如果用setspace宏包而不是linespread调整行间距，那么才需要额外的表格行距拉大。
-
-
-%插入代码
-\RequirePackage{fancyvrb} 
-\fvset{frame=lines,tabsize=4 ,baselinestretch=1.8, fontsize=\footnotesize}
-
-%minted
-\RequirePackage{minted}%
+\usepackage{siunitx}
+% 文本的单位表示
+\sisetup{mode=text}
+%num命令两边加上空格 numb
+\providecommand{\numb}[1]{{~\num{#1}~}}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\ddt}[2]{\frac{d#1}{d#2}}
 
 
 %=========重新定义 quote=====%
@@ -191,54 +39,22 @@
 {\endlist}
 
 
-%framed环境 另一个简单的框线环境 或者其他用途
-\RequirePackage{framed}
-
-% 框线表示大段文章引用
-\RequirePackage{mdframed} 
-\mdfsetup{frametitlealignment=\center}
-\newmdenv[frametitlebackgroundcolor=gray!20, linewidth=1pt,
-                    frametitlerulewidth=1pt, frametitlerule=true]{bookref}
-
-
-%========脚注=========%
-\RequirePackage{tikz} 
-\newcommand*\circled[1]{%
-  \tikz[baseline=(char.base)]
-  \node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
-\newcommand*\circledarabic[1]{\circled{\arabic{#1}}}
-
-\RequirePackage{perpage} %the perpage package
-\MakePerPage{footnote} %the perpage package command
-
-\renewcommand*{\thefootnote}{\protect\circledarabic{footnote}}
-
-\renewcommand\@makefntext[1]{\vspace{5pt}\noindent
-\makebox[20pt][c]{\fontsize{10pt}{12pt}\@thefnmark}
-\fontsize{10pt}{12pt}\selectfont #1}
-
-\setlength{\skip\footins}{20pt plus 10pt}
-%main body 与脚注之间的距离
-                   
-       
-\makeatother              
-
-      
-%==========其他宏包===========%
-
 \newenvironment{shici}{
 \begin{verse}
 \centering\large\hspace{12pt}}
 {\end{verse}}
 
-
  
 \title{XeLaTeX 指南}
 \author{wander}
-
+\hypersetup{
+    pdftitle={XeLaTeX 指南},
+    pdfauthor={wander},
+    pdfsubject={计算机.文档开发},
+}
  
 \begin{document}
-\maketitle
+\makemytitleA
 
 \flypage{感谢上帝}
 
@@ -402,9 +218,9 @@ tex有以下文档的分节命令：
 
 \section{页码控制}
 \label{sec:页码}
-frontmatter命令跟在begin document后面，接下来页码为罗马数字。
+frontmatter命令跟在begin document后面，接下来页码为罗马数字。更确切来说应该在封面和扉页的后面，虽然封面设计会默认不显示页眉页脚这些，但放在封面和扉页后面会更合适些。
 
-mainmatter命令放在正文开始的前面，表示页码为阿拉伯数字开始计数。【书籍从前言到目录完结应该是罗马数字，当要引用一本书的内容时候，一般是书名然后P123，这个123就是123页的意思。所以作者请不要在前言部分长篇大论，最多就是关于本书内容的简要介绍和一些感谢之类的，因为假如你的前言部分有什么重要的信息别人要引用，会让别人有点不太好办。mainmatter之后如果有什么一般性的讨论，绪论，序论，引言都是可以的。】
+mainmatter命令放在正文开始的前面，表示页码为阿拉伯数字开始计数。【书籍从序言到目录完结应该是罗马数字，当要引用一本书的内容时候，一般是书名然后P123，这个123就是123页的意思。所以作者请不要在序言部分长篇大论，最多就是关于本书内容的简要介绍和一些感谢之类的，因为假如你的序言部分有什么重要的信息别人要引用，会让别人有点不太好办。mainmatter之后如果有什么一般性的讨论，前言，绪论，引言都是可以的。】
 
 appendix命令表示附录开始，后面各章节改为字母标记。页码没有变化
 
@@ -611,11 +427,8 @@ size          & 10pt (default) & 11pt option & 12pt option \\ \midrule
 
 
 \chapter{字体配置}
-xelatex字体配置有名的三件套就是：xltxtra，fontspec和xunicode这三个宏包。其中xltxtra宏包是专门处理XeLaTeX 的一些问题的，它会自动加载后面的fontspec和xunicode宏包。xunicode是处理某些特殊字符的。注意xltxtra宏包在加载时我放到所以字体配置宏包的后面，否则会出现错误。下面就字体配置相关宏包详细说明之。
-
-
 \section{fontspec宏包详解}
-当然来自fontspec宏包的帮助文档。后面关于宏包的相关信息来源于自身帮助文档我就不说明了。fontspec宏包主要用于英文字体的设置，中文字体的设置建议用xeCJK宏包来管理。\emph{XeLaTeX 只能使用opentype和truetype字体。}
+fontspec宏包主要用于英文字体的设置，中文字体的设置建议用xeCJK宏包来管理。\emph{XeLaTeX 只能使用opentype和truetype字体。}
 
 \subsection{基本的命令}
 fontspec宏包最基本的应用就是用setmainfont来设置文档的默认roman字族字体的，setmainfont原来的名字叫setromanfont。\footnote{\href{http://tex.stackexchange.com/questions/70413/problem-with-xetex-latex-and-system-fonts}{参考了这个网站}}setsansfonts是设置文档默认sans-serif字族字体的，setmonofont是设置monospace字族字体的。然后我们看到前面都有一个可选项Mapping=tex-text，这个说是什么让XeTeX 文字分布更好的，可能和正确断行有关系，不大确切。
@@ -700,19 +513,12 @@ SmallCapsFont = font name
 \section{设置数学字体}
 觉得默认的数学字体也很好看的，就不折腾了。
 
-这里简单提一下，数学没有太多额外需要加载的宏包，其中amssymb和amsmath这两个宏包必备，基本上大家都加载了的。然后数学上或者物理上等对于国际单位和文本中小的数字（但是需要输入上标下标等的）推荐用siuintx宏包处理。
+这里简单提一下，数学没有太多额外需要加载的宏包，其中amssymb和amsmath这两个宏包必备，基本上大家都加载了的。
 
 然后通过\verb+\everymath{\displaystyle}+这个语句可以让文本内的数学形式，比如分数显得更大更好看一点。其他问题这里都略过了。
 
 \begin{Verbatim}
 \RequirePackage{amssymb,amsmath}
-\RequirePackage{fontspec}
-%si unit
-\RequirePackage{siunitx}
-\sisetup{
-math-micro = \text{μ},
-text-micro = μ
-}
 \everymath{\displaystyle}
 \end{Verbatim}
 
@@ -815,7 +621,7 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 \end{figure}
 
 \subsection{省略号}
-英文输入法下直接输入三个小数点和使用 \verb+\ldots+ 命令区别不大，中文省略号请使用中文输入法下的全角模式下的省略号。
+英文输入法下直接输入三个小数点和使用 \verb+\ldots+ 命令区别不大，中文省略号请使用中文输入法下的全角模式下的省略号，一般输入法快捷键是 \verb|Shift+6|。
 
 
 
@@ -826,7 +632,7 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 \newcommand\econtentsname{Contents}
 \renewcommand\listfigurename{插图目录}
 \renewcommand\listtablename{表格目录}
-\renewcommand\bibname{参~考~文~献}
+\renewcommand\bibname{参~考~资~料}
 \renewcommand\indexname{索~引}
 \renewcommand\figurename{图}
 \renewcommand\tablename{表}
@@ -865,20 +671,23 @@ texmaker软件并没有这个问题，不管怎么样，加上这样一行代码
 \setlength{\baselineskip}{22pt}
 \end{Verbatim}
 
-
 上面的代码就是设置行间距的。一行一行之间的间距也是一个glue，我们知道glue有基本的space和伸缩量。行距的基本space由命令baselineskip控制，伸缩量有baselinestretch命令。\footnote{实际上这个多少有点揣测的意思。}
 
-一般行间距的调整用宏包setspace，似乎这个宏包对文档其他内容比如脚注旁注等都有所调整，但是如果你自己定义的脚注格式就不太依赖这个宏包了。不过用法也简单，如下所示：\\
-\verb+\RequirePackage[doublespacing]{setspace}+
+段落行间距的缩放可以使用\verb+linespread+命令，在刚开始的配置内容里写上即可，不需要额外的宏包加载。其中\verb+\linespread{1.3}+的效果相当于setspace宏包里面的onehalfspacing，如果是1.6则相当于doublespacing，然后当然，1.4，1.5等等都随你设置了。
 
-此外还有选项onehalfspacing，如果你试了onehalfspacing和doublespacing（当然还有默认的不拉伸间距的情况），你都感觉不太满意。这个时候推荐你使用linespread命令，在刚开始的配置内容里写上即可，不需要额外的宏包加载。其中\verb+\linespread{1.3}+的效果相当于前面的onehalfspacing，如果是1.6则相当于doublespacing，然后当然，1.4，1.5等等都随你设置了。
+值得注意的是linespread命令还会对表格有拉伸效果，表格行间距是\verb+\arraystretch+这个命令来控制的。
 
+可以在导言区如下全局控制表格行间距的缩放：
 
-值得注意的是linespread命令还会对表格有拉伸效果，而setspace宏包没有这个效果。所以如果用setspace宏包而不是linespread调整行间距，那么才需要对arraystretch量进行一些修改，提供额外的表格行间距。
+\begin{Verbatim}
+\renewcommand{\arraystretch}{1.5}
+\end{Verbatim}
+
+如果只想控制某个表格行间距的缩放，可以用 \verb+{ ... }+ 花括号封装出一个临时的作用域环境。
 
 
 \subsection{baselineskip} 
-段落中行之间上下间距\footnote{一行一行就是横向的盒子，行间距就是横向的盒子之间的上下间距。}由三个命令控制：baselineskip，lineskip和lineskiplimit。简单的说明就是首先间距是baselineskip，但是如果上面的盒子伸的太下或者下面的盒子伸的太高，那么他们就可能会碰到一起。lineskiplimit控制的就是盒子之间最小间距，比如0pt。当baselineskip减去上面的盒子的深度depth再减去下面盒子的高度height然后得到的值比lineskiplimit小，那么跳转方案就会选择lineskip模式。也就是上面盒子最低的点和下面盒子最高的点之间的距离是lineskip那么多。\footnote{参看了a beginner's book of \TeX 的spacing between boxes一节。在google book哪里可以看到这一段，不过似乎这本书网上并不能自由下载。}
+段落中行之间上下间距\footnote{一行一行就是横向的盒子，行间距就是横向的盒子之间的上下间距。}由三个命令控制：baselineskip，lineskip和lineskiplimit。简单的说明就是首先间距是baselineskip，但是如果上面的盒子伸的太下或者下面的盒子伸的太高，那么他们就可能会碰到一起。lineskiplimit控制的就是盒子之间最小间距，比如0pt。当baselineskip减去上面的盒子的深度depth再减去下面盒子的高度height然后得到的值比lineskiplimit小，那么跳转方案就会选择lineskip模式。也就是上面盒子最低的点和下面盒子最高的点之间的距离是lineskip那么多。\footnote{参看了a beginner's book of \TeX 的spacing between boxes一节。}
 
 我感觉自己设置一个baselineskip已经很满足要求了，尤其个别字用Huge命令的时候效果也还行。
 
@@ -1177,24 +986,25 @@ well，具体看不懂，不过把这段代码加上之后效果确实不错，�
 然后定义如下命令：
 
 \begin{Verbatim}
-\newcommand{
-  \bookcover}[1]{
-    \tikz[remember picture,overlay]{
-      \node[inner sep=0] at (current page.center){
-        \includegraphics[width=\paperwidth,height=\paperheight]
-          {#1}}}} 
+\newcommand{\bookcover}[1]{
+\begin{titlepage}  
+\newgeometry{left=0cm,right=0cm,top=0cm,bottom=0cm,marginparsep=0pt, 
+  marginparwidth=0em,includemp=false}  
+\tikz[remember picture,overlay]{\node[inner sep=0] at (current page.center)
+{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}
+\end{titlepage}
+\restoregeometry
+} 
 \end{Verbatim}
 
 这个命令就是利用tikz将你设计好的封面图片插入进来，具体如下：
 
 \begin{Verbatim}
-%\begin{document}
-\thispagestyle{empty}
 \bookcover{book_cover.png}
-\cleardoublepage
 \end{Verbatim}
 
 当然你可以用其他你喜欢的任何软件或工具来生成你想要的封面，然后如上插入进来即可。
+
 
 \chapter{引用}
 \section{文章内部引用}
@@ -1214,6 +1024,16 @@ well，具体看不懂，不过把这段代码加上之后效果确实不错，�
 还有一个pageref命令和ref命令差不多，文档上写法都类似，不同的是在文章上显示的是页码。
 
 
+
+\section{图表的引用}
+除开一些特殊情况，一般图表最外面是figure环境或table环境，然后在里面用 \verb+\caption+ 写上图表的标题，再后面用label命令打上标签，这样其他地方就可以用ref命令来引用了。
+
+\begin{Verbatim}
+\caption{图表标题}
+\label{fig:1-1}
+\end{Verbatim}
+
+值得一提的就是图表的label命令一定要在caption命令的后面，否则会定位不准确。
 
 
 \section{hyperref宏包简介}
@@ -1242,8 +1062,18 @@ well，具体看不懂，不过把这段代码加上之后效果确实不错，�
 
 \textbf{colorlinks=ture}是把颜色打开，如果是false那么都是默认的黑色了。后面的选项主要影响文字颜色，还有更多颜色设置。linkcolor影响目录颜色和脚注和内部引用，ulrcolor影响对外链接，citecolor影响对文献的链接。anchorcolor超链接源码。
 
-hyperref宏包目前我的DIY只限于一些颜色设置，有兴趣的请自己研究\href{http://mirrors.ctan.org/macros/latex/contrib/hyperref/doc/manual.pdf}{文档}。
+hyperref宏包目前我的DIY只限于一些颜色设置，更多信息请参阅官方文档。
 
+\subsection{设置pdf的元数据}
+如下设置pdf的元数据，这样生成的pdf导入到carlibre软件中，一些必要的信息会自动填充上去。
+
+\begin{Verbatim}
+\hypersetup{
+    pdftitle={XeLaTeX 指南},
+    pdfauthor={wander},
+    pdfsubject={计算机.文档开发},
+}
+\end{Verbatim}
 
 
 \chapter{脚注}
@@ -1486,7 +1316,7 @@ itemize环境里面当然没有计数器，不过它类似的也有：\\ labelit
 \end{Verbatim}
 
 \subsection{取消图片标签}
-有时候通过caption插入图片标题，前面的标签你不想要。这个时候就算将thefigure命令设置为控制还是会有“图:”这两个文字，如果这两个你都不想要。推荐用caption宏包的caption*命令，那个命令完全没有标签，写成什么样子显示就是什么样子。
+有时候通过caption插入图片标题，前面的标签你不想要。这个时候就算将thefigure命令设置为控制还是会有“图:”这两个文字，如果这两个你都不想要。推荐用caption宏包的\verb+caption*+命令，那个命令完全没有标签，写成什么样子显示就是什么样子。不过要注意的是caption宏包提供的\verb+caption*+命令会让该图表没有进入编号，这可能不是你想要的。
 
 
 \section{设置图片寻找文件夹}
@@ -1526,7 +1356,10 @@ itemize环境里面当然没有计数器，不过它类似的也有：\\ labelit
 
 上面第一个插入图片例子缩放 \verb+scale=1+ ，这对于那些尺寸较小的图片有不错的显示效果。如果图片较大的话，那么就可以考虑使用第二个代码片段，其使用了 \verb+width=\linewidth+ 来让图片自动适应你的文档的linewidth（之所以选择linewidth是因为在多栏环境下也会自动适应到那个栏的宽度。）。
 
+\section{图表的浮动控制}
+现代电子书籍在作风上和传统纸质书籍还是有一些区别的，一般来说是推荐使用float宏包提供的 \verb+H+ 选项来达到一种类似网页显示的瀑布流风格\footnote{除了极个别的情况，比如跨几页的表格。}，这种浮动控制有时会产生一小段空白，问题其实不大，只有在纸质书籍上才会计较这些。
 
+此外在布局上，不是太推荐那种图片文字杂糅的多变动风格布局，文字叙述和图表之间不易固定，布局多变内容位置没有固定有时是会产生一些不便的。
 
 
 
@@ -1654,12 +1487,21 @@ O  & 奇数页(odd)
 前面我们看到了booktabs宏包新加了三个命令toprule，midrule和bottomrule。这三个命令后面都可以跟个可选项调整线条粗细。后面跟的参数1pt就表示线条粗1pt，没有加法的意思。上面的例子中toprule和bottomrule设置为1.2pt，比原来的稍微粗了一点。嫌麻烦不改动也可以，觉得原来的也还好。
 
 
+\section{longtable宏包}
+特别长的表格推荐使用longtable宏包，它虽然在使用上有点类似booktabs宏包，但外面就不要加上table环境封装了，caption和label都跟在后面，都是很长的表格了，一定要跨页了，table的那一套浮动控制也不适用它了。就直接用longtable环境下使用即可。
 
-\section{拉宽一行行的距离}
-\verb+\renewcommand{\arraystretch}{1.3}+\\
-通过上面这个命令，就在导言区整体设置就行了。文章的表格一行行距离稍微拉宽了一点，看上去更加美观了些。关于这个命令和段落行距之间的关系之前有所谈及，这里不赘述了。请看\ref{sec:段落中的行距}
+你可能希望长表格的行间距缩小一些，用前面讨论的arraystretch方法局部作用即可。
 
-将上面这个命令放入某一个表格环境下就是对单独某个表格的修改。
+\begin{Verbatim}
+{
+\renewcommand{\arraystretch}{0.8}
+\begin{longtable}{|c|c|}
+...
+\end{longtable}
+}
+\end{Verbatim}
+
+更多细节请参看官方文档。
 
 
 
@@ -2079,6 +1921,8 @@ amsmath还有更多的环境和其他选项控制等，请参看官方文档。
 
 然后引用是\verb+(\ref{eq:4.1})+，外面加个括号好看点。
 
+数学公式的引用推荐使用eqref命令： \verb+\eqref{...}+ ，这样你就不需要手动输入外面的括号组了。
+
 
 \section{加入文本}
 使用text命令可以在数学环境中正常输入一些文本（包括中文，如果你已经处理好中文显示问题了。）
@@ -2216,7 +2060,8 @@ $ ，cases环境是amsmath包提供的。
 \item 两个矢量的点积 $\cdot$  \verb+\cdot+ 【参考了 \href{http://www.feynmanlectures.caltech.edu/I_13.html}{费曼物理学讲义网站}，其描述功就是使用的力矢量和位移矢量的点积】高中教材更加粗的那个点应该是使用的 \verb+\bullet+ $\bullet$ 。
 \item 无穷大 $\infty$  \verb+\infty+
 \item 正比  $\propto$ \verb+\propto+
-\item oint  $\oint_{m}^{x}b$
+\item oint  $\oint_{m}^{x}b$ \verb+\oint_{m}^{x}b+
+\item 对于所有 $ \forall $  \verb+\forall+ 
 \end{itemize}
 
 \section{常用箭头符号}
@@ -2798,7 +2643,8 @@ bibitem命令的必填参数是参考文献的标签名字，但不是实际显�
 \item[黑色] 具有深沉，神秘，寂静，悲哀，压抑的感受。 
 \item[灰色] 具有中庸，平凡，温和，谦让，中立和高雅的感觉。 　　
 \end{description}
-关于具体选择什么颜色，我也纠结了很久，但最后无果而终，可选择的颜色太多了，我说不上什么意见。
+
+
 
 
 \section{颜色配置}
@@ -3053,8 +2899,6 @@ print('盖伦的技能有：',"".join([x + '  ' for x in garen001.skill]))
 比如说\verb+\num{3d10}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_1.png}，比如说\\
 \verb+100\si{\text{厘米}^3}+的显示效果就是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_2.png} 。
 
-值得一提的是原来xeCJK宏包会让数字和中文（单位）之间自动空一格，这很好，而使用了num命令或si命令之后这个自动空格机制被干扰了，你可以选择重新包装这个命令或者手动空一格吧。
-
 siunitx宏包还有一个好处就是对于某些特殊的符号的输入也提供了支持，比如温度的度 \verb+\si{\degreeCelsius}+ 显示效果是 \includegraphics[height=1.2\fontcharht\font`\B ]{siunitx_3.png} 等等，此外还可以定制一些额外的符号：
 \begin{Verbatim}
 \sisetup{
@@ -3112,9 +2956,9 @@ abstract环境就是摘要环境，不过book类不能使用摘要环境，只�
 \begin{Verbatim}
 \begin{multicols}{2}
 \setlength{\columnseprule}{0.4pt}
-如果你希望整个文档都分为两栏，那么在前面documentclass命令可选项里面加上twocolumn即可。这里的分栏环境是分两栏，然后加入的分栏线。就是在分栏环境中用setlength调整长度量columnseprule为0.4pt\footnote{参考了\href{http://texblog.org/tag/columnseprule/}{这个网站}}。觉得这个命令应该重新修改下，直接\textbackslash columnseprule就是加分栏线，然后后面跟个可选参数表示线的宽度。
+如果你希望整个文档都分为两栏，那么在前面documentclass命令可选项里面...
 
-还有一个长度量columnsep表示栏之间的间距宽度，一样用setlength调节。一般没啥好调整的。分栏环境就这样简单说下吧。
+还有一个长度量columnsep表示栏之间的间距宽度...
 \end{multicols}
 \end{Verbatim}
 
@@ -3124,56 +2968,6 @@ abstract环境就是摘要环境，不过book类不能使用摘要环境，只�
 \includegraphics[width=\linewidth ,totalheight=0.95\textheight , keepaspectratio]{multicolumn.png}
 \end{figure}
 
-
-\section{分栏环境备用}
-在实际应用过程中，常常遇到分两栏的情况，但是这两栏宽度是可以自由调整的。我找了一下似乎并没有类似beamer类columns环境那样方便的存在，只好通过minipage命令简单地实现了类似的效果。实际应用我是通过texmaker自定义快捷输入代码模块功能快速输入进文档的。
-\begin{Verbatim}
-\noindent
-\begin{minipage}{\textwidth}
-\begin{minipage}{0.3\textwidth}
-\begin{table}[H]
-\centering
-\medskip 
-\scalebox{0.82}{
-\begin{tabular}{@{}ll@{}}
-\toprule
-$t$（分） & $s$（英尺）  \\ \midrule
-0 & 0     \\
-1 & 1200  \\
-2 & 4000  \\
-3 & 9000  \\
-4 & 9500  \\
-5 & 9600  \\
-6 & 13000 \\
-7 & 18000 \\
-8 & 23500 \\
-9 & 24000 
-\\ \bottomrule
-\end{tabular}
-}
-\caption*{表 2-1}
-\end{table}
-
-\end{minipage}\hfill
-\begin{minipage}{0.7\textwidth}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth ,totalheight=0.95\textheight , keepaspectratio]{ju-li-shi-jian-qu-xian-tu.png}
-\caption{汽车的距离-时间曲线}
-\label{fig:ju-li-shi-jian-qu-xian-tu}
-\end{figure}
-
-\end{minipage} 
-\end{minipage} 
-\end{Verbatim}
-
-最后显示效果如下：
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth ,totalheight=0.95\textheight , keepaspectratio]{multicolumn_2.png}
-\end{figure}
 
 
 
@@ -3216,12 +3010,10 @@ $t$（分） & $s$（英尺）  \\ \midrule
 
 
 
-
-
 \part{tex高级篇}
 本部分关注于tex最底层的一些概念和原理，有些知识点了解之后对读者如何定制tex原有的命令和功能有所帮助，有些能够加深读者对tex底层如何工作的理解。
 
-我对这块没有精力维护了，如果读者真的要学习TeX原生命令，推荐查阅\href{http://www.tug.org/utilities/plain/cseq.html}{这个网站} 和阅读高德纳写的 The TexBook。
+更深入的学习推荐查阅\href{http://www.tug.org/utilities/plain/cseq.html}{这个网站} 和阅读高德纳写的 The TexBook。
 
 
 \chapter{长度量}
@@ -3378,9 +3170,9 @@ em  & （相对长度）大约相当于当时字体的M宽度 & \\ \bottomrule
 \verb+\newcommand{\test}{this is a test line}+\\
 你定义了这个test命令，然后后面你输入\textbackslash test，系统遇到\textbackslash test之后就会进行替换操作，就成了后面的this is a test line了。理论上只是简单的文本替换，后面可是跟上随意的命令参数或者环境。不过这只是理论上，实际编写宏包命令的时候会遇到很多复杂的问题，主要是expand展开的控制。
 
-还有一个命令providecommand和newcommand差不多的，区别就是providecommand只是提供命令，如果这个命令已经定义了它就什么都不做。而def一定是完全不动声响的覆盖了。
 
-在编写宏包文件的时候推荐使用DeclareRobustCommand命令，但是有些任务似乎只有def或者edef才能完成，这个我也没弄明白。
+
+
 
 \subsection{自定义命令样例}
 下面是来自ulem的reduline的原实现代码：
@@ -3391,20 +3183,12 @@ em  & （相对长度）大约相当于当时字体的M宽度 & \\ \bottomrule
     \ULon}
 \end{Verbatim}
 
-为了好玩类似的我还用tikz画了一个小三角形和一个小圆，如果各位看官有更喜欢的标记用于文字强调，类似的用tikz画就是了：
+\subsection{renewcommand命令}
+renewcommand用法类似newcommand命令，用于重新定义某个已经存在的命令。
 
-\begin{Verbatim}
-\newcommand\utriangle{\bgroup\markoverwith
-    {\raisebox{-0.4em}{\makebox[1em][c]{\tikz[blue]
-    {\draw(0,0) -- (0.1,0) -- (0.05,0.05) --cycle;}}}}
-    \ULon}
 
-\newcommand\ucircle{\bgroup\markoverwith
-    {\raisebox{-0.6em}{\makebox[1em][c]{\tikz[red]
-    {\draw(0,0) circle  (0.05) ;}}}}
-    \ULon}
-\end{Verbatim}
-
+\subsection{providecommand命令}
+providecommand命令用法类似newcommand命令，区别就是如果该命令已经存在，那么不会重新定义。
 
 
 \section{新的环境}
@@ -3609,6 +3393,89 @@ fcolorbox和colorbox的区别就是外面加了一个边框，然后第一个参
 \verb+\rule[depth]{width}{height}+
 这三个选项都要填长度量，第一个长度量是线条竖向偏移量，第二个长度量是线条横向长度，第三个长度量是线条竖向宽度。
 
+\chapter{编写自己的宏包}
+宏包基本的骨架如下：
+
+\begin{Verbatim}
+% mybook.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mybook}[2025/04/29 A simple book config package]
+\makeatletter
+
+
+\makeatother
+\endinput
+\end{Verbatim}
+
+宏包中某些内部命令会带上 \verb+@+ 符号，这些命令或者变量外面是不可以使用的，一般宏包里面还是希望能够直接使用，所以如上 \verb+\makeatletter ... \makeatother+ 对整个宏包内容进行了封装。
+
+ \section{条件语句}
+ 一个简单的条件语句如下：
+ 
+\begin{Verbatim}
+\makeatletter
+% 定义一个布尔型开关
+\newif\if@code
+
+% 设置开关为 false
+\@codefalse
+
+% 进行条件判断
+\if@code
+    代码开关为真。
+\else
+    代码开关为假。
+\fi
+\makeatother
+\end{Verbatim}
+
+\section{RequirePackage命令}
+编写宏包加载其他宏包推荐使用 \verb+RequirePackage+ 命令，\verb+usepackage+ 则推荐外面文档使用。
+
+\section{PassOptionsToPackage命令}
+编写宏包的时候，推荐用PassOptionsToPackage命令提前将一些宏包的选项统一设置好，这些选项会在后面加载对应宏包的时候传递进去。这在处理选项冲突时有用。
+
+\section{给你的宏包定义选项}
+一个简单的例子如下：
+\begin{Verbatim}
+% mypackage.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mypackage}[2025/04/29 A sample package with options]
+
+% 定义选项 option1
+\DeclareOption{option1}{
+    % 当使用 option1 选项时执行的代码
+    \newcommand{\myoption}{You have chosen option 1.}
+}
+
+% 处理未定义的选项
+\DeclareOption*{%
+    \PackageWarning{mypackage}{Unknown option `\CurrentOption'}%
+}
+
+% 处理所有选项
+\ProcessOptions\relax
+
+\endinput
+\end{Verbatim}
+
+需要注意的是，实际宏包编写中，\verb+\ProcessOptions\relax+ 这句要在你的宏包内容主题的前面，除了 \verb+PassOptionsToPackage+ 和一些简单的变量设置外，不能加载其他宏包。所以选项上面实践中只能把一些布尔值设置好，方便后面采取不同的行为。
+
+
+\section{TeX中执行系统的命令}
+\href{http://tex.stackexchange.com/questions/20444/what-are-immediate-write18-and-how-does-one-use-them}{参考了这个网站}
+
+\TeX 的write18命令将一连串文本命令送入shell中执行，一般语句的格式如下（immediate命令是立即执行的意思。这里表示将命令立即送入shell现在就执行。）：\\
+\verb+\immediate\write18{your command put it here}+
+
+要成功运行这个命令记得你的编译选项上还需要加上：\\
+\verb+--enable-write18+
+
+比如目前我的texmaker的编译命令如下：
+\begin{Verbatim}
+xelatex -synctex=1 -interaction=nonstopmode 
+    --enable-write18  %.tex
+\end{Verbatim}
 
 \appendix
 \part{附录}
@@ -3799,27 +3666,58 @@ tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_ga
 
 
 \chapter{其他问题的讨论}
-\section{TeX中执行系统的命令}
-\href{http://tex.stackexchange.com/questions/20444/what-are-immediate-write18-and-how-does-one-use-them}{参考了这个网站}
 
-\TeX 的write18命令将一连串文本命令送入shell中执行，一般语句的格式如下（immediate命令是立即执行的意思。这里表示将命令立即送入shell现在就执行。）：\\
-\verb+\immediate\write18{your command put it here}+
+\section{分栏环境备用}
+不是很推荐这种排版风格了，将图表单独一列，后面跟上文字即可，推荐采用Web风格的瀑布流式布局。
 
-要成功运行这个命令记得你的编译选项上还需要加上：\\
-\verb+--enable-write18+
-
-比如目前我的texmaker的编译命令如下：
+在实际应用过程中，常常遇到分两栏的情况，但是这两栏宽度是可以自由调整的。我找了一下似乎并没有类似beamer类columns环境那样方便的存在，只好通过minipage命令简单地实现了类似的效果。实际应用我是通过texmaker自定义快捷输入代码模块功能快速输入进文档的。
 \begin{Verbatim}
-xelatex -synctex=1 -interaction=nonstopmode 
-    --enable-write18  %.tex
+\noindent
+\begin{minipage}{\textwidth}
+\begin{minipage}{0.3\textwidth}
+\begin{table}[H]
+\centering
+\medskip 
+\scalebox{0.82}{
+\begin{tabular}{@{}ll@{}}
+\toprule
+$t$（分） & $s$（英尺）  \\ \midrule
+0 & 0     \\
+1 & 1200  \\
+2 & 4000  \\
+3 & 9000  \\
+4 & 9500  \\
+5 & 9600  \\
+6 & 13000 \\
+7 & 18000 \\
+8 & 23500 \\
+9 & 24000 
+\\ \bottomrule
+\end{tabular}
+}
+\caption*{表 2-1}
+\end{table}
+
+\end{minipage}\hfill
+\begin{minipage}{0.7\textwidth}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth ,totalheight=0.95\textheight , keepaspectratio]{ju-li-shi-jian-qu-xian-tu.png}
+\caption{汽车的距离-时间曲线}
+\label{fig:ju-li-shi-jian-qu-xian-tu}
+\end{figure}
+
+\end{minipage} 
+\end{minipage} 
 \end{Verbatim}
 
+最后显示效果如下：
 
-\section{文本中的上标还有下标}
-上标使用命令textsuperscript命令，下标感觉自己缩小点就差不多了吧。示例如下：\\
-上标\textsuperscript{上标}下标{\scriptsize 下标}
-
-更常见的是化学分子式里面的上标和下标，推荐使用mhchem宏包，至于数学模式里的上标和下标自不必说了。
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth ,totalheight=0.95\textheight , keepaspectratio]{multicolumn_2.png}
+\end{figure}
 
 
 

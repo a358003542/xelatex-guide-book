@@ -1,0 +1,83 @@
+% mybookcover.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mybookcover}[2025/04/29 A simple book cover package]
+\RequirePackage{mybook}
+\RequirePackage{setspace}
+
+
+\makeatletter
+
+
+\renewcommand\title[1]{\def\@title{#1}}
+\newcommand\subtitle[1]{\def\@subtitle{#1}}
+\renewcommand\author[1]{\def\@author{#1}}
+\newcommand\version[1]{\def\@version{#1}}
+\renewcommand\date[1]{\def\@date{#1}}
+\renewcommand{\today}{\number\year{}年\number\month{}月\number\day{}日}
+
+\def\@date{\today}
+\def\@subtitle{\@latex@warning@no@line{No \noexpand\subtitle given}}
+\def\@version{\@latex@warning@no@line{No \noexpand\version given}}
+
+\newcommand{\makemytitle}{
+\begin{titlepage}
+\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+\begin{center}
+\vspace*{120pt}
+{\fontsize{80pt}{40pt}\selectfont\sffamily \@title}
+
+\vspace{40pt}
+{\fontsize{40pt}{20pt}\selectfont\sffamily \@subtitle} 
+
+\vspace{200pt}
+{\fontsize{40pt}{20pt}\selectfont\sffamily \@author}
+
+\vspace{150pt}
+{\fontsize{30pt}{20pt}\selectfont\ttfamily \@date \@version}
+
+\end{center}
+\end{titlepage}
+\restoregeometry
+}
+
+
+\newcommand{\makemytitleA}{
+\begin{titlepage}
+\newgeometry{left=6cm}
+\begin{flushleft}
+\noindent
+\\[-1em]
+\color[HTML]{5F5F5F}
+\makebox[0pt][l]{
+\textcolor[HTML]{435488}{\rule{1.3\textwidth}{4pt}}
+}
+\par
+\noindent
+
+{ \setstretch{1.4}
+\vfill
+\noindent {\huge \textbf{\textsf{\@title}}}
+\vskip 2em
+\noindent
+{\Large \textsf{\@author}
+\vfill
+}
+
+\textsf{\@date \@version}}
+\end{flushleft}
+\end{titlepage}
+\restoregeometry
+}
+
+\newcommand{\bookcover}[1]{
+\begin{titlepage}  
+\newgeometry{left=0cm,right=0cm,top=0cm,bottom=0cm,marginparsep=0pt, 
+  marginparwidth=0em,includemp=false}  
+\tikz[remember picture,overlay]{\node[inner sep=0] at (current page.center)
+{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}
+\end{titlepage}
+\restoregeometry
+} 
+
+\makeatother
+\endinput
