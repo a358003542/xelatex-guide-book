@@ -21,6 +21,7 @@
 
 \newcommand{\makemytitle}{
 \begin{titlepage}
+\xeCJKsetup{CJKecglue={\hskip 0pt plus 0.08\baselineskip}}
 \newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
 \begin{center}
 \vspace*{120pt}
@@ -43,6 +44,7 @@
 
 \newcommand{\makemytitleA}{
 \begin{titlepage}
+\xeCJKsetup{CJKecglue={\hskip 0pt plus 0.08\baselineskip}}
 \newgeometry{left=6cm}
 \begin{flushleft}
 \noindent
@@ -70,7 +72,7 @@
 }
 
 \newcommand{\bookcover}[1]{
-\begin{titlepage}  
+\begin{titlepage}
 \newgeometry{left=0cm,right=0cm,top=0cm,bottom=0cm,marginparsep=0pt, 
   marginparwidth=0em,includemp=false}  
 \tikz[remember picture,overlay]{\node[inner sep=0] at (current page.center)
