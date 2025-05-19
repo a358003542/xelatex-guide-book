@@ -18,8 +18,8 @@
 
 
 %=========重新定义 quote=====%
-\renewenvironment{quote}[1][anonymous]{
-\newcommand{\quoteauthor}[1][anonymous]{#1}
+\renewenvironment{quote}[1][anonymous]
+{\def\quoteauthor{#1}
 \list{}{\rightmargin\leftmargin %右间距等于左间距
 \itemindent   2em
 }\item\relax
@@ -27,6 +27,7 @@
 {\\
 \makebox[\linewidth][r]{\sffamily —\quoteauthor}
 \endlist}
+
 
 %重新定义quotation
 \renewenvironment{quotation}
@@ -1675,8 +1676,8 @@ quote和quotation在article.cls中的原初定义是这样的：
 我改成了如下：
 \begin{Verbatim}
 %=========重新定义 quote=====%
-\renewenvironment{quote}[1][anonymous]{
-\newcommand{\quoteauthor}[1][anonymous]{#1}
+\renewenvironment{quote}[1][anonymous]
+{\def\quoteauthor{#1}
 \list{}{\rightmargin\leftmargin %右间距等于左间距
 \itemindent   2em
 }\item\relax
@@ -1684,6 +1685,7 @@ quote和quotation在article.cls中的原初定义是这样的：
 {\\
 \makebox[\linewidth][r]{\sffamily —\quoteauthor}
 \endlist}
+
 
 %重新定义quotation
 \renewenvironment{quotation}
@@ -1695,6 +1697,8 @@ quote和quotation在article.cls中的原初定义是这样的：
 \ttfamily}
 {\endlist}
 \end{Verbatim}
+
+quote重新定义那里需要def定义\verb+\quoteauthor+ 命令来将作者名传递到环境收尾动作那里。用newcommand在pandoc输出epub时会报警。
 
 quote和quotation都是通过list环境来实现的，具体不太清楚。这里就我做的修改说明如下：
 \begin{itemize}
