@@ -9,12 +9,16 @@
 
 \newif\if@minted
 \newif\if@scripts
+\newif\if@headchapter
 \@mintedfalse
 \@scriptsfalse
+\@headchapterfalse
 % 定义选项minted
 \DeclareOption{minted}{\@mintedtrue}
 % 定义选项scripts
 \DeclareOption{scripts}{\@scriptstrue}
+% 定义选项headchapter
+\DeclareOption{headchapter}{\@headchaptertrue}
 % 处理未定义的选项
 \DeclareOption*{%
     \PackageWarning{mybook}{Unknown option `\CurrentOption'}%
@@ -110,15 +114,28 @@
 \RequirePackage{fancyhdr}   %頁眉頁腳
 \RequirePackage{zhnumber}  %计数器中文化
 \pagestyle{fancy}
+
 \renewcommand{\sectionmark}[1]
 {\markright{第\zhnumber{\arabic{section}}节~~#1}{}}
+\renewcommand{\chaptermark}[1]
+{\markboth{第\zhnumber{\arabic{chapter}} 章 ~~#1}{}}
 
+\if@headchapter
 \fancypagestyle{plain}{%
-    \fancyhf{}
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}
-    \fancyhf[HR]{\ttfamily \footnotesize \rightmark }
-    \fancyhf[FR]{\thepage}}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhf[HR]{\ttfamily \footnotesize \leftmark }
+\fancyhf[FR]{\thepage}}
+\else
+\fancypagestyle{plain}{%
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyhf[HR]{\ttfamily \footnotesize \rightmark }
+\fancyhf[FR]{\thepage}}
+\fi
+
 \pagestyle{plain}
 
 
