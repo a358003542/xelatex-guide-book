@@ -3657,11 +3657,12 @@ span.underline {
 \section{输出epub}
 用pandoc输出epub命令如下：
 \begin{Verbatim}
-pandoc -o main.epub main.tex --metadata-file=epub.yaml
+pandoc -o main.epub main.tex --metadata-file=epub.yaml  --resource-path=figures
 \end{Verbatim}
 
 在\verb+epub.yaml+文件那里你还可以定义一些配置，具体请参看本项目配置参考文件夹下面的 \verb+epub.yaml+ 文件，配套的还有 \verb+epub.css+ 文件，这个css文件在输出epub的时候会混入进去，大体html5那一套东西。
 
+\verb+--resource-path+ 是指定额外的资源搜索文件，一般图片会放在figures文件夹下，前面插入图片的时候指定了默认图片文件夹在figures那里，这样指定图片直接输入图片名即可，在这里需要加上这句，否则图片会找不到。
 
 \chapter{tikz制图}
 tikz制图我折腾过一段时间，\href{https://github.com/a358003542/tikz_gallery}{这个项目} 读者可以看下。
