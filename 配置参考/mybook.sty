@@ -1,6 +1,6 @@
 % mybook.sty
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mybook}[2025/05/29 A simple book config package]
+\ProvidesPackage{mybook}[2025/08/11 A simple book config package]
 \makeatletter
 
 % config package options
@@ -40,7 +40,11 @@
 %1.6 doublespacing
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 
-\newcommand{\flypage}[1]{\begin{titlepage}\begin{center}\vspace*{\stretch{1}}{\fontsize{80pt}{40pt}\selectfont\sffamily #1}\vspace*{\stretch{1}}\end{center}\end{titlepage}}
+\DeclareDocumentCommand{\flypage}{O{80pt} O{40pt} m}{%
+\begin{titlepage}\begin{center}\vspace*{\stretch{1}}%
+{\fontsize{#1}{#2}\selectfont\sffamily #3}%
+\vspace*{\stretch{1}}\end{center}\end{titlepage}%
+}
 
 %===========加入目录 某章或某节=====%
 \newcommand{\addchtoc}[1]{
