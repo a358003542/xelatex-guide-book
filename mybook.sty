@@ -1,6 +1,6 @@
 % mybook.sty
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mybook}[2025/12/17 A simple book config package]
+\ProvidesPackage{mybook}[2026/01/20 A simple book config package]
 \makeatletter
 
 % config package options
@@ -224,14 +224,12 @@
  
 %========脚注=========%
 \RequirePackage{tikz} 
+
 \newcommand*\circled[1]{
 \tikz[baseline=(char.base)]
 \node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
 
 \newcommand*\circledarabic[1]{\circled{\arabic{#1}}}
-
-\RequirePackage{perpage} %the perpage package
-\MakePerPage{footnote} %the perpage package command
 
 \renewcommand*{\thefootnote}{\protect\circledarabic{footnote}}
 

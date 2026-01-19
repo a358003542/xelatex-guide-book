@@ -39,12 +39,6 @@
 \ttfamily}
 {\endlist}
 
-
-\newenvironment{shici}{
-\begin{verse}
-\centering\large\hspace{12pt}}
-{\end{verse}}
-
  
 \title{XeLaTeX指南}
 \author{Wander}
@@ -56,9 +50,8 @@
 }
  
 \begin{document}
-\makemytitle
+\bookcover{book_cover.png}
 
-\flypage{感谢上帝}
 
 \frontmatter 
 \addchtoc{序言}
@@ -472,7 +465,8 @@ fontspec宏包有一个和这个宏包名字一样的命令，这个命令非常
 一个字体的字族之下还分为不同的字形，默认的字形设置可能并不能满足你的要求。有一些字体甚至没有粗体或者意大利体这样的字形。一般的玩家就选用默认字形设置足有了，最多在mainfont哪里设置下boldfont和italicfont。比如类似下面这样配置：
 
 \begin{Verbatim}
-\setCJKmainfont[BoldFont=Adobe 黑体 Std, ItalicFont=Adobe 楷体 Std]{Adobe 宋体 Std}
+\setCJKmainfont[BoldFont=Adobe 黑体 Std, ItalicFont=Adobe 楷体 Std]
+{Adobe 宋体 Std}
 \end{Verbatim}
 
 具体字形有：
@@ -1092,13 +1086,6 @@ hyperref宏包目前我的DIY只限于一些颜色设置，更多信息请参阅
 \renewcommand{\thefootnote}{\arabic{footnote}}
 \end{Verbatim}
 
-
-\section{一页脚注重新编号}
-我喜欢每一页脚注都重新编号，觉得那些数字反正也没什么意义。具体实现如下代码所示。
-\begin{Verbatim}
-\usepackage{perpage} 
-\MakePerPage{footnote} 
-\end{Verbatim}
 
 
 \section{脚注中的距离}
