@@ -26,13 +26,10 @@ tikz制图专门做了一个gallery项目，请点击 [这里](https://github.co
 
 
 ### 字体下载
-微云下载：
 
-链接：https://share.weiyun.com/8gm2aBS4
+- [微云下载](https://share.weiyun.com/8gm2aBS4)
 
-
-通过百度网盘分享的知识：字体
-链接: https://pan.baidu.com/s/5NZXNe2yvAkE6jbRH5wlPRA
+- [百度下载](https://pan.baidu.com/s/5NZXNe2yvAkE6jbRH5wlPRA)
 
 本项目使用的字体：思源黑体、思源宋体和dejavu字体都是开源的字体。楷体并没有好的开源字体，用的就是windows下默认的KaiTi、楷体，这个一般都有，如果你不是windows系统那么需要安装对应的 `simkai.ttf` 字体，不过这个字体确切的名字叫做 `楷体_GB2312`，也不一定要用这个，方正楷体也是一个不错的备选方案。
 
